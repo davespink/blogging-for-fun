@@ -1,0 +1,19 @@
+ postElement.innerHTML = `
+
+<div class="w3-card-4 post-header" style="width:100%;margin-bottom:20px;border-radius: 5px;">
+    <header class="w3-container w3-light-grey">
+        <h3>${post.headline}</h3>
+    </header>
+    <div class="w3-container">
+        <img src="images/donavan.jpg" alt="Author's profile picture" class="w3-left w3-margin-right"
+            style="width:150px;margin-bottom:10px">
+        <p>${post.teaser}</p><br>
+    </div>
+    <div style="height:60px;">
+        <button style="float:right;margin-top: 20px;margin-right:10px" onclick="togglePost.call(this)"
+            aria-label="Toggle welcome post content">Read More</button>
+    </div>
+</div>
+<div class="content w3-justify">${post.teaser}</p>
+    <div class="content w3-justify">${post.content}</div>
+</div>`;
