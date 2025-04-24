@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Blogging For Fun</title>
   <meta charset="UTF-8">
@@ -9,7 +10,13 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
-    html, body, h1, h2, h3, h4, h5 {
+    html,
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
       font-family: "Roboto", sans-serif;
       font-weight: 400;
     }
@@ -38,7 +45,8 @@
 
   <script>
     window.onload = function () {
-     renderPosts();
+      renderPosts();
+      generateSideMenu(); 
     };
 
     function generateSideMenu() {
@@ -50,6 +58,7 @@
         const menuItem = document.createElement("button");
         menuItem.textContent = post.headline || "Untitled Post";
         menuItem.className = "w3-button w3-block w3-theme-l4";
+        menuItem.style.marginBottom = "5px";
         menuItem.onclick = () => {
           const targetPost = document.getElementById(post.key);
           if (targetPost) {
@@ -134,13 +143,22 @@
         }
         return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
       }
+
+
+      static deleteAllPosts() {
+       localStorage.clear();
+        alert("All posts have been deleted.");  
+      }
+
+
+
     }
 
     function renderPosts() {
-    const postContainer = document.querySelector(".post-container");
-   //   const welcomePost = postContainer.querySelector(".w3-card-4.post-header")?.parentNode;
-  //    postContainer.innerHTML = "";
-   //   if (welcomePost) postContainer.appendChild(welcomePost);
+      const postContainer = document.querySelector(".post-container");
+      //   const welcomePost = postContainer.querySelector(".w3-card-4.post-header")?.parentNode;
+      //    postContainer.innerHTML = "";
+      //   if (welcomePost) postContainer.appendChild(welcomePost);
 
       const posts = CRUD.getAllPosts();
       posts.forEach((post) => {
@@ -149,7 +167,7 @@
         postElement.className = "post";
         postElement.style.cssText = "background-color: beige; padding: 12px; margin-bottom: 10px;";
 
-        
+
         postElement.innerHTML = `
           <div class="post-header">
             <img src="${post.image}" alt="Image for ${post.headline}" class="w3-left w3-margin-right" style="width:150px">
@@ -168,7 +186,7 @@
         `;
 
 
- 
+
         postElement.innerHTML = `
 
 <div class="w3-card-4 post-header" style="width:100%;margin-bottom:20px;border-radius: 5px;">
@@ -176,7 +194,7 @@
         <h3>${post.headline}</h3>
     </header>
     <div class="w3-container">
-        <img src="images/donavan.jpg" alt="Author's profile picture" class="w3-left w3-margin-right"
+        <img src="images/${post.image}" alt="Author's profile picture" class="w3-left w3-margin-right"
             style="width:150px;margin-bottom:10px">
         <p>${post.teaser}</p><br>
     </div>
@@ -198,10 +216,10 @@
         postContainer.appendChild(postElement);
       });
 
- //     generateSideMenu();
+      //     generateSideMenu();
     }
 
- 
+
 
 
 
@@ -260,9 +278,7 @@
             headline: document.getElementById("post-headline").value,
             teaser: document.getElementById("post-teaser").value,
             content: document.getElementById("post-content").value,
-            image: document.getElementById("post-image").files[0]
-              ? URL.createObjectURL(document.getElementById("post-image").files[0])
-              : "images/default.jpg",
+            image: document.getElementById("post-image").files[0].name,
             date: document.getElementById("post-date").value || new Date().toISOString().split("T")[0],
           };
           CRUD.createPost(post.key, post);
@@ -271,36 +287,44 @@
           form.dataset.editing = "";
         });
       }
-    }); 
-
- 
- 
+    });
 
 
 
 
-</script>
+
+
+
+  </script>
 </head>
 
 <body class="w3-theme-l5">
   <!-- Navbar -->
   <div class="w3-top">
     <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
-      <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-      <a href="#" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Logo</a>
-      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i class="fa fa-globe"></i></a>
-      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-user"></i></a>
-      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
+      <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2"
+        href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+      <a href="#" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i
+          class="fa fa-home w3-margin-right"></i>Logo</a>
+      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i
+          class="fa fa-globe"></i></a>
+      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white"
+        title="Account Settings"><i class="fa fa-user"></i></a>
+      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i
+          class="fa fa-envelope"></i></a>
       <div class="w3-dropdown-hover w3-hide-small">
-        <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">3</span></button>
+        <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span
+            class="w3-badge w3-right w3-small w3-green">3</span></button>
         <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
           <a href="#" class="w3-bar-item w3-button">One old friend request</a>
           <a href="#" class="w3-bar-item w3-button">John Doe posted on your wall</a>
           <a href="#" class="w3-bar-item w3-button">Jane likes your post</a>
         </div>
       </div>
-      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-        <img src="https://w3schools.com/w3images/avatar2.png" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white"
+        title="My Account">
+        <img src="https://w3schools.com/w3images/avatar2.png" class="w3-circle" style="height:23px;width:23px"
+          alt="Avatar">
       </a>
     </div>
   </div>
@@ -323,7 +347,8 @@
         <div class="w3-card w3-round w3-white">
           <div class="w3-container">
             <h4 class="w3-center">My Profile Here</h4>
-            <p class="w3-center"><img src="https://w3schools.com/w3images/avatar3.png" class="w3-circle" style="height:106px;width:106px" alt="Profile picture"></p>
+            <p class="w3-center"><img src="https://w3schools.com/w3images/avatar3.png" class="w3-circle"
+                style="height:106px;width:106px" alt="Profile picture"></p>
             <hr>
             <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Designer, UI</p>
             <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> London, UK</p>
@@ -335,15 +360,18 @@
         <!-- Accordion -->
         <div class="w3-card w3-round">
           <div class="w3-white">
-            <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> My Groups</button>
+            <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i
+                class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> My Groups</button>
             <div id="Demo1" class="w3-hide w3-container">
               <p>Some text..</p>
             </div>
-            <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> My Events</button>
+            <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i
+                class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> My Events</button>
             <div id="Demo2" class="w3-hide w3-container">
               <p>Some other text..</p>
             </div>
-            <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i> My Photos</button>
+            <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i
+                class="fa fa-users fa-fw w3-margin-right"></i> My Photos</button>
             <div id="Demo3" class="w3-hide w3-container">
               <div class="w3-row-padding">
                 <br>
@@ -393,7 +421,8 @@
         <br>
 
         <!-- Alert Box -->
-        <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
+        <div
+          class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
           <span onclick="this.parentElement.style.display='none'" class="w3-button w3-theme-l3 w3-display-topright">
             <i class="fa fa-remove"></i>
           </span>
@@ -411,7 +440,8 @@
                 <div style="text-align:center">
                   <h1>BLOGGING FOR FUN</h1>
                 </div>
-                <div class="w3-container w3-card W3-FloralWhite w3-round w3-margin" style="margin-bottom:10px;padding:0px">
+                <div class="w3-container w3-card W3-FloralWhite w3-round w3-margin"
+                  style="margin-bottom:10px;padding:0px">
                   <br>
                   <div class="w3-container post-container">
                     <div class="w3-card-4 post-header" style="width:100%;margin-bottom:20px;border-radius: 5px;">
@@ -419,16 +449,23 @@
                         <h3>Welcome</h3>
                       </header>
                       <div class="w3-container">
-                        <img src="images/donavan.jpg" alt="Author's profile picture" class="w3-left w3-margin-right" style="width:150px;margin-bottom:10px">
+                        <img src="images/donavan.jpg" alt="Author's profile picture" class="w3-left w3-margin-right"
+                          style="width:150px;margin-bottom:10px">
                         <p>No one seems to blog for fun nowadays.</p><br>
                       </div>
                       <div style="height:60px;">
-                        <button style="float:right;margin-top: 20px;margin-right:10px" onclick="togglePost.call(this)" aria-label="Toggle welcome post content">Read More</button>
+                        <button style="float:right;margin-top: 20px;margin-right:10px" onclick="togglePost.call(this)"
+                          aria-label="Toggle welcome post content">Read More</button>
                       </div>
                     </div>
                     <div class="content w3-justify">
-                      <p>It seems that the world has moved on to other things, like TikTok, Instagram, and other social media. I remember when I first started blogging, it was a way to express myself and share my thoughts with the world. Now it seems that everyone is more interested in short videos and pictures than in reading long posts.</p>
-                      <p>But I still love blogging. It allows me to think deeply about topics that interest me and share my ideas with others. I hope that one day people will return to blogging for fun, but until then, I will continue to write for myself.</p>
+                      <p>It seems that the world has moved on to other things, like TikTok, Instagram, and other social
+                        media. I remember when I first started blogging, it was a way to express myself and share my
+                        thoughts with the world. Now it seems that everyone is more interested in short videos and
+                        pictures than in reading long posts.</p>
+                      <p>But I still love blogging. It allows me to think deeply about topics that interest me and share
+                        my ideas with others. I hope that one day people will return to blogging for fun, but until
+                        then, I will continue to write for myself.</p>
                     </div>
                   </div>
 
@@ -436,14 +473,18 @@
                     <h3>Create New Post</h3>
                     <form id="new-post-form" class="w3-form">
                       <label for="post-key">Post Key (unique ID)</label>
-                      <input type="text" id="post-key" class="w3-input w3-margin-bottom" placeholder="e.g., post-123" required aria-describedby="post-key-error">
+                      <input type="text" id="post-key" class="w3-input w3-margin-bottom" placeholder="e.g., post-123"
+                        required aria-describedby="post-key-error">
                       <span id="post-key-error" class="w3-text-red" style="display:none;">Key must be unique.</span>
                       <label for="post-headline">Headline</label>
-                      <input type="text" id="post-headline" class="w3-input w3-margin-bottom" placeholder="Post Headline" required>
+                      <input type="text" id="post-headline" class="w3-input w3-margin-bottom"
+                        placeholder="Post Headline" required>
                       <label for="post-teaser">Teaser</label>
-                      <input type="text" id="post-teaser" class="w3-input w3-margin-bottom" placeholder="Short teaser text" required>
+                      <input type="text" id="post-teaser" class="w3-input w3-margin-bottom"
+                        placeholder="Short teaser text" required>
                       <label for="post-content">Content</label>
-                      <textarea id="post-content" class="w3-input w3-margin-bottom" placeholder="Post content (supports HTML)" rows="5" required></textarea>
+                      <textarea id="post-content" class="w3-input w3-margin-bottom"
+                        placeholder="Post content (supports HTML)" rows="5" required></textarea>
                       <label for="post-image">Image (optional)</label>
                       <input type="file" id="post-image" class="w3-input w3-margin-bottom" accept="image/*">
                       <label for="post-date">Date (optional, defaults to today)</label>
@@ -465,10 +506,7 @@
       <div class="w3-col m3">
         <div class="w3-card w3-round w3-white w3-center">
           <div class="w3-container">
-            <div class="w3-container w3-center">
-              <button class="w3-button w3-theme-l4" onclick="expandAll()">Expand All</button>
-              <button class="w3-button w3-theme-l4" onclick="collapseAll()">Collapse All</button>
-            </div>
+            
             <p>All posts:</p>
             <div id="side-menu"></div>
           </div>
@@ -476,29 +514,17 @@
         <br>
         <div class="w3-card w3-round w3-white w3-center">
           <div class="w3-container">
-            <p>Upcoming Events:</p>
-            <img src="https://w3schools.com/w3images/forest.jpg" alt="Forest" style="width:100%;">
-            <p><strong>Holiday</strong></p>
-            <p>Friday 15:00</p>
-            <p><button class="w3-button w3-block w3-theme-l4">Info</button></p>
+            <p>Storage Operations</p>
+
+
+            <p><button onclick="CRUD.deleteAllPosts()" class="w3-button w3-block w3-theme-l4">Clear Storage</button></p>
+            <p><button class="w3-button w3-block w3-theme-l4">Download posts</button></p>
+            <p><button class="w3-button w3-block w3-theme-l4">Upload Posts</button></p>
+
           </div>
         </div>
         <br>
-        <div class="w3-card w3-round w3-white w3-center">
-          <div class="w3-container">
-            <p>Friend Request</p>
-            <img src="https://w3schools.com/w3images/avatar6.png" alt="Avatar" style="width:50%"><br>
-            <span>Jane Doe</span>
-            <div class="w3-row w3-opacity">
-              <div class="w3-half">
-                <button class="w3-button w3-block w3-green w3-section" title="Accept"><i class="fa fa-check"></i></button>
-              </div>
-              <div class="w3-half">
-                <button class="w3-button w3-block w3-red w3-section" title="Decline"><i class="fa fa-remove"></i></button>
-              </div>
-            </div>
-          </div>
-        </div>
+         
         <br>
         <div class="w3-card w3-round w3-white w3-padding-16 w3-center">
           <p>ADS</p>
@@ -517,7 +543,9 @@
   </footer>
   <footer class="w3-container w3-theme-d5">
     <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-    <p><h6 class="w3-opacity">Social Media template by w3.css</h6></p>
+    <p>
+    <h6 class="w3-opacity">Template by w3.css</h6>
+    </p>
   </footer>
 
   <script>
@@ -544,4 +572,5 @@
     }
   </script>
 </body>
+
 </html>
