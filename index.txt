@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html>
+<!--dd e -->
+
+<head>
+  <title>Blogging For Fun</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    html,
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-family: "Roboto", sans-serif;
+      font-weight: 520;
+    }
+
+    h1 {
+      font-size: 60px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    table,
+    th,
+    td {
+      border: 2px solid black;
+      padding: 0px;
+      /* Default padding for all cells */
+    }
+
+    table {
+      border-collapse: collapse;
+    }
+
+    /* Add padding specifically to the 2nd and 3rd columns */
+    td:nth-child(2),
+    th:nth-child(2),
+    td:nth-child(3),
+    th:nth-child(3) {
+      padding: 2px;
+      /* Adjust the padding as needed */
+    }
+
+    /* Add padding specifically to the 2nd and 3rd columns */
+
+    td:nth-child(3),
+    th:nth-child(3) {
+      padding: 2px;
+      text-align: center;
+      /* Adjust the padding as needed */
+    }
+  </style>
+
+
+
+  <script>
+    // Function to generate the side menu when the page loads
+    window.onload = function () {
+
+      // generateSideMenu();
+
+    };
+
+ 
+
+    function generateSideMenu() {
+      const posts = document.querySelectorAll('.post');
+      const sideMenu = document.getElementById('side-menu');
+
+      posts.forEach(post => {
+        const headline = post.querySelector('.headline').textContent;
+        const postId = post.id;
+
+        const menuItem = document.createElement('button');
+        menuItem.textContent = headline;
+        menuItem.className = 'w3-button w3-block w3-theme-l4';
+        menuItem.onclick = () => {
+          const targetPost = document.getElementById(postId);
+
+          // Scroll the post into view
+          targetPost.scrollIntoView({
+            behavior: 'smooth',
+
+          });
+
+          // Optional: Add a slight offset if needed
+          window.scrollBy(0, -10); // Adjusts the scroll position slightly
+        };
+
+        sideMenu.appendChild(menuItem);
+      });
+    }
+
+
+    function togglePost() {
+      // Get the button that was clicked
+      const thisButton = this;
+
+      // Find the parent post container
+      const post = thisButton.closest('.post');
+
+      // Find the content within the post
+      const content = post.querySelector('.content');
+
+      // Toggle the visibility of the content
+      if (content.style.display === 'none' || !content.style.display) {
+        content.style.display = 'block';
+        thisButton.textContent = 'Read Less';
+      } else {
+        content.style.display = 'none';
+        thisButton.textContent = 'Read More';
+      }
+    }
+
+
+    function hidePost() {
+      // Get the button that was clicked
+      const thisButton = this;
+
+      // Find the parent post container
+      const post = thisButton.closest('.post');
+
+      // Find the content within the post
+      const content = post.querySelector('.content');
+
+
+      content.style.display = 'none';
+
+    }
+
+    function expandAll() {
+      document.querySelectorAll('.content').forEach(content => {
+        content.style.display = 'block';
+      });
+      document.querySelectorAll('.post button').forEach(button => {
+        button.textContent = 'Read Less';
+      });
+    }
+
+    function collapseAll() {
+      document.querySelectorAll('.content').forEach(content => {
+        content.style.display = 'none';
+      });
+      document.querySelectorAll('.post button').forEach(button => {
+        button.textContent = 'Read More';
+      });
+    }
+
+    class CRUD {
+      // Create a new post
+      static createPost(key, value) {
+        localStorage.setItem(key, value);
+      }
+
+      // Retrieve a post by key
+      static retrievePost(key) {
+        return localStorage.getItem(key);
+      }
+
+      // Update an existing post
+      static updatePost(key, value) {
+        localStorage.setItem(key, value);
+      }
+
+      // Delete a post by key
+      static deletePost(key) {
+        localStorage.removeItem(key);
+      }
+    }
+
+    CRUD.createPost("post1", "some tosh")
+
+
+    alert(CRUD.retrievePost("post1"));
+
+    CRUD.deletePost("post1");
+
+    alert(CRUD.retrievePost("post1"));
+
+  </script>
+
+</head>
+
+
+
+
+<body class="w3-theme-l5">
+
+  <!-- Navbar -->
+  <div class="w3-top">
+    <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
+      <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2"
+        href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+      <a href="#" class="w3-bar-item w3-button w3-padding-large w3-theme-d4">
+        <i class="fa fa-home w3-margin-right"></i>Logo</a>
+      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i
+          class="fa fa-globe"></i></a>
+      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white"
+        title="Account Settings"><i class="fa fa-user"></i></a>
+      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i
+          class="fa fa-envelope"></i></a>
+      <div class="w3-dropdown-hover w3-hide-small">
+        <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span
+            class="w3-badge w3-right w3-small w3-green">3</span></button>
+        <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
+          <a href="#" class="w3-bar-item w3-button">One old friend request</a>
+          <a href="#" class="w3-bar-item w3-button">John Doe posted on your wall</a>
+          <a href="#" class="w3-bar-item w3-button">Jane likes your post</a>
+        </div>
+      </div>
+      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white"
+        title="My Account">
+        <img src="https://w3schools.com/w3images/avatar2.png" class="w3-circle" style="height:23px;width:23px"
+          alt="Avatar">
+      </a>
+    </div>
+  </div>
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large">
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">My Profile</a>
+  </div>
+
+  <!-- Page Container -->
+  <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
+    <!-- The Grid -->
+    <div class="w3-row">
+      <!-- Left Column -->
+      <div class="w3-col m2">
+        <!-- Profile -->
+        <div class="w3-card w3-round w3-white">
+          <div class="w3-container">
+            <h4 class="w3-center">My Profile Here</h4>
+            <p class="w3-center"><img src="https://w3schools.com/w3images/avatar3.png" class="w3-circle"
+                style="height:106px;width:106px" alt="Avatar"></p>
+            <hr>
+            <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Designer, UI</p>
+            <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> London, UK</p>
+            <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> April 1, 1988</p>
+          </div>
+        </div>
+        <br>
+
+        <!-- Accordion -->
+        <div class="w3-card w3-round">
+          <div class="w3-white">
+            <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i
+                class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> My Groups</button>
+            <div id="Demo1" class="w3-hide w3-container">
+              <p>Some text..</p>
+            </div>
+            <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i
+                class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> My Events</button>
+            <div id="Demo2" class="w3-hide w3-container">
+              <p>Some other text..</p>
+            </div>
+            <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i
+                class="fa fa-users fa-fw w3-margin-right"></i> My Photos</button>
+            <div id="Demo3" class="w3-hide w3-container">
+              <div class="w3-row-padding">
+                <br>
+                <div class="w3-half">
+                  <img src="https://w3schools.com/w3images/lights.jpg" style="width:100%" class="w3-margin-bottom">
+                </div>
+                <div class="w3-half">
+                  <img src="https://w3schools.com/w3images/nature.jpg" style="width:100%" class="w3-margin-bottom">
+                </div>
+                <div class="w3-half">
+                  <img src="https://w3schools.com/w3images/mountains.jpg" style="width:100%" class="w3-margin-bottom">
+                </div>
+                <div class="w3-half">
+                  <img src="https://w3schools.com/w3images/forest.jpg" style="width:100%" class="w3-margin-bottom">
+                </div>
+                <div class="w3-half">
+                  <img src="https://w3schools.com/w3images/nature.jpg" style="width:100%" class="w3-margin-bottom">
+                </div>
+                <div class="w3-half">
+                  <img src="https://w3schools.com/w3images/snow.jpg" style="width:100%" class="w3-margin-bottom">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+
+        <!-- Interests -->
+        <div class="w3-card w3-round w3-white w3-hide-small">
+          <div class="w3-container">
+            <p>Interests</p>
+            <p>
+              <span class="w3-tag w3-small w3-theme-d5">News</span>
+              <span class="w3-tag w3-small w3-theme-d4">W3Schools</span>
+              <span class="w3-tag w3-small w3-theme-d3">Labels</span>
+              <span class="w3-tag w3-small w3-theme-d2">Games</span>
+              <span class="w3-tag w3-small w3-theme-d1">Friends</span>
+              <span class="w3-tag w3-small w3-theme">Games</span>
+              <span class="w3-tag w3-small w3-theme-l1">Friends</span>
+              <span class="w3-tag w3-small w3-theme-l2">Food</span>
+              <span class="w3-tag w3-small w3-theme-l3">Design</span>
+              <span class="w3-tag w3-small w3-theme-l4">Art</span>
+              <span class="w3-tag w3-small w3-theme-l5">Photos</span>
+            </p>
+          </div>
+        </div>
+        <br>
+
+        <!-- Alert Box -->
+        <div
+          class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
+          <span onclick="this.parentElement.style.display='none'" class="w3-button w3-theme-l3 w3-display-topright">
+            <i class="fa fa-remove"></i>
+          </span>
+          <p><strong>Hey!</strong></p>
+          <p>People are looking at your profile. Find out who.</p>
+        </div>
+
+        <!-- End Left Column -->
+      </div>
+
+      <!-- Middle Column -->
+      <div class="w3-col m7" style="padding:0px;margin-top:-15px">
+
+        <div class="w3-row-padding">
+          <div class="w3-col m12">
+            <div class="w3-card w3-round w3-white">
+              <div class="w3-container w3-padding">
+
+                <div style="text-align:center">
+
+                  <h1>BLOGGING FOR FUN</h1>
+
+                </div>
+
+
+
+                <div class="w3-container w3-card W3-FloralWhite w3-round w3-margin"
+                  style="margin-bottom :10px;padding:0px">
+                  <br>
+
+
+                  <div class="w3-container post-container">
+                    <div class="w3-card-4 post-header" style="width:100%;margin-bottom:20px;border-radius: 5px;">
+                      <header class="w3-container w3-light-grey">
+                        <h3>Welcome</h3>
+                      </header>
+                      <div class="w3-container">
+
+                        <img src="images/donavan.jpg" alt="Avatar" class="w3-left   w3-margin-right"
+                          style="width:150px ;margin-bottom:10px">
+                        <p>No one seems to blog for fun nowadays.</p><br>
+
+
+                      </div>
+
+                      <div style="height:60px; ">
+
+                        <button style="float:right;margin-top: 20px;margin-right:10px">xxxxx</button>
+                      </div>
+
+
+
+                    </div>
+
+                    <div class="content w3-justify">
+
+                      <p>It seems that the world has moved on to other things, like TikTok, Instagram, and other social
+                        media. I
+                        remember when I first started blogging, it was a way to express myself and share my thoughts
+                        with the
+                        world. Now it seems that everyone is more interested in short videos and pictures than in
+                        reading long
+                        posts.</p>
+                      <p>But I still love blogging. It allows me to think deeply about topics that interest me and share
+                        my ideas
+                        with others. I hope that one day people will return to blogging for fun, but until then, I will
+                        continue to write for myself.</p>
+
+                    </div>
+
+
+
+
+                  </div>
+
+
+                  <div id="post-1" class="post" style="background-color: beige;padding: 12px;margin-bottom: 10px;">
+
+                    <div class="post-header">
+
+                      <img id="current-image" src="images/donavan.jpg" alt="donovan" class="w3-left  w3-margin-right"
+                        style="width:150px">
+                      <span class="w3-right w3-opacity"> <button onclick="togglePost.call(this)">Read
+                          More</button></span>
+
+                      <div>
+                        <h3 class="headline" style="text-align: center;">Try to Catch the Wind</h3><br>
+                        <hr class="w3-clear">
+                        <hr>
+                        <p>
+                      </div>
+                    </div>
+
+                    <div class="content w3-justify" style="display:none">
+
+                      <p>No, nothing to do with eating Brussel sprouts. I was provoked this morning by reading about
+                        upcoming developments in Coplot AI inside GitHub ( Microsoft ), which would seem a natural
+                        match. I made me think how far we have come in my memory, and speculate where we will go to
+                        next. A.I. has moved so quicky that to me, just as I start to grok it, it morphs into
+                        something else, like the hydra, but maybe in a good way.</p>
+                      <p>My first program was written in Secondary school in Mr. Copley&#8217;s class. Mr. Copley was
+                        famous for his R.E. classes so it was a little strange that he should pop up in the maths
+                        department. I had already learned some things from the Open University TV about Boolean logic,
+                        analogue v digital, simple programing languages like Basic and Algol, but I was yet to get the
+                        baptism of running my first program.</p>
+
+
+
+                      <p>The teacher give us the basic outline, and demonstrated how Fortran did its thing with some
+                        examples. Then we were told to get out our notebooks and write a simple program. Next lesson,
+                        we got some punch cards and a magnetic pencil and converted each symbol into three marks in
+                        every column. This was sent away somewhere and returned together with a printout of the code.
+                        I don&#8217;t remember a hand punch entering the loop anywhere. Long story short I eventually
+                        got the output from my program. For the record it was calculating various scenarios or the
+                        taps and baths problem. It worked!</p>
+
+
+
+                      <p>There I left it, through 6th form nothing. University, nothing. Post Grad, back to Fortran,
+                        a bit of PDP assembler, and some interactive Basic. Never saw a graphic terminal
+                        till someone in a lab acquired a Commadore Pet. It played poker.</p>
+
+
+
+                      <p>Eventually I got a job and became a Junior Programmer. 25 or so years in the industry, partly
+                        as a
+                        contractor, I was able see how it evolved from close up. The PC was a new thing, which I
+                        didn&#8217;t
+                        acquire from many years, but I saw technologies, languages, paradigms come and go. languages
+                        included, Cobol, Dibol, Fortran, C, C++,Basic and a few odd balls. I loved it. I would make
+                        sure to get my copy of Byte every month, got an AOL account. The days of buying a book, or a
+                        bit of software then emailing the author and expecting a reply.</p>
+
+
+
+                      <p>Now for A.I. It seemed at first to be something I didn&#8217;t understand that
+                        people used to make funny photos and present them to you. It was quite a buzz, and the the
+                        rise of the chatbots whether the proverbial Mother or Grandmother is using Chat GPT on a
+                        regular basis, I think not.</p>
+
+
+
+                      <p>The news today enthusing about what the beta versions of the GitHub,
+                        Copilot team could do left me a bit stunned.</p>
+
+
+
+                      <p>Over to Grok.</p>
+
+
+
+                      <p class="has-small-font-size">GitHub is home to over 420 million repositories as of late 2024,
+                        hosting code
+                        written by more than 150 million users. These repositories contain an immense volume of code
+                        across countless
+                        programming languages, frameworks, and projects. While GitHub doesn’t publicly disclose the
+                        exact number of lines of code stored on its platform, we can make an educated guess based on
+                        available data and trends.</p>
+
+
+
+                      <p class="has-small-font-size">A single moderately sized repository might contain anywhere
+                        from a few thousand to tens of thousands of lines of code, while large projects—like
+                        open-source
+                        frameworks or enterprise software—can easily exceed millions of lines. For instance, the Linux
+                        kernel
+                        alone has over 30 million lines of code. If we conservatively assume an average of 10,000
+                        lines per
+                        repository (accounting for both small scripts and larger projects), multiplying that by 420
+                        million
+                        repositories gives us a rough estimate of 4.2 trillion lines of code on GitHub. This is likely
+                        an
+                        underestimate, as many repositories are far larger, and GitHub’s growth continues to
+                        accelerate.</p>
+
+
+
+                      <p class="has-small-font-size">Copilot, however, wasn’t trained on every single line of code in
+                        every GitHub repository.
+                        It was developed using a subset of publicly available code, filtered and processed by OpenAI
+                        to create its underlying model,
+                        Codex. This training data includes billions of lines of code from public GitHub repositories,
+                        though the exact
+                        figure isn’t disclosed. Research and industry reports suggest that large language models like
+                        Codex are trained on datasets
+                        containing tens to hundreds of billions of lines of code, drawn not just from GitHub but also
+                        from other public sources
+                        like Stack Overflow and open-source archives. Given GitHub’s dominance as the largest code
+                        hosting platform, it’s
+                        reasonable to estimate that Copilot’s training data includes at least 50 to 100 billion lines
+                        of code from GitHub alone.</p>
+
+
+                      <p>Back to me. Seems that Copilot and GitHub could be used to maybe develop improved AI models,
+                        or at least
+                        improve the GitHub codebase in general. This is synergistic so this feels like a hockey stick
+                        moment in time.
+                        The singularity is near, or maybe it&#8217;s already here.</p>
+
+
+                      <p>I&#8217;ll leave you with a song.</p>
+
+
+
+
+                    </div>
+
+
+                  </div>
+
+                  <div id="post-2" class="post" style="background-color: beige;padding: 12px;margin-bottom: 10px;">
+                    <div class="post-header">
+                      <img id="current-image" src="images/puppy.jpg" alt="donovan" class="w3-left  w3-margin-right"
+                        style="width:150px">
+                      <span class="w3-right w3-opacity">1 min</span>
+
+                      <h3 class="headline" style="text-align: center;">Come back little Sheba</h3><br>
+                      <hr class="w3-clear">
+                      <hr>
+                      <p>
+                    </div>
+
+                    <div class="content w3-justify" style="display:none">
+
+
+                      In an earlier post I alluded to the names of our border collie dogs, the senior of which is
+                      Sheba. She was
+                      so named after an old dog of my mother’s, but in turn this dog was named for a Hollywood Movie
+                      “Come Back,
+                      Little Sheba”. Sheba disappears months before the start of the film and never appears. It is
+                      implied that
+                      Sheba is presumed dead. It stars Burt Lancaster, and Shirley Booth, who got a Best Actress Oscar
+                      in 1953 for
+                      it. I began to wonder if there is a term for such characters and yes Gemini. informed me thus
+
+                      Yes, there is! That type of character is called an offstage character or an unseen character.
+                      </p>
+                      These characters are important to the plot and the development of other characters,
+                      even though the audience never actually sees them. They might be mentioned in dialogue,
+                      have actions attributed to them, or even influence the events of the play.
+                      </p>
+                      Here are some examples of famous offstage characters:
+
+                      Godot in “Waiting for Godot”: The title character is the most famous example of an offstage
+                      character, whose
+                      unseen presence drives the entire play.
+                      Mr. Wickham’s father in “Pride and Prejudice”: While the character of Mr. Wickham is onstage,
+                      his father,
+                      who worked for Mr. Darcy’s father, is only mentioned in dialogue. However, the elder Mr.
+                      Wickham’s past
+                      relationship with the Darcy family is crucial to understanding Wickham’s motivations.
+                      Rose’s fiancé in “The Importance of Being Earnest”: Though never seen, Cecily’s imaginary
+                      betrothed, Ernest,
+                      plays a significant role in the comedic plot.
+                      Offstage characters can serve a variety of purposes, such as:
+
+                      <img src="https://w3schools.com/w3images/lights.jpg"
+                        style="width:30%; float: left; margin-right: 15px;">
+
+                      </p>
+                      Creating intrigue and suspense: The audience might wonder about their identity or motivations.
+                      Developing other characters: Interactions with or discussions about the unseen character can
+                      reveal traits
+                      and
+                      motivations of the onstage characters.
+                      Advancing the plot: Their actions, though offstage, can drive the events of the play.
+                      Now as to Godot , it is a reworking by Samuel Beckett of his original work in French En
+                      attendant Godot.
+
+                      It is alleged that originally Godot was meant to appear half way through the play, but the actor
+                      playing
+                      Godot
+                      failed to appear and so the two characters, Vladimir and Estragon were left to adlib the rest of
+                      the play.
+                      True? I doubt it but I would love it to be so.
+
+                      Adding to the AI effort I can think of Mr Papadopoulos, in Coronation Street who is referred to
+                      by Mr
+                      Swindley
+                      ( Arthur Lowe ). Papadopoulos is a greek clothing magnate who owns Miami Modes. Swindley is the
+                      manager.
+
+                      Again Arthur Lowe in Dad’s Army, Mrs Mannering is never seen.
+                      </p>
+                      Google gives us
+
+                      King Laius in Oedipus Rex: An offstage character in Sophocles’s play who is a driving force for
+                      action
+                      Jason’s bride in Medea: An offstage character in Euripides’s play
+                      Rosaline in Romeo and Juliet: An offstage character in Shakespeare’s play who highlights the
+                      predicament of
+                      the two lovers
+                      Off stage characters also exists in books ( again AI gives us )
+
+                      Boo Radley in “To Kill a Mockingbird”: Boo is a recluse who never leaves his house, but his
+                      presence looms
+                      large over the novel. He becomes a source of fascination and fear for the children, and his
+                      actions
+                      ultimately
+                      save Jem and Scout.
+
+                      Mrs. Haverford in “Rebecca”: The deceased first wife of Maxim de Winter, Rebecca is a powerful
+                      offstage
+                      character whose presence haunts the narrator and Manderley. Her influence shapes the entire
+                      plot, even
+                      though
+                      she is already dead.
+
+                      Snape’s mother in the “Harry Potter” series: Eileen Prince, Severus Snape’s mother, is only
+                      mentioned in
+                      passing and through memories, but her difficult relationship with his father and her magical
+                      abilities are
+                      crucial to understanding Snape’s character and motivations.
+
+                      I would add that in 1984 O’Brien plays a major part in the narrative, but it is unsure that he
+                      actually
+                      exists.
+
+                      For most of Atlas Shrugged we are unsure if John Galt exists, even though he drives the plot. (
+                      yes, he
+                      appears, after a few 1000 pages 😉 ).
+
+                      That’s about it, but if you can think of any I’ve missed please leave a comment. Ta.
+
+                    </div>
+
+                    <button onclick="togglePost.call(this)">Read More</button>
+
+                  </div>
+                </div>
+                <!-- End posts container-->
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column -->
+      <div>
+
+        <div>
+
+          <div class="w3-col m3">
+            <div class="w3-card w3-round w3-white w3-center">
+              <div class="w3-container">
+
+                <div class="w3-container w3-center">
+                  <button class="w3-button w3-theme-l4" onclick="expandAll()">Expand All</button>
+                  <button class="w3-button w3-theme-l4" onclick="collapseAll()">Collapse All</button>
+                </div>
+
+                <p>All posts:</p>
+
+                <script>
+
+                </script>
+
+                <div id="side-menu">
+                  <!-- Side menu items will be generated here -->
+
+                </div>
+              </div>
+              <br>
+
+              <div class="w3-card w3-round w3-white w3-center">
+                <div class="w3-container">
+                  <p>Upcoming Events:</p>
+                  <img src="https://w3schools.com/w3images/forest.jpg" alt="Forest" style="width:100%;">
+                  <p><strong>Holiday</strong></p>
+                  <p>Friday 15:00</p>
+                  <p><button class="w3-button w3-block w3-theme-l4">Info</button></p>
+                </div>
+              </div>
+              <br>
+
+              <div class="w3-card w3-round w3-white w3-center">
+                <div class="w3-container">
+                  <p>Friend Request</p>
+                  <img src="https://w3schools.com/w3images/avatar6.png" alt="Avatar" style="width:50%"><br>
+                  <span>Jane Doe</span>
+                  <div class="w3-row w3-opacity">
+                    <div class="w3-half">
+                      <button class="w3-button w3-block w3-green w3-section" title="Accept"><i
+                          class="fa fa-check"></i></button>
+                    </div>
+                    <div class="w3-half">
+                      <button class="w3-button w3-block w3-red w3-section" title="Decline"><i
+                          class="fa fa-remove"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+
+              <div class="w3-card w3-round w3-white w3-padding-16 w3-center">
+                <p>ADS</p>
+              </div>
+              <br>
+
+              <div class="w3-card w3-round w3-white w3-padding-32 w3-center">
+                <p><i class="fa fa-bug w3-xxlarge"></i></p>
+              </div>
+
+              <!-- End Right Column -->
+            </div>
+
+            <!-- End Grid -->
+          </div>
+
+          <!-- End Page Container -->
+        </div>
+
+
+
+      </div>
+
+    </div>
+
+
+
+
+    <br>
+
+    <!-- Footer -->
+    <footer class="w3-container w3-theme-d3 w3-padding-16">
+      <h5>Footer</h5>
+    </footer>
+
+    <footer class="w3-container w3-theme-d5">
+      <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+      <p>
+      <h6 class="w3-opacity">Social Media template by w3.css</h6>
+    </footer>
+
+
+  </div>
+  </div>
+
+
+
+  <script>
+    // Accordion
+    function myFunction(id) {
+      var x = document.getElementById(id);
+      if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+        x.previousElementSibling.className += " w3-theme-d1";
+      } else {
+        x.className = x.className.replace("w3-show", "");
+        x.previousElementSibling.className =
+          x.previousElementSibling.className.replace(" w3-theme-d1", "");
+      }
+    }
+
+    // Used to toggle the menu on smaller screens when clicking on the menu button
+    function openNav() {
+      var x = document.getElementById("navDemo");
+      if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+      } else {
+        x.className = x.className.replace(" w3-show", "");
+      }
+    }
+  </script>
+
+
+
+
+</body>
+
+
+
+</html>
