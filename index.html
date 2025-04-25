@@ -45,129 +45,129 @@
 
   <script>
 
-window.onload = function () {
-  renderPosts();
-};
-
-function generateSideMenu() {
-  const sideMenu = document.getElementById("side-menu");
-  sideMenu.innerHTML = "";
-  const posts = CRUD.getAllPosts();
-
-  posts.forEach((post) => {
-    const menuItem = document.createElement("button");
-    menuItem.textContent = post.headline || "Untitled Post";
-    menuItem.className = "w3-button w3-block w3-theme-l4";
-    menuItem.style.marginBottom = "5px";
-    menuItem.onclick = () => {
-      const targetPost = document.getElementById(post.key);
-      if (targetPost) {
-        targetPost.scrollIntoView({ behavior: "smooth" });
-        window.scrollBy(0, -10);
-      }
+    window.onload = function () {
+      renderPosts();
     };
-    sideMenu.appendChild(menuItem);
-  });
-}
 
-function togglePost() {
-  const thisButton = this;
-  const post = thisButton.closest(".post, .w3-card-4");
-  const content = post.querySelector(".content");
-  if (content.style.display === "none" || !content.style.display) {
-    content.style.display = "block";
-    thisButton.textContent = "Read Less";
-  } else {
-    content.style.display = "none";
-    thisButton.textContent = "Read More";
-  }
-}
+    function generateSideMenu() {
+      const sideMenu = document.getElementById("side-menu");
+      sideMenu.innerHTML = "";
+      const posts = CRUD.getAllPosts();
 
-function expandAll() {
-  document.querySelectorAll(".content").forEach((content) => {
-    content.style.display = "block";
-  });
-  document.querySelectorAll(".post button[aria-label='Toggle post content'], .w3-card-4 button[aria-label='Toggle welcome post content']").forEach((button) => {
-    button.textContent = "Read Less";
-  });
-}
-
-function collapseAll() {
-  document.querySelectorAll(".content").forEach((content) => {
-    content.style.display = "none";
-  });
-  document.querySelectorAll(".post button[aria-label='Toggle post content'], .w3-card-4 button[aria-label='Toggle welcome post content']").forEach((button) => {
-    button.textContent = "Read More";
-  });
-}
-
-class CRUD {
-  static createPost(key, value) {
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch (e) {
-      console.error("Error saving post:", e);
+      posts.forEach((post) => {
+        const menuItem = document.createElement("button");
+        menuItem.textContent = post.headline || "Untitled Post";
+        menuItem.className = "w3-button w3-block w3-theme-l4";
+        menuItem.style.marginBottom = "5px";
+        menuItem.onclick = () => {
+          const targetPost = document.getElementById(post.key);
+          if (targetPost) {
+            targetPost.scrollIntoView({ behavior: "smooth" });
+            window.scrollBy(0, -10);
+          }
+        };
+        sideMenu.appendChild(menuItem);
+      });
     }
-  }
 
-  static retrievePost(key) {
-    try {
-      const data = localStorage.getItem(key);
-      return data ? JSON.parse(data) : null;
-    } catch (e) {
-      console.error("Error retrieving post:", e);
-      return null;
-    }
-  }
-
-  static updatePost(key, value) {
-    this.createPost(key, value);
-  }
-
-  static deletePost(key) {
-    try {
-      localStorage.removeItem(key);
-    } catch (e) {
-      console.error("Error deleting post:", e);
-    }
-  }
-
-  static getAllPosts() {
-    const posts = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key.startsWith("post-")) {
-        const post = this.retrievePost(key);
-        if (post) posts.push(post);
+    function togglePost() {
+      const thisButton = this;
+      const post = thisButton.closest(".post");
+      const content = post.querySelector(".content");
+      if (content.style.display === "none" || !content.style.display) {
+        content.style.display = "block";
+        thisButton.textContent = "Read Less";
+      } else {
+        content.style.display = "none";
+        thisButton.textContent = "Read More";
       }
     }
-    return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-  }
 
-  static deleteAllPosts() {
-    localStorage.clear();
-    alert("All posts have been deleted.");
-  }
-}
+    function expandAll() {
+      document.querySelectorAll(".content").forEach((content) => {
+        content.style.display = "block";
+      });
+      document.querySelectorAll(".post button[aria-label='Toggle post content'], .w3-card-4 button[aria-label='Toggle welcome post content']").forEach((button) => {
+        button.textContent = "Read Less";
+      });
+    }
 
-function renderPosts() {
-  const postContainer = document.querySelector(".post-container");
-  if (!postContainer) {
-    console.error("post-container not found");
-    return;
-  }
+    function collapseAll() {
+      document.querySelectorAll(".content").forEach((content) => {
+        content.style.display = "none";
+      });
+      document.querySelectorAll(".post button[aria-label='Toggle post content'], .w3-card-4 button[aria-label='Toggle welcome post content']").forEach((button) => {
+        button.textContent = "Read More";
+      });
+    }
 
-  // Clear only dynamic posts
-  const existingPosts = postContainer.querySelectorAll(".post");
-  existingPosts.forEach(post => post.remove());
+    class CRUD {
+      static createPost(key, value) {
+        try {
+          localStorage.setItem(key, JSON.stringify(value));
+        } catch (e) {
+          console.error("Error saving post:", e);
+        }
+      }
 
-  const posts = CRUD.getAllPosts();
-  posts.forEach((post) => {
-    const postElement = document.createElement("div");
-    postElement.id = post.key;
-    postElement.className = "post";
-    postElement.style.cssText = "background-color: beige; padding: 12px; margin-bottom: 10px;";
-    postElement.innerHTML = `
+      static retrievePost(key) {
+        try {
+          const data = localStorage.getItem(key);
+          return data ? JSON.parse(data) : null;
+        } catch (e) {
+          console.error("Error retrieving post:", e);
+          return null;
+        }
+      }
+
+      static updatePost(key, value) {
+        this.createPost(key, value);
+      }
+
+      static deletePost(key) {
+        try {
+          localStorage.removeItem(key);
+        } catch (e) {
+          console.error("Error deleting post:", e);
+        }
+      }
+
+      static getAllPosts() {
+        const posts = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key.startsWith("post-")  || true  ) {
+            const post = this.retrievePost(key);
+            if (post) posts.push(post);
+          }
+        }
+        return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+      }
+
+      static deleteAllPosts() {
+        localStorage.clear();
+        alert("All posts have been deleted.");
+      }
+    }
+
+    function renderPosts() {
+      const postContainer = document.querySelector(".post-container");
+      if (!postContainer) {
+        console.error("post-container not found");
+        return;
+      }
+
+      // Clear only dynamic posts
+      const existingPosts = postContainer.querySelectorAll(".post");
+      existingPosts.forEach(post => post.remove());
+
+      const posts = CRUD.getAllPosts();
+      posts.forEach((post) => {
+        const postElement = document.createElement("div");
+        postElement.id = post.key;
+        postElement.className = "post";
+        postElement.style.cssText = "background-color: beige; padding: 12px; margin-bottom: 10px;";
+        postElement.innerHTML = `
       <div class="w3-card-4 post-header" style="width:100%;margin-bottom:20px;border-radius: 5px;">
         <header class="w3-container w3-light-grey">
           <h3>${post.headline}</h3>
@@ -186,137 +186,144 @@ function renderPosts() {
       </div>
       <div class="content w3-justify" style="display:none">${post.content}</div>
     `;
-    postContainer.appendChild(postElement);
-  });
+        postContainer.appendChild(postElement);
+      });
 
-  generateSideMenu();
-}
+      generateSideMenu();
+    }
 
-function editPost(postKey) {
-  const post = CRUD.retrievePost(postKey);
-  if (post) {
-    document.getElementById("post-key").value = post.key;
-    document.getElementById("post-headline").value = post.headline;
-    document.getElementById("post-teaser").value = post.teaser;
-    document.getElementById("post-content").value = post.content;
-    document.getElementById("post-date").value = post.date;
-    document.getElementById("new-post-form").dataset.editing = "true";
-    document.getElementById("new-post-form").onsubmit = (e) => {
-      e.preventDefault();
-      const updatedPost = {
-        key: document.getElementById("post-key").value,
-        headline: document.getElementById("post-headline").value,
-        teaser: document.getElementById("post-teaser").value,
-        content: document.getElementById("post-content").value,
-        image: document.getElementById("post-image").files[0] ? document.getElementById("post-image").files[0].name : post.image,
-        date: document.getElementById("post-date").value || post.date,
-      };
-      CRUD.updatePost(updatedPost.key, updatedPost);
-      renderPosts();
-      e.target.reset();
-      document.getElementById("new-post-form").dataset.editing = "";
-      document.getElementById("new-post-form").onsubmit = null;
-    };
-  }
-}
+    function editPost(postKey) {
+      const post = CRUD.retrievePost(postKey);
+      const oldImage = post.image;
+      if (post) {
+        document.getElementById("post-key").value = post.key;
+        document.getElementById("post-headline").value = post.headline;
+        document.getElementById("post-teaser").value = post.teaser;
+        document.getElementById("post-content").value = post.content;
+        document.getElementById("post-date").value = post.date;
+        document.getElementById("new-post-form").dataset.editing = "true";
+        document.getElementById("new-post-form").onsubmit = (e) => {
+          e.preventDefault();
+          const updatedPost = {
+            key: document.getElementById("post-key").value,
+            headline: document.getElementById("post-headline").value,
+            teaser: document.getElementById("post-teaser").value,
+            content: document.getElementById("post-content").value,
+            image: document.getElementById("post-image").files[0] ? document.getElementById("post-image").files[0].name : post.image,
+            date: document.getElementById("post-date").value || post.date,
 
-function deletePost(postKey) {
-  if (confirm("Delete this post?")) {
-    CRUD.deletePost(postKey);
-    renderPosts();
-  }
-}
+          };
+          debugger;
+          if (updatedPost.image == "default.jpg")
+            updatedPost.image = oldImage;
 
-function downloadPosts() {
-  const posts = CRUD.getAllPosts();
-  const data = JSON.stringify(posts, null, 2);
-  const blob = new Blob([data], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "blog-posts.json";
-  a.click();
-  URL.revokeObjectURL(url);
-}
 
-function uploadPosts() {
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = ".json";
-  input.onchange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        try {
-          const posts = JSON.parse(event.target.result);
-          posts.forEach((post) => {
-            if (!CRUD.retrievePost(post.key)) {
-              CRUD.createPost(post.key, post);
-            }
-          });
+          CRUD.updatePost(updatedPost.key, updatedPost);
           renderPosts();
-          alert("Posts uploaded successfully!");
-        } catch (e) {
-          console.error("Error uploading posts:", e);
-          alert("Failed to upload posts. Please check the JSON format.");
+          e.target.reset();
+          document.getElementById("new-post-form").dataset.editing = "";
+          document.getElementById("new-post-form").onsubmit = null;
+        };
+      }
+    }
+
+    function deletePost(postKey) {
+      if (confirm("Delete this post?")) {
+        CRUD.deletePost(postKey);
+        renderPosts();
+      }
+    }
+
+    function downloadPosts() {
+      const posts = CRUD.getAllPosts();
+      const data = JSON.stringify(posts, null, 2);
+      const blob = new Blob([data], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "blog-posts.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function uploadPosts() {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = ".json";
+      input.onchange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            try {
+              const posts = JSON.parse(event.target.result);
+              posts.forEach((post) => {
+                if (!CRUD.retrievePost(post.key)) {
+                  CRUD.createPost(post.key, post);
+                }
+              });
+              renderPosts();
+              alert("Posts uploaded successfully!");
+            } catch (e) {
+              console.error("Error uploading posts:", e);
+              alert("Failed to upload posts. Please check the JSON format.");
+            }
+          };
+          reader.readAsText(file);
         }
       };
-      reader.readAsText(file);
+      input.click();
     }
-  };
-  input.click();
-}
 
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("new-post-form");
-  if (form) {
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const key = document.getElementById("post-key").value;
-      const error = document.getElementById("post-key-error");
-      if (CRUD.retrievePost(key) && !form.dataset.editing) {
-        error.style.display = "block";
-        return;
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("new-post-form");
+      if (form) {
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const key = document.getElementById("post-key").value;
+          const error = document.getElementById("post-key-error");
+          if (CRUD.retrievePost(key) && !form.dataset.editing) {
+            error.style.display = "block";
+            return;
+          }
+          error.style.display = "none";
+          const post = {
+            key,
+            headline: document.getElementById("post-headline").value,
+            teaser: document.getElementById("post-teaser").value,
+            content: document.getElementById("post-content").value,
+            image: document.getElementById("post-image").files[0] ? document.getElementById("post-image").files[0].name : "default.jpg",
+            date: document.getElementById("post-date").value || new Date().toISOString().split("T")[0],
+          };
+          CRUD.createPost(post.key, post);
+          renderPosts();
+          e.target.reset();
+          form.dataset.editing = "";
+        });
       }
-      error.style.display = "none";
-      const post = {
-        key,
-        headline: document.getElementById("post-headline").value,
-        teaser: document.getElementById("post-teaser").value,
-        content: document.getElementById("post-content").value,
-        image: document.getElementById("post-image").files[0] ? document.getElementById("post-image").files[0].name : "default.jpg",
-        date: document.getElementById("post-date").value || new Date().toISOString().split("T")[0],
-      };
-      CRUD.createPost(post.key, post);
-      renderPosts();
-      e.target.reset();
-      form.dataset.editing = "";
     });
-  }
-});
 
-// Initialize posts
-let testPost = {
-  key: "post1",
-  headline: "Test Post",
-  teaser: "Attract the user interest",
-  content: `
+    // Initialize posts
+    let testPost = {
+      key: "post1",
+      headline: "Test Post",
+      teaser: "Attract the user interest",
+      content: `
     <p>This is the content of the test post.</p>
     <p>It can be long and detailed.</p>
     <p>It can include multiple paragraphs, lists, and other formatting.</p>
     <p>It can also include HTML elements like <strong>bold text</strong> or <em>italic text</em>.</p>
   `,
-  image: "donavan.jpg",
-  date: "2023-10-01",
-};
+      image: "donavan.jpg",
+      date: "2023-10-01",
+    };
 
-const initialPosts = [
-  {
-    key: "post-1",
-    headline: "Try to Catch the Wind",
-    teaser: "Reflecting on AI and programming history",
-    content: `
+    const initialPosts = [
+      {
+        key: "post-1",
+        headline: "Try to Catch the Wind",
+        teaser: "Reflecting on AI and programming history",
+        content: `
       <p>No, nothing to do with eating Brussel sprouts. I was provoked this morning by reading about upcoming developments in Copilot AI inside GitHub (Microsoft), which would seem a natural match. It made me think how far we have come in my memory, and speculate where we will go to next. A.I. has moved so quickly that to me, just as I start to grok it, it morphs into something else, like the hydra, but maybe in a good way.</p>
       <p>My first program was written in Secondary school in Mr. Copley’s class. Mr. Copley was famous for his R.E. classes so it was a little strange that he should pop up in the maths department. I had already learned some things from the Open University TV about Boolean logic, analogue v digital, simple programming languages like Basic and Algol, but I was yet to get the baptism of running my first program.</p>
       <p>The teacher gave us the basic outline, and demonstrated how Fortran did its thing with some examples. Then we were told to get out our notebooks and write a simple program. Next lesson, we got some punch cards and a magnetic pencil and converted each symbol into three marks in every column. This was sent away somewhere and returned together with a printout of the code. I don’t remember a hand punch entering the loop anywhere. Long story short I eventually got the output from my program. For the record it was calculating various scenarios of the taps and baths problem. It worked!</p>
@@ -331,14 +338,14 @@ const initialPosts = [
       <p>Back to me. Seems that Copilot and GitHub could be used to maybe develop improved AI models, or at least improve the GitHub codebase in general. This is synergistic so this feels like a hockey stick moment in time. The singularity is near, or maybe it’s already here.</p>
       <p>I’ll leave you with a song.</p>
     `,
-    image: "donavan.jpg",
-    date: "2023-10-02",
-  },
-  {
-    key: "post-2",
-    headline: "Come back little Sheba",
-    teaser: "Exploring offstage characters in literature and media",
-    content: `
+        image: "donavan.jpg",
+        date: "2023-10-02",
+      },
+      {
+        key: "post-2",
+        headline: "Come back little Sheba",
+        teaser: "Exploring offstage characters in literature and media",
+        content: `
       <p>In an earlier post I alluded to the names of our border collie dogs, the senior of which is Sheba. She was so named after an old dog of my mother’s, but in turn this dog was named for a Hollywood Movie “Come Back, Little Sheba”. Sheba disappears months before the start of the film and never appears. It is implied that Sheba is presumed dead. It stars Burt Lancaster, and Shirley Booth, who got a Best Actress Oscar in 1953 for it. I began to wonder if there is a term for such characters and yes Gemini informed me thus:</p>
       <p>Yes, there is! That type of character is called an offstage character or an unseen character.</p>
       <p>These characters are important to the plot and the development of other characters, even though the audience never actually sees them. They might be mentioned in dialogue, have actions attributed to them, or even influence the events of the play.</p>
@@ -367,21 +374,21 @@ const initialPosts = [
       <p>For most of Atlas Shrugged we are unsure if John Galt exists, even though he drives the plot. (Yes, he appears, after a few 1000 pages 😉).</p>
       <p>That’s about it, but if you can think of any I’ve missed please leave a comment. Ta.</p>
     `,
-    image: "puppy.jpg",
-    date: "2023-10-03",
-  },
-];
+        image: "puppy.jpg",
+        date: "2023-10-03",
+      },
+    ];
 
-// Initialize posts if not already in localStorage
-initialPosts.forEach((post) => {
-  if (!CRUD.retrievePost(post.key)) {
-    CRUD.createPost(post.key, post);
-  }
-});
+    // Initialize posts if not already in localStorage
+    initialPosts.forEach((post) => {
+      if (!CRUD.retrievePost(post.key)) {
+        CRUD.createPost(post.key, post);
+      }
+    });
 
-if (!CRUD.retrievePost(testPost.key)) {
-  CRUD.createPost(testPost.key, testPost);
-}
+    if (!CRUD.retrievePost(testPost.key)) {
+      CRUD.createPost(testPost.key, testPost);
+    }
 
 
 
@@ -562,6 +569,8 @@ if (!CRUD.retrievePost(testPost.key)) {
                     </div>
                   </div>
 
+
+
                   <div class="w3-container input-form" style="padding: 10px;">
                     <h3>Create New Post</h3>
                     <form id="new-post-form" class="w3-form">
@@ -586,7 +595,15 @@ if (!CRUD.retrievePost(testPost.key)) {
                     </form>
                   </div>
 
+                  <script>
+                    const postKey = document.getElementById("post-key");
+                    postKey.value = Date.now();
+                    postKey.readOnly = true; // Make the key read-only
+                    postKey.addEventListener("focus", function () {
+                      this.blur(); // Prevents the user from focusing on the input field
+                    });
 
+                  </script>
 
                 </div>
               </div>
