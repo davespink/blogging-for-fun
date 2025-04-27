@@ -72,6 +72,7 @@
       posts.forEach((post) => {
         const menuItem = document.createElement("button");
         menuItem.textContent = post.headline || "Untitled Post";
+
         menuItem.className = "w3-button w3-block w3-theme-l4";
         menuItem.style.marginBottom = "5px";
         menuItem.onclick = () => {
