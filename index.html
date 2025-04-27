@@ -63,7 +63,6 @@
     };
 
 
-
     function generateSideMenu() {
       const sideMenu = document.getElementById("side-menu");
       sideMenu.innerHTML = "";
@@ -71,21 +70,39 @@
 
       posts.forEach((post) => {
         const menuItem = document.createElement("button");
-        menuItem.textContent = post.headline || "Untitled Post";
-
         menuItem.className = "w3-button w3-block w3-theme-l4";
         menuItem.style.marginBottom = "5px";
+        menuItem.style.display = "flex"; // Align image and text horizontally
+        menuItem.style.alignItems = "center"; // Center-align image and text
+
+        // Add an image to the button
+        const img = document.createElement("img");
+        img.src = `images/${post.image}`; // Use the post's image
+        img.alt = post.headline;
+        img.style.width = "30px"; // Set image size
+        img.style.height = "30px";
+        img.style.marginRight = "10px"; // Add spacing between image and text
+
+        // Add text to the button
+        const text = document.createTextNode(post.headline || "Untitled Post");
+
+        // Append image and text to the button
+        menuItem.appendChild(img);
+        menuItem.appendChild(text);
+
+        // Add click functionality
         menuItem.onclick = () => {
           const targetPost = document.getElementById(post.key);
           const middleColumn = document.querySelector(".w3-col.m7");
 
           if (targetPost && middleColumn) {
-            // Scroll the target post into view within the scrollable center column
             middleColumn.scrollTo({
               top: targetPost.offsetTop - middleColumn.offsetTop,
+              behavior: "smooth",
             });
           }
         };
+
         sideMenu.appendChild(menuItem);
       });
     }
@@ -264,6 +281,16 @@
         renderPosts();
       }
     }
+
+
+    function hideForm() {
+      const formContainer = document.querySelector(".input-form");
+      if (formContainer) {
+        formContainer.style.display = "none"; // Hide the form
+      }
+    }
+
+
 
     function downloadPosts() {
       const posts = CRUD.getAllPosts();
@@ -596,6 +623,12 @@
                       <label for="post-date">Date (optional, defaults to today)</label>
                       <input type="date" id="post-date" class="w3-input w3-margin-bottom">
                       <button type="submit" class="w3-button w3-theme-d2">Save Post</button>
+
+                      <!-- New button to hide the form -->
+                      <button type="button" class="w3-button w3-theme-l4 w3-right" onclick="hideForm()">Hide
+                        Form</button>
+
+
                     </form>
                   </div>
 
