@@ -48,6 +48,13 @@
       overflow-y: auto;
       /* Enable vertical scrolling */
     }
+
+
+
+    .input-form {
+      display: none;
+      /* Hide the form initially */
+    }
   </style>
 
   <script src="content.js"></script>
@@ -55,6 +62,8 @@
 
 
   <script>
+
+
     const readOnly = false;
 
     window.onload = function () {
@@ -240,6 +249,7 @@
       generateSideMenu();
     }
 
+    /*
     function editPost(postKey) {
       const post = CRUD.retrievePost(postKey);
       const oldImage = post.image;
@@ -274,6 +284,95 @@
         };
       }
     }
+*/
+
+    function setupPostForm() {
+      const formContainer = document.querySelector(".input-form");
+      if (formContainer) {
+        formContainer.style.display = "block"; // Show the form
+      }
+
+      // Reset the form fields for creating a new post
+      const form = document.getElementById("new-post-form");
+      if (!form.dataset.editing) {
+        form.reset(); // Reset the form only if not editing
+        document.getElementById("post-key").value = Date.now(); // Generate a new unique key
+      }
+
+ 
+      form.onsubmit = (e) => {
+        e.preventDefault();
+        console.log("Form submitted!"); // Debugging statement
+        const key = document.getElementById("post-key").value;
+        const error = document.getElementById("post-key-error");
+
+        // Check for duplicate keys only when creating a new post
+        if (!form.dataset.editing && CRUD.retrievePost(key)) {
+          error.style.display = "block";
+          return;
+        }
+        error.style.display = "none";
+
+        const post = {
+          key: document.getElementById("post-key").value,
+          headline: document.getElementById("post-headline").value,
+          teaser: document.getElementById("post-teaser").value,
+          content: document.getElementById("post-content").value,
+          image: document.getElementById("post-image").files[0]
+            ? document.getElementById("post-image").files[0].name
+            : "default.jpg",
+          date: document.getElementById("post-date").value || new Date().toISOString().split("T")[0],
+        };
+
+        if (form.dataset.editing) {
+          // Update the existing post
+          CRUD.updatePost(post.key, post);
+        } else {
+          // Create a new post
+          if (post.key == "")
+            alert("Key is empty. Please enter a valid key.");
+          else {
+            alert("new post");
+            CRUD.createPost(post.key, post);
+          }
+        }
+
+        renderPosts(); // Re-render the posts
+        form.reset(); // Reset the form
+        form.dataset.editing = ""; // Clear editing mode
+        formContainer.style.display = "none"; // Hide the form
+      };
+    }
+
+
+    function editPost(postKey) {
+      const post = CRUD.retrievePost(postKey); // Retrieve the post data
+      if (post) {
+        const formContainer = document.querySelector(".input-form");
+        if (formContainer) {
+          formContainer.style.display = "block"; // Show the form
+        }
+
+        // Populate the form fields with the post's data
+        document.getElementById("post-key").value = post.key;
+        document.getElementById("post-headline").value = post.headline;
+        document.getElementById("post-teaser").value = post.teaser;
+        document.getElementById("post-content").value = post.content;
+        document.getElementById("post-date").value = post.date || "";
+        document.getElementById("post-image").value = ""; // Reset the file input
+
+        // Set the form to edit mode
+        const form = document.getElementById("new-post-form");
+        form.dataset.editing = "true";
+
+        setupPostForm();
+      }
+    }
+
+
+
+
+
 
     function deletePost(postKey) {
       if (confirm("Delete this post?")) {
@@ -335,30 +434,7 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       const form = document.getElementById("new-post-form");
-      if (form) {
-        form.addEventListener("submit", (e) => {
-          e.preventDefault();
-          const key = document.getElementById("post-key").value;
-          const error = document.getElementById("post-key-error");
-          if (CRUD.retrievePost(key) && !form.dataset.editing) {
-            error.style.display = "block";
-            return;
-          }
-          error.style.display = "none";
-          const post = {
-            key: Date.now(),
-            headline: document.getElementById("post-headline").value,
-            teaser: document.getElementById("post-teaser").value,
-            content: document.getElementById("post-content").value,
-            image: document.getElementById("post-image").files[0] ? document.getElementById("post-image").files[0].name : "default.jpg",
-            date: document.getElementById("post-date").value || new Date().toISOString().split("T")[0],
-          };
-          CRUD.createPost(post.key, post);
-          renderPosts();
-          e.target.reset();
-          form.dataset.editing = "";
-        });
-      }
+    
     });
 
     // Initialize posts
@@ -411,15 +487,16 @@
     ];
 
     // Initialize posts if not already in localStorage
+    /*
     initialPosts.forEach((post) => {
       if (!CRUD.retrievePost(post.key)) {
         CRUD.createPost(post.key, post);
       }
     });
-
-    if (!CRUD.retrievePost(testPost.key)) {
-      CRUD.createPost(testPost.key, testPost);
-    }
+*/
+    //  if (!CRUD.retrievePost(testPost.key)) {
+    //    CRUD.createPost(testPost.key, testPost);
+    // }
 
 
 
@@ -625,8 +702,7 @@
                       <button type="submit" class="w3-button w3-theme-d2">Save Post</button>
 
                       <!-- New button to hide the form -->
-                      <button type="button" class="w3-button w3-theme-l4 w3-right" onclick="hideForm()">Hide
-                        Form</button>
+                      <button type="button" class="w3-button w3-theme-l4 w3-right" onclick="hideForm()">Cancel</button>
 
 
                     </form>
@@ -634,7 +710,7 @@
 
                   <script>
                     const postKey = document.getElementById("post-key");
-                    postKey.value = Date.now();
+                    //      postKey.value = Date.now();
                     postKey.readOnly = true; // Make the key read-only
                     postKey.addEventListener("focus", function () {
                       this.blur(); // Prevents the user from focusing on the input field
@@ -653,7 +729,14 @@
       <div class="w3-col m3">
         <div class="w3-card w3-round w3-white w3-center">
           <div class="w3-container">
-
+            <div class="w3-card w3-round w3-white w3-center">
+              <div class="w3-container">
+                <p>All posts:</p>
+                <!-- Add the Create New Post button -->
+                <button class="w3-button w3-theme-d2 w3-margin-bottom" onclick="showForm()">Create New Post</button>
+                <div id="side-menu"></div>
+              </div>
+            </div>
             <p>All posts:</p>
             <div id="side-menu"></div>
           </div>
