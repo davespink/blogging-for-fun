@@ -41,13 +41,28 @@
       text-align: center;
     }
     */
+
+    .w3-col.m7 {
+      height: 80vh;
+      /* Adjust height as needed */
+      overflow-y: auto;
+      /* Enable vertical scrolling */
+    }
   </style>
 
+  <script src="content.js"></script>
+
+
+
   <script>
+    const readOnly = false;
 
     window.onload = function () {
       renderPosts();
+      generateSideMenu();
     };
+
+
 
     function generateSideMenu() {
       const sideMenu = document.getElementById("side-menu");
@@ -61,14 +76,22 @@
         menuItem.style.marginBottom = "5px";
         menuItem.onclick = () => {
           const targetPost = document.getElementById(post.key);
-          if (targetPost) {
-            targetPost.scrollIntoView({ behavior: "smooth" });
-            window.scrollBy(0, -10);
+          const middleColumn = document.querySelector(".w3-col.m7");
+
+          if (targetPost && middleColumn) {
+            // Scroll the target post into view within the scrollable center column
+            middleColumn.scrollTo({
+              top: targetPost.offsetTop - middleColumn.offsetTop,
+            });
           }
         };
         sideMenu.appendChild(menuItem);
       });
     }
+
+
+
+
 
     function togglePost() {
       const thisButton = this;
@@ -136,7 +159,7 @@
         const posts = [];
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
-          if (key.startsWith("post-")  || true  ) {
+          if (key.startsWith("post-") || true) {
             const post = this.retrievePost(key);
             if (post) posts.push(post);
           }
@@ -161,7 +184,14 @@
       const existingPosts = postContainer.querySelectorAll(".post");
       existingPosts.forEach(post => post.remove());
 
-      const posts = CRUD.getAllPosts();
+      if (readOnly)
+        var posts = postsContent;
+
+      else
+        var posts = CRUD.getAllPosts();
+
+
+
       posts.forEach((post) => {
         const postElement = document.createElement("div");
         postElement.id = post.key;
@@ -213,7 +243,7 @@
             date: document.getElementById("post-date").value || post.date,
 
           };
-          debugger;
+
           if (updatedPost.image == "default.jpg")
             updatedPost.image = oldImage;
 
@@ -288,7 +318,7 @@
           }
           error.style.display = "none";
           const post = {
-            key,
+            key: Date.now(),
             headline: document.getElementById("post-headline").value,
             teaser: document.getElementById("post-teaser").value,
             content: document.getElementById("post-content").value,
@@ -331,12 +361,7 @@
       <p>Eventually I got a job and became a Junior Programmer. 25 or so years in the industry, partly as a contractor, I was able to see how it evolved from close up. The PC was a new thing, which I didn’t acquire for many years, but I saw technologies, languages, paradigms come and go. Languages included Cobol, Dibol, Fortran, C, C++, Basic and a few oddballs. I loved it. I would make sure to get my copy of Byte every month, got an AOL account. The days of buying a book, or a bit of software then emailing the author and expecting a reply.</p>
       <p>Now for A.I. It seemed at first to be something I didn’t understand that people used to make funny photos and present them to you. It was quite a buzz, and the rise of the chatbots—whether the proverbial Mother or Grandmother is using ChatGPT on a regular basis, I think not.</p>
       <p>The news today enthusing about what the beta versions of the GitHub Copilot team could do left me a bit stunned.</p>
-      <p>Over to Grok.</p>
-      <p class="has-small-font-size">GitHub is home to over 420 million repositories as of late 2024, hosting code written by more than 150 million users. These repositories contain an immense volume of code across countless programming languages, frameworks, and projects. While GitHub doesn’t publicly disclose the exact number of lines of code stored on its platform, we can make an educated guess based on available data and trends.</p>
-      <p class="has-small-font-size">A single moderately sized repository might contain anywhere from a few thousand to tens of thousands of lines of code, while large projects—like open-source frameworks or enterprise software—can easily exceed millions of lines. For instance, the Linux kernel alone has over 30 million lines of code. If we conservatively assume an average of 10,000 lines per repository (accounting for both small scripts and larger projects), multiplying that by 420 million repositories gives us a rough estimate of 4.2 trillion lines of code on GitHub. This is likely an underestimate, as many repositories are far larger, and GitHub’s growth continues to accelerate.</p>
-      <p class="has-small-font-size">Copilot, however, wasn’t trained on every single line of code in every GitHub repository. It was developed using a subset of publicly available code, filtered and processed by OpenAI to create its underlying model, Codex. This training data includes billions of lines of code from public GitHub repositories, though the exact figure isn’t disclosed. Research and industry reports suggest that large language models like Codex are trained on datasets containing tens to hundreds of billions of lines of code, drawn not just from GitHub but also from other public sources like Stack Overflow and open-source archives. Given GitHub’s dominance as the largest code hosting platform, it’s reasonable to estimate that Copilot’s training data includes at least 50 to 100 billion lines of code from GitHub alone.</p>
-      <p>Back to me. Seems that Copilot and GitHub could be used to maybe develop improved AI models, or at least improve the GitHub codebase in general. This is synergistic so this feels like a hockey stick moment in time. The singularity is near, or maybe it’s already here.</p>
-      <p>I’ll leave you with a song.</p>
+   
     `,
         image: "donavan.jpg",
         date: "2023-10-02",
@@ -349,30 +374,8 @@
       <p>In an earlier post I alluded to the names of our border collie dogs, the senior of which is Sheba. She was so named after an old dog of my mother’s, but in turn this dog was named for a Hollywood Movie “Come Back, Little Sheba”. Sheba disappears months before the start of the film and never appears. It is implied that Sheba is presumed dead. It stars Burt Lancaster, and Shirley Booth, who got a Best Actress Oscar in 1953 for it. I began to wonder if there is a term for such characters and yes Gemini informed me thus:</p>
       <p>Yes, there is! That type of character is called an offstage character or an unseen character.</p>
       <p>These characters are important to the plot and the development of other characters, even though the audience never actually sees them. They might be mentioned in dialogue, have actions attributed to them, or even influence the events of the play.</p>
-      <p>Here are some examples of famous offstage characters:</p>
-      <p>Godot in “Waiting for Godot”: The title character is the most famous example of an offstage character, whose unseen presence drives the entire play.</p>
-      <p>Mr. Wickham’s father in “Pride and Prejudice”: While the character of Mr. Wickham is onstage, his father, who worked for Mr. Darcy’s father, is only mentioned in dialogue. However, the elder Mr. Wickham’s past relationship with the Darcy family is crucial to understanding Wickham’s motivations.</p>
-      <p>Rose’s fiancé in “The Importance of Being Earnest”: Though never seen, Cecily’s imaginary betrothed, Ernest, plays a significant role in the comedic plot.</p>
-      <p>Offstage characters can serve a variety of purposes, such as:</p>
-      <img src="https://w3schools.com/w3images/lights.jpg" style="width:30%; float: left; margin-right: 15px;">
-      <p>Creating intrigue and suspense: The audience might wonder about their identity or motivations.</p>
-      <p>Developing other characters: Interactions with or discussions about the unseen character can reveal traits and motivations of the onstage characters.</p>
-      <p>Advancing the plot: Their actions, though offstage, can drive the events of the play.</p>
-      <p>Now as to Godot, it is a reworking by Samuel Beckett of his original work in French En attendant Godot.</p>
-      <p>It is alleged that originally Godot was meant to appear halfway through the play, but the actor playing Godot failed to appear and so the two characters, Vladimir and Estragon, were left to adlib the rest of the play. True? I doubt it but I would love it to be so.</p>
-      <p>Adding to the AI effort I can think of Mr Papadopoulos, in Coronation Street who is referred to by Mr Swindley (Arthur Lowe). Papadopoulos is a Greek clothing magnate who owns Miami Modes. Swindley is the manager.</p>
-      <p>Again Arthur Lowe in Dad’s Army, Mrs Mannering is never seen.</p>
-      <p>Google gives us:</p>
-      <p>King Laius in Oedipus Rex: An offstage character in Sophocles’s play who is a driving force for action.</p>
-      <p>Jason’s bride in Medea: An offstage character in Euripides’s play.</p>
-      <p>Rosaline in Romeo and Juliet: An offstage character in Shakespeare’s play who highlights the predicament of the two lovers.</p>
-      <p>Offstage characters also exist in books (again AI gives us):</p>
-      <p>Boo Radley in “To Kill a Mockingbird”: Boo is a recluse who never leaves his house, but his presence looms large over the novel. He becomes a source of fascination and fear for the children, and his actions ultimately save Jem and Scout.</p>
-      <p>Mrs. Haverford in “Rebecca”: The deceased first wife of Maxim de Winter, Rebecca is a powerful offstage character whose presence haunts the narrator and Manderley. Her influence shapes the entire plot, even though she is already dead.</p>
-      <p>Snape’s mother in the “Harry Potter” series: Eileen Prince, Severus Snape’s mother, is only mentioned in passing and through memories, but her difficult relationship with his father and her magical abilities are crucial to understanding Snape’s character and motivations.</p>
-      <p>I would add that in 1984 O’Brien plays a major part in the narrative, but it is unsure that he actually exists.</p>
-      <p>For most of Atlas Shrugged we are unsure if John Galt exists, even though he drives the plot. (Yes, he appears, after a few 1000 pages 😉).</p>
-      <p>That’s about it, but if you can think of any I’ve missed please leave a comment. Ta.</p>
+      ations of the onstage characters.</p>
+  
     `,
         image: "puppy.jpg",
         date: "2023-10-03",
