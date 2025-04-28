@@ -25,43 +25,65 @@
       font-size: 60px;
     }
 
-  
-    table, th, td {
+
+    table,
+    th,
+    td {
       border: 2px solid black;
       padding: 0px;
     }
+
     table {
       border-collapse: collapse;
     }
-    td:nth-child(2), th:nth-child(2), td:nth-child(3), th:nth-child(3) {
+
+    td:nth-child(2),
+    th:nth-child(2),
+    td:nth-child(3),
+    th:nth-child(3) {
       padding: 2px;
     }
-    td:nth-child(3), th:nth-child(3) {
+
+    td:nth-child(3),
+    th:nth-child(3) {
       padding: 2px;
       text-align: center;
     }
-  
+
 
     .w3-col.m7 {
-      height: 120vh;
+     
       /* Adjust height as needed */
       overflow-y: auto;
       /* Enable vertical scrolling */
     }
 
     .post-header {
-      height:280px;
+      height: 280px;
       background-color: #f1f1f1;
       border-radius: 20px;
       padding: 10px;
       margin-bottom: 10px;
     }
 
+  .post-container {
+    
+      overflow-y: auto;
+      /* Enable vertical scrolling */
+     font-size: 18px;
+      /* Adjust font size as needed */
+    }
 
     .input-form {
       display: none;
       /* Hide the form initially */
     }
+
+    .hidden {
+      display: none;
+    }
+
+
   </style>
 
   <script src="content.js"></script>
@@ -230,7 +252,7 @@
         const postElement = document.createElement("div");
         postElement.id = post.key;
         postElement.className = "post";
-        postElement.style.cssText = "background-color: beige; padding: 12px; margin-bottom: 10px;";
+        postElement.style.cssText = "background-color:beige; padding: 12px; margin-bottom: 10px;";
         postElement.innerHTML = `
       <div class="w3-card-4 post-header" style="width:100%;margin-bottom:20px;border-radius: 5px;">
         <header class="w3-container w3-light-grey">
@@ -299,9 +321,18 @@
 */
 
     function setupPostForm() {
+
       const formContainer = document.querySelector(".input-form");
       if (formContainer) {
         formContainer.style.display = "block"; // Show the form
+
+
+        // Scroll the form into view
+        formContainer.scrollIntoView({
+          behavior: "smooth", // Smooth scrolling
+          block: "start", // Align to the top of the block
+        });
+
       }
 
       // Reset the form fields for creating a new post
@@ -309,6 +340,12 @@
       if (!form.dataset.editing) {
         form.reset(); // Reset the form only if not editing
         document.getElementById("post-key").value = Date.now(); // Generate a new unique key
+
+
+        const postType = document.getElementById("editType");
+        postType.innerHTML = "Create Post";
+
+
       }
 
 
@@ -324,20 +361,25 @@
           return;
         }
         error.style.display = "none";
- 
+
         const post = {
           key: document.getElementById("post-key").value,
           headline: document.getElementById("post-headlinex").value,
           teaser: document.getElementById("post-teaser").value,
           content: document.getElementById("post-content").value,
-       //   image: document.getElementById("post-image").files[0]
-        //    ? document.getElementById("post-imagex").files[0].name
-        //    : "default.jpg",
 
-          image:document.getElementById("post-imagex").files[0].name,
+
+          image: document.getElementById("post-imagex").files[0]
+            ? document.getElementById("post-imagex").files[0].name
+            : document.getElementById("current-image").textContent.replace("Current Image: ", ""),
+
+
+
+
+
           date: document.getElementById("post-date").value || new Date().toISOString().split("T")[0],
         };
- 
+
         if (form.dataset.editing) {
           // Update the existing post
           CRUD.updatePost(post.key, post);
@@ -360,20 +402,40 @@
 
 
     function editPost(postKey) {
+
+
+
       const post = CRUD.retrievePost(postKey); // Retrieve the post data
       if (post) {
         const formContainer = document.querySelector(".input-form");
         if (formContainer) {
           formContainer.style.display = "block"; // Show the form
+
+          // Scroll the form into view
+          formContainer.scrollIntoView({
+            behavior: "smooth", // Smooth scrolling
+            block: "start", // Align to the top of the block
+          });
+
+          const editType = document.getElementById("editType");
+          editType.innerHTML = "Edit Post"; // Change the form title to "Edit Post"
+
+
+
         }
-debugger;
+
         // Populate the form fields with the post's data
         document.getElementById("post-key").value = post.key;
         document.getElementById("post-headlinex").value = post.headline;
         document.getElementById("post-teaser").value = post.teaser;
         document.getElementById("post-content").value = post.content;
         document.getElementById("post-date").value = post.date || "";
-        document.getElementById("post-image").value = ""; // Reset the file input
+
+        // Display the current image filename
+        const currentImageElement = document.getElementById("current-image");
+        currentImageElement.textContent = `Current Image: ${post.image || "None"}`;
+
+
 
         // Set the form to edit mode
         const form = document.getElementById("new-post-form");
@@ -462,7 +524,7 @@ debugger;
     <p>It can include multiple paragraphs, lists, and other formatting.</p>
     <p>It can also include HTML elements like <strong>bold text</strong> or <em>italic text</em>.</p>
   `,
-      image: "donavan.jpg",
+      image: "blogging.jpg",
       date: "2023-10-01",
     };
 
@@ -481,7 +543,7 @@ debugger;
       <p>The news today enthusing about what the beta versions of the GitHub Copilot team could do left me a bit stunned.</p>
    
     `,
-        image: "donavan.jpg",
+        image: "blogging.jpg",
         date: "2023-10-02",
       },
       {
@@ -523,7 +585,7 @@ debugger;
 <body class="w3-theme-l5">
   <!-- Navbar -->
   <div class="w3-top">
-    <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
+    <div class="w3-bar w3-theme-d2 w3-left-align w3-large hidden">
       <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2"
         href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
       <a href="#" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i
@@ -560,7 +622,7 @@ debugger;
   </div>
 
   <!-- Page Container -->
-  <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
+  <div class="w3-container w3-content" style="max-width:1400px;margin-top:10px">
     <!-- The Grid -->
     <div class="w3-row">
       <!-- Left Column -->
@@ -626,6 +688,7 @@ debugger;
           <div class="w3-container">
             <p>Interests</p>
             <p>
+              <p class="w3-sans-serif" style="font-size: 18px;">Testing text</p>
               <span class="w3-tag w3-small w3-theme-d5">News</span>
               <span class="w3-tag w3-small w3-theme-d4">W3Schools</span>
               <span class="w3-tag w3-small w3-theme-d3">Labels</span>
@@ -665,17 +728,17 @@ debugger;
                 <div class="w3-container w3-card W3-FloralWhite w3-round w3-margin"
                   style="margin-bottom:10px;padding:0px">
                   <br>
-                  <div class="w3-container post-container">
-                    <div class="w3-card-4 post-header" style="width:100%;margin-bottom:20px;border-radius: 5px;">
+                  <div class="w3-container w3-sans-serif post-container">
+                    <div class="w3-card-4 post-header" style="width:100%;height:200px;margin-bottom:20px;border-radius: 5px;">
                       <header class="w3-container w3-light-grey">
                         <h3>Welcome</h3>
                       </header>
                       <div class="w3-container">
-                        <img src="images/donavan.jpg" alt="Author's profile picture" class="w3-left w3-margin-right"
+                        <img src="images/blogging.jpg" alt="Author's profile picture" class="w3-left w3-margin-right"
                           style="width:150px;margin-bottom:10px">
-                        <p>No one seems to blog for fun nowadays.</p><br>
+                        <h3>No one seems to blog for fun nowadays.</h3><br>
                       </div>
-                      
+
                     </div>
                     <div class="content w3-justify">
                       <p>It seems that the world has moved on to other things, like TikTok, Instagram, and other social
@@ -691,7 +754,7 @@ debugger;
 
 
                   <div class="w3-container input-form" style="padding: 10px;">
-                    <h3>Create New Post</h3>
+                    <h3 id="editType">Create New Post</h3>
                     <form id="new-post-form" class="w3-form">
                       <label for="post-key">Post Key (unique ID)</label>
                       <input type="text" id="post-key" class="w3-input w3-margin-bottom" placeholder="e.g., post-123"
@@ -706,8 +769,9 @@ debugger;
                       <label for="post-content">Content</label>
                       <textarea id="post-content" class="w3-input w3-margin-bottom"
                         placeholder="Post content (supports HTML)" rows="5" required></textarea>
-                      <label for="post-image">Image (optional)</label>
+                      <label for="post-imagex">Image (optional)</label>
                       <input type="file" id="post-imagex" class="w3-input w3-margin-bottom" accept="image/*">
+                      <p id="current-image" class="w3-text-grey">Current Image: None</p>
                       <label for="post-date">Date (optional, defaults to today)</label>
                       <input type="date" id="post-date" class="w3-input w3-margin-bottom">
                       <button type="submit" class="w3-button w3-theme-d2">Save Post</button>
