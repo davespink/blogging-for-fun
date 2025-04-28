@@ -54,6 +54,7 @@
     .w3-col.m7 {
      
       /* Adjust height as needed */
+      height:100vh;
       overflow-y: auto;
       /* Enable vertical scrolling */
     }
@@ -130,6 +131,8 @@
 
         // Add click functionality
         menuItem.onclick = () => {
+        
+
           const targetPost = document.getElementById(post.key);
           const middleColumn = document.querySelector(".w3-col.m7");
 
