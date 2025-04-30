@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
 
+
+<!--
+
+TODO: Scroll side menu
+
+-->
+
+
+
 <head>
   <title>Blogging For Fun</title>
   <meta charset="UTF-8">
@@ -52,9 +61,9 @@
 
 
     .w3-col.m7 {
-     
+
       /* Adjust height as needed */
-      height:100vh;
+      height: 100vh;
       overflow-y: auto;
       /* Enable vertical scrolling */
     }
@@ -67,11 +76,11 @@
       margin-bottom: 10px;
     }
 
-  .post-container {
-    
+    .post-container {
+
       overflow-y: auto;
       /* Enable vertical scrolling */
-     font-size: 18px;
+      font-size: 18px;
       /* Adjust font size as needed */
     }
 
@@ -83,8 +92,6 @@
     .hidden {
       display: none;
     }
-
-
   </style>
 
   <script src="content.js"></script>
@@ -95,6 +102,7 @@
 
 
     const readOnly = false;
+    const onePost = true; // Set to true to show only one post at a time
 
     window.onload = function () {
       renderPosts();
@@ -131,10 +139,21 @@
 
         // Add click functionality
         menuItem.onclick = () => {
-        
+
 
           const targetPost = document.getElementById(post.key);
           const middleColumn = document.querySelector(".w3-col.m7");
+
+
+          //  hide em all
+          if (onePost) {
+            document.querySelectorAll(".post").forEach((post) => {
+              post.style.display = "none";
+            });
+            // show the one with post.key
+            targetPost.style.display = "block";
+          }
+
 
           if (targetPost && middleColumn) {
             middleColumn.scrollTo({
@@ -142,6 +161,7 @@
               behavior: "smooth",
             });
           }
+
         };
 
         sideMenu.appendChild(menuItem);
@@ -691,18 +711,18 @@
           <div class="w3-container">
             <p>Interests</p>
             <p>
-              <p class="w3-sans-serif" style="font-size: 18px;">Testing text</p>
-              <span class="w3-tag w3-small w3-theme-d5">News</span>
-              <span class="w3-tag w3-small w3-theme-d4">W3Schools</span>
-              <span class="w3-tag w3-small w3-theme-d3">Labels</span>
-              <span class="w3-tag w3-small w3-theme-d2">Games</span>
-              <span class="w3-tag w3-small w3-theme-d1">Friends</span>
-              <span class="w3-tag w3-small w3-theme">Games</span>
-              <span class="w3-tag w3-small w3-theme-l1">Friends</span>
-              <span class="w3-tag w3-small w3-theme-l2">Food</span>
-              <span class="w3-tag w3-small w3-theme-l3">Design</span>
-              <span class="w3-tag w3-small w3-theme-l4">Art</span>
-              <span class="w3-tag w3-small w3-theme-l5">Photos</span>
+            <p class="w3-sans-serif" style="font-size: 18px;">Testing text</p>
+            <span class="w3-tag w3-small w3-theme-d5">News</span>
+            <span class="w3-tag w3-small w3-theme-d4">W3Schools</span>
+            <span class="w3-tag w3-small w3-theme-d3">Labels</span>
+            <span class="w3-tag w3-small w3-theme-d2">Games</span>
+            <span class="w3-tag w3-small w3-theme-d1">Friends</span>
+            <span class="w3-tag w3-small w3-theme">Games</span>
+            <span class="w3-tag w3-small w3-theme-l1">Friends</span>
+            <span class="w3-tag w3-small w3-theme-l2">Food</span>
+            <span class="w3-tag w3-small w3-theme-l3">Design</span>
+            <span class="w3-tag w3-small w3-theme-l4">Art</span>
+            <span class="w3-tag w3-small w3-theme-l5">Photos</span>
             </p>
           </div>
         </div>
@@ -732,7 +752,8 @@
                   style="margin-bottom:10px;padding:0px">
                   <br>
                   <div class="w3-container w3-sans-serif post-container">
-                    <div class="w3-card-4 post-header" style="width:100%;height:200px;margin-bottom:20px;border-radius: 5px;">
+                    <div class="w3-card-4 post-header"
+                      style="width:100%;height:200px;margin-bottom:20px;border-radius: 5px;">
                       <header class="w3-container w3-light-grey">
                         <h3>Welcome</h3>
                       </header>
