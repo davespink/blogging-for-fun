@@ -73,8 +73,9 @@ TODO:
     .w3-col.m7 {
 
       /* Adjust height as needed */
-      height: 100vh;
+      height: 800px;
       overflow-y: auto;
+
       /* Enable vertical scrolling */
     }
 
@@ -93,7 +94,7 @@ TODO:
       font-size: 18px;
       /* Adjust font size as needed */
 
-    width:100%
+      width: 100%
     }
 
     .input-form {
@@ -124,11 +125,13 @@ TODO:
     // doesn't write out posts 
     function generateSideMenu() {
 
-      const adminElements = document.getElementsByClassName("admin");
-      Array.from(adminElements).forEach((element) => {
-        element.style.display = "none";
-      });
-
+   //   if (readOnly) {
+    //    const adminElements = document.getElementsByClassName("admin");
+  //      Array.from(adminElements).forEach((element) => {
+   //       element.style.display = "none";
+    //    });
+ //     }
+//
       const sideMenu = document.getElementById("side-menu");
       sideMenu.innerHTML = "";
 
@@ -306,12 +309,12 @@ TODO:
         postElement.className = "post";
         postElement.style.cssText = "background-color:beige; padding: 12px; margin-bottom: 10px;";
         postElement.innerHTML = `
-      <div class="w3-card-4 post-header" style="width:100%;margin-bottom:20px;border-radius: 5px;padding:0px;">
-        <header class="w3-container w3-light-grey">
+      <div class="w3-card-4 post-header" style="width:100%;margin-bottom:20px;border-radius: 5px; ">
+        <header class="w3-container w3-light-grey" style="padding:0px;">
           <h3>${post.headline}</h3>
         </header>
         <div class="w3-container">
-          <img src="images/${post.image}" alt="Image for ${post.headline}" class="w3-left w3-margin-right" style="width:150px;margin-bottom:10px">
+          <img src="images/${post.image}" alt="Image for ${post.headline}" class="w3-left w3-margin-right" style="max-width:150px;max-height:150px;margin-bottom:10px">
           <p>${post.teaser}</p><br>
           <div class="w3-right w3-margin-top">
         
@@ -330,6 +333,9 @@ TODO:
     `;
         postContainer.appendChild(postElement);
       });
+
+      alert(posts.length + " posts loaded.");
+
 
       generateSideMenu();
     }
@@ -635,53 +641,19 @@ TODO:
 
 <body class="w3-theme-l5">
   <!-- Navbar -->
-  <div class="w3-top">
-    <div class="w3-bar w3-theme-d2 w3-left-align w3-large hidden">
-      <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2"
-        href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-      <a href="#" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i
-          class="fa fa-home w3-margin-right"></i>Logo</a>
-      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i
-          class="fa fa-globe"></i></a>
-      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white"
-        title="Account Settings"><i class="fa fa-user"></i></a>
-      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i
-          class="fa fa-envelope"></i></a>
-      <div class="w3-dropdown-hover w3-hide-small">
-        <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span
-            class="w3-badge w3-right w3-small w3-green">3</span></button>
-        <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-          <a href="#" class="w3-bar-item w3-button">One old friend request</a>
-          <a href="#" class="w3-bar-item w3-button">John Doe posted on your wall</a>
-          <a href="#" class="w3-bar-item w3-button">Jane likes your post</a>
-        </div>
-      </div>
-      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white"
-        title="My Account">
-        <img src="https://w3schools.com/w3images/avatar2.png" class="w3-circle" style="height:23px;width:23px"
-          alt="Avatar">
-      </a>
-    </div>
-  </div>
 
-  <!-- Navbar on small screens -->
-  <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large">
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">My Profile</a>
-  </div>
+
 
   <!-- Page Container -->
-  <div class="w3-container w3-content" style="max-width:1400px;margin-top:10px">
+  <div class="w3-container w3-content" style="max-width:1400px;margin-top:10px;padding:0px;">
     <!-- The Grid -->
-    <div class="w3-row">
+    <div class="w3-row" style="padding:0px">
       <!-- Left Column -->
       <div class="w3-col m2">
         <!-- Profile -->
         <div class="w3-card w3-round w3-white">
           <div class="w3-container">
-            <h4 class="w3-center">v1.0 - 1 may 2025</h4>
+            <h4 class="w3-center">v1.1 - 1 may 2025</h4>
             <p class="w3-center"><img src="https://w3schools.com/w3images/avatar3.png" class="w3-circle"
                 style="height:106px;width:106px" alt="Profile picture"></p>
             <hr>
@@ -692,7 +664,7 @@ TODO:
         </div>
         <br>
 
-   
+
         <br>
 
         <!-- tags-->
@@ -717,15 +689,15 @@ TODO:
         </div>
         <br>
 
-    
+
       </div>
 
       <!-- Middle Column -->
       <div class="w3-col m7" style="padding:0px;">
-        <div  >
-          <div class="w3-col m12">
+        <div>
+          <div class="w3-col m12" style="padding:0px;margin-left:0px;margin-right:0px;">
             <div class="w3-card w3-round w3-white">
-              <div class="w3-container" >
+              <div class="w3-container">
                 <div style="text-align:center">
                   <h1>BLOGGING FOR FUN</h1>
                 </div>
@@ -741,7 +713,7 @@ TODO:
                       <div class="w3-container">
                         <img src="images/blogging.jpg" alt="Author's profile picture" class="w3-left w3-margin-right"
                           style="width:150px;margin-bottom:10px">
-                        <h3>No one seems to blog for fun nowadays.</h3><br>
+                        <h6>No one seems to blog for fun nowadays.</h6><br>
                       </div>
 
                     </div>
@@ -847,16 +819,16 @@ TODO:
         <br>
 
         <br>
-       
- 
+
+
       </div>
     </div>
   </div>
 
- 
+
   <footer class="w3-container" style="background-color:orange;padding:0px;text-align: center;">
 
-    <h6  style="color:white" >Template by w3.css&nbsp;&nbsp;powered by cloudflare</h6>
+    <h6 style="color:white">Template by w3.css&nbsp;&nbsp;powered by cloudflare</h6>
     </p>
   </footer>
 
