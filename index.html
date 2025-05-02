@@ -117,8 +117,8 @@ TODO:
     const onePost = true; // Set to true to show only one post at a time
 
     window.onload = function () {
-      renderPosts();
-      generateSideMenu();
+   //   renderPosts();
+   //   generateSideMenu();
     };
 
 
@@ -340,43 +340,7 @@ TODO:
       generateSideMenu();
     }
 
-    /*
-    function editPost(postKey) {
-      const post = CRUD.retrievePost(postKey);
-      const oldImage = post.image;
-      if (post) {
-        document.getElementById("post-key").value = post.key;
-        document.getElementById("post-headline").value = post.headline;
-        document.getElementById("post-teaser").value = post.teaser;
-        document.getElementById("post-content").value = post.content;
-        document.getElementById("post-date").value = post.date;
-        document.getElementById("new-post-form").dataset.editing = "true";
-        document.getElementById("new-post-form").onsubmit = (e) => {
-          e.preventDefault();
-          const updatedPost = {
-            key: document.getElementById("post-key").value,
-            headline: document.getElementById("post-headline").value,
-            teaser: document.getElementById("post-teaser").value,
-            content: document.getElementById("post-content").value,
-            image: document.getElementById("post-image").files[0] ? document.getElementById("post-image").files[0].name : post.image,
-            date: document.getElementById("post-date").value || post.date,
-
-          };
-
-          if (updatedPost.image == "default.jpg")
-            updatedPost.image = oldImage;
-
-
-          CRUD.updatePost(updatedPost.key, updatedPost);
-          renderPosts();
-          e.target.reset();
-          document.getElementById("new-post-form").dataset.editing = "";
-          document.getElementById("new-post-form").onsubmit = null;
-        };
-      }
-    }
-*/
-
+   
     function setupPostForm() {
 
       const formContainer = document.querySelector(".input-form");
