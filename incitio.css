@@ -1,0 +1,146 @@
+
+ 
+
+.inDiv {
+  background-color: darkgray;
+  border: 1px inset lightblue;
+  outline: 1px solid grey;
+  box-shadow: 0 0 0 1px darkgray;
+  border-radius: 3px;
+  font: bold 1rem sans-serif;
+  margin: 1px;
+  padding: 1px;
+  outline-offset: 1px;
+  text-align: center;
+}
+
+.fixed {
+
+  display: none;
+
+}
+
+ 
+#panelIntro {
+  margin-top: 0px
+}
+
+
+.breadCrumbs {
+
+  margin-bottom: 40px;
+}
+
+.topDiv {
+  display: inline-flex;
+  width: 100%;
+  height: fit-content;
+}
+
+.chainDiv {
+
+  text-align: center;
+  margin-left: 10px;
+  margin-bottom: 5px;
+
+}
+
+.hover-bc-photo {
+  width: 150px;
+  height: 150px;
+}
+
+.itemDiv {
+  max-height: 300px;
+  text-align: center;
+  margin-left: 10px;
+  margin-bottom: 5px;
+  background-color: white;
+  overflow-y: scroll;
+  margin-bottom: 30px;
+
+}
+
+.col1 {
+  width: 20%;
+ 
+  padding:5px;
+}
+
+.col2 {
+  width: 60%;
+  
+}
+
+.col3 {
+  width: 25%;
+  
+ 
+}
+
+.bc-button {
+  margin: 3px;
+
+}
+
+
+.item-grid {
+  width: 100px;
+  height: 100px;
+  padding: 1px;
+  border-color: black;
+  border-width: 2px;
+}
+
+body {
+  width: 100%;
+  padding: 5px;
+  margin: 0px;
+}
+
+img {
+  width: 100%;
+  /* or any custom size */
+  height: 100%;
+  object-fit: contain;
+  margin: 0px;
+}
+
+.hasFocus {
+  border: 5px outset purple;
+  text-align: center;
+}
+
+.bigbtn {
+  width: 400px;
+  background-color: #6f8670;
+  border: solid black 2px;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  text-decoration: none;
+
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.btn{
+  height: 80px;
+  width:90%
+}
+
+ 
+.btn img {
+  width: 60px;
+  height: 60px;
+  margin-left: 2px;
+  float:left; 
+}
+ 
+
+ 
+
+
+
+/* CSS */

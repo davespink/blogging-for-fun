@@ -5,7 +5,7 @@
         "type": "chrome",
         "request": "launch",
         "name": "Launch Chrome against file",
-        "file": "C:/xampp/htdocs/projects/new-blogging-for-fun/index.html",
+        "file": "C:/xampp/htdocs/projects/new-blogging-for-fun/newindex.html",
         "webRoot": "${workspaceFolder}",
         "sourceMaps": true
       }
