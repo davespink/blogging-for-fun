@@ -32,7 +32,19 @@ TODO:
 
 
 
+
+
+
   <link id="theCss" rel="stylesheet" href="./incitio.css">
+  <script>
+    // alert(screen.width);
+    if (screen.width < 500) {
+      // alert("mobile");
+      theCss.href = "./mincitio.css";
+    }
+  </script>
+
+
   <style>
     html,
     body,
@@ -106,14 +118,80 @@ TODO:
       width: 100%
     }
 
-    .input-form {
-      display: none;
-      /* Hide the form initially */
-    }
+/* Style the form container */
+.container {
+  background-color: #f9f9f9; /* Light background for the form */
+  border: 1px solid #ddd; /* Subtle border */
+  border-radius: 8px; /* Rounded corners */
+  padding: 20px; /* Add padding inside the form */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a shadow for depth */
+  display:none;
+}
 
-    .hidden {
-      display: none;
-    }
+/* Style the form labels */
+.form-label {
+  font-weight: bold; /* Make labels bold */
+  color: #333; /* Darker text color */
+}
+
+/* Style the input fields */
+.form-control {
+  border: 1px solid #ccc; /* Subtle border */
+  border-radius: 4px; /* Rounded corners */
+  padding: 10px; /* Add padding inside inputs */
+  font-size: 16px; /* Adjust font size */
+}
+
+/* Add focus effect to inputs */
+.form-control:focus {
+  border-color: #007bff; /* Blue border on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Subtle glow effect */
+}
+
+/* Style the error message */
+.text-danger {
+  font-size: 14px; /* Smaller font size */
+  margin-top: 5px; /* Add spacing above the error message */
+}
+
+/* Style the buttons */
+.btn {
+  padding: 10px 20px; /* Add padding to buttons */
+  font-size: 16px; /* Adjust font size */
+  border-radius: 4px; /* Rounded corners */
+}
+
+.btn-primary {
+  background-color: #007bff; /* Bootstrap primary color */
+  border: none; /* Remove border */
+}
+
+.btn-primary:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+.btn-secondary {
+  background-color: #6c757d; /* Bootstrap secondary color */
+  border: none; /* Remove border */
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268; /* Darker gray on hover */
+}
+
+/* Style the current image text */
+.form-text {
+  font-size: 14px; /* Smaller font size */
+  color: #6c757d; /* Muted text color */
+}
+
+/* Add spacing between form groups */
+.mb-3 {
+  margin-bottom: 20px; /* Increase spacing between form elements */
+}
+
+   
+ 
   </style>
 
   <script src="content.js"></script>
@@ -125,12 +203,65 @@ TODO:
     const readOnly = true;
     const onePost = true; // Set to true to show only one post at a time
 
+    let posts;
+
     window.onload = function () {
-      //   renderPosts();
+      if (readOnly)
+        posts = postsContent;
+      else
+        posts = CRUD.getAllPosts();
+
+
       generateSideMenu();
     };
 
 
+
+
+
+
+    function editPost(postKey) {
+      const post = CRUD.retrievePost(postKey); // Retrieve the post data
+      if (post) {
+        const formContainer = document.querySelector(".input-form");
+        if (formContainer) {
+          formContainer.style.display = "block"; // Show the form
+
+          // Scroll the form into view
+          formContainer.scrollIntoView({
+            behavior: "smooth", // Smooth scrolling
+            block: "start", // Align to the top of the block
+          });
+
+          const editType = document.getElementById("editType");
+          editType.innerHTML = "Edit Post"; // Change the form title to "Edit Post"
+
+
+
+        }
+
+        // Populate the form fields with the post's data
+        document.getElementById("post-key").value = post.key;
+        document.getElementById("post-headlinex").value = post.headline;
+        document.getElementById("post-teaser").value = post.teaser;
+        document.getElementById("post-content").value = post.content;
+        document.getElementById("post-date").value = post.date || "";
+
+        // Display the current image filename
+        const currentImageElement = document.getElementById("current-image");
+        currentImageElement.textContent = `Current Image: ${post.image || "None"}`;
+
+
+
+        // Set the form to edit mode
+        const form = document.getElementById("new-post-form");
+        form.dataset.editing = "true";
+
+        setupPostForm();
+      }
+    }
+
+  
     // doesn't write out posts 
     function generateSideMenu() {
 
@@ -143,10 +274,7 @@ TODO:
       //
       const sideMenu = document.getElementById("side-menu");
       //     sideMenu.innerHTML = "";
-      if (readOnly)
-        var posts = postsContent;
-      else
-        var posts = CRUD.getAllPosts();
+
 
       posts.forEach((post) => {
         const menuItem = document.createElement("button");
@@ -160,7 +288,7 @@ TODO:
 
         menuItem.type = "button";
         menuItem.className = "btn btn-light";
-        menuItem.style.width= "90%";
+        menuItem.style.width = "90%";
 
         const theImage = post.image;
         const theText = post.headline;
@@ -168,75 +296,24 @@ TODO:
         menuItem.innerHTML = `<img src="images/${theImage}" 
         alt="a house" style="width:60px; height: 60px; margin-right: 8px;">
         ${theText}}`;
-    
 
-
-        /*
-                menuItem.style.marginBottom = "5px";
-                menuItem.style.display = "flex"; // Align image and text horizontally
-                menuItem.style.alignItems = "center"; // Center-align image and text
-                menuItem.style.padding = "10px"; // Center-align image and text
-                menuItem.style.width = "90%"; // Center-align image and text
-                // Add an image to the button
-                const img = document.createElement("img");
-                img.src = `images/${post.image}`; // Use the post's image
-                img.alt = post.headline;
-                img.style.width = "40px"; // Set image size
-                img.style.height = "40px";
-                img.style.marginRight = "10px"; // Add spacing between image and text
-        
-                // Add text to the button
-                const text = document.createTextNode(post.headline || "Untitled Post");
-        
-                // Append image and text to the button
-                menuItem.appendChild(img);
-                menuItem.appendChild(text);
-        */
-
-
-
-        // Add click functionality
+        //add click handler to each menu item
         menuItem.onclick = () => {
-          
 
 
-          //   const postContainer = document.querySelector(".post-container");
-          //   postContainer.scrollIntoView({ behavior: "smooth" });
-          //   const targetPost = document.getElementById(post.key);
-          //   targetPost.scrollIntoView({ behavior: "smooth" });
-          //   targetPost.style.display = "block";
-          //   const allPosts = document.querySelectorAll(".post");
-          //   allPosts.forEach((p) => {
-          //     if (p !== targetPost) p.style.display = "none";
-          //   });
+          //  alert("clicked " + post.key) 
 
-          //  if (onePost) {
-          //    const allPosts = document.querySelectorAll(".post");
+          const thePost = document.getElementById("thePost");
+          thePost.innerHTML = `<h1>${post.headline}</h1><p>${post.content}</p><p>   
+             <button class="admin" style="margin-left:20px" onclick="editPost(${post.key})">Edit This Post</button></p>`;
 
-       //   const targetPost = document.getElementById(post.key);
-        //  const middleColumn = document.querySelector(".w3-col.m7");
+        }
 
+      }
  
-
-      
-         // document.querySelectorAll(".post").forEach((post) => {
-          //  post.style.display = "none";
-          //});
-            // show the one with post.key
-          //targetPost.style.display = "block";
-         
-
-
-
-
-
-
-      });
+      );
+ 
     }
-
-
-
-
 
     function togglePost() {
       const thisButton = this;
@@ -278,14 +355,23 @@ TODO:
         }
       }
 
+
+
       static retrievePost(key) {
-        try {
-          const data = localStorage.getItem(key);
-          return data ? JSON.parse(data) : null;
-        } catch (e) {
-          console.error("Error retrieving post:", e);
-          return null;
+
+
+       return posts.find((post) => post.key == key) || null;
+
+        for (let i = 0; i< posts.length; i++) {
+          alert(posts[i].key + "-" + key);
+          if (posts[i].key == key) {
+            return posts[i];
+          }
         }
+        return null;
+
+
+
       }
 
       static updatePost(key, value) {
@@ -455,50 +541,6 @@ TODO:
       };
     }
 
-
-    function editPost(postKey) {
-
-
-
-      const post = CRUD.retrievePost(postKey); // Retrieve the post data
-      if (post) {
-        const formContainer = document.querySelector(".input-form");
-        if (formContainer) {
-          formContainer.style.display = "block"; // Show the form
-
-          // Scroll the form into view
-          formContainer.scrollIntoView({
-            behavior: "smooth", // Smooth scrolling
-            block: "start", // Align to the top of the block
-          });
-
-          const editType = document.getElementById("editType");
-          editType.innerHTML = "Edit Post"; // Change the form title to "Edit Post"
-
-
-
-        }
-
-        // Populate the form fields with the post's data
-        document.getElementById("post-key").value = post.key;
-        document.getElementById("post-headlinex").value = post.headline;
-        document.getElementById("post-teaser").value = post.teaser;
-        document.getElementById("post-content").value = post.content;
-        document.getElementById("post-date").value = post.date || "";
-
-        // Display the current image filename
-        const currentImageElement = document.getElementById("current-image");
-        currentImageElement.textContent = `Current Image: ${post.image || "None"}`;
-
-
-
-        // Set the form to edit mode
-        const form = document.getElementById("new-post-form");
-        form.dataset.editing = "true";
-
-        setupPostForm();
-      }
-    }
 
 
 
@@ -686,12 +728,7 @@ TODO:
 
           <p>And bookmark it</p>
 
-
-          <script>
-            let u = User.get();
-            href = "www.incityo.com/incitio/incitio.html?user=" + u;
-            theLink.innerHTML = href;
-          </script>
+ 
 
         </div>
 
@@ -784,10 +821,73 @@ TODO:
 
 
 
-          <div class="inDiv">
-            stuff
+          <div id="thePost" class="inDiv">
+            <h1 id="postTitle" style="text-align: center; font-size: 40px; margin-top: 0px;">Welcome to inCitio</h1>
+            <p id="postText" style="text-align: center; font-size: 20px; margin-top: 0px;">This is a simple blogging
+              platform.</p>
           </div>
 
+ 
+          <div class="container mt-4 input-form" style="display:none">
+            <h3 id="editType" class="mb-3">Create New Post</h3>
+            <form id="new-post-form">
+              <!-- Post Key -->
+              <div class="mb-3">
+                <label for="post-key" class="form-label">Post Key (unique ID)</label>
+                <input type="text" id="post-key" class="form-control" placeholder="e.g., post-123" required readonly>
+                <div id="post-key-error" class="form-text text-danger d-none">Key must be unique.</div>
+              </div>
+          
+              <!-- Headline -->
+              <div class="mb-3">
+                <label for="post-headlinex" class="form-label">Headline</label>
+                <input type="text" id="post-headlinex" class="form-control" placeholder="Post Headline" required>
+              </div>
+          
+              <!-- Teaser -->
+              <div class="mb-3">
+                <label for="post-teaser" class="form-label">Teaser</label>
+                <input type="text" id="post-teaser" class="form-control" placeholder="Short teaser text" required>
+              </div>
+          
+              <!-- Content -->
+              <div class="mb-3">
+                <label for="post-content" class="form-label">Content</label>
+                <textarea id="post-content" class="form-control" placeholder="Post content (supports HTML)" rows="5" required></textarea>
+              </div>
+          
+              <!-- Image -->
+              <div class="mb-3">
+                <label for="post-imagex" class="form-label">Image (optional)</label>
+                <input type="file" id="post-imagex" class="form-control" accept="image/*">
+                <small id="current-image" class="form-text text-muted">Current Image: None</small>
+              </div>
+          
+              <!-- Date -->
+              <div class="mb-3">
+                <label for="post-date" class="form-label">Date (optional, defaults to today)</label>
+                <input type="date" id="post-date" class="form-control" style="width:150px;">
+              </div>
+          
+              <!-- Buttons -->
+              <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Save Post</button>
+                <button type="button" class="btn btn-secondary" onclick="hideForm()">Cancel</button>
+              </div>
+            </form>
+          </div>
+
+
+
+          <script>
+            const postKey = document.getElementById("post-key");
+            //      postKey.value = Date.now();
+            postKey.readOnly = true; // Make the key read-only
+            postKey.addEventListener("focus", function () {
+              this.blur(); // Prevents the user from focusing on the input field
+            });
+
+          </script>
 
 
         </div>
@@ -817,20 +917,7 @@ TODO:
 
         <div id="side-menu" style="overflow:auto;height:400px;text-align: center">
 
-          <button type="button" class="btn btn-light">
-            <img src="images/house.png" alt="a house" style="width:60px; height: 60px; margin-right: 8px;">
-            Button Text2 i've got a few words to say
-          </button>
 
-          <button type="button" class="btn btn-light">
-            <img src="images/house.png" alt="a house" style="width:60px; height: 60px; margin-right: 8px;">
-            Button Text2 i've got a few words to say
-          </button>
-
-          <button type="button" class="btn btn-light">
-            <img src="images/house.png" alt="a house" style="width:60px; height: 60px;  ">
-            Button Text2 i've got a few words to say
-          </button>
 
         </div>
       </div>

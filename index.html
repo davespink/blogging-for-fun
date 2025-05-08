@@ -105,6 +105,52 @@ TODO:
     .hidden {
       display: none;
     }
+
+
+
+
+
+
+    .alert {
+      position: fixed;
+      top: 20%;
+      /* Center vertically */
+      left: 50%;
+      /* Center horizontally */
+      transform: translate(-50%, -50%);
+      /* Adjust for the element's size */
+      background-color: beige;
+      /* Red background */
+      color: white;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      font-size: larger;
+      color: black;
+      text-align: center;
+      /* Center the text inside the alert */
+      width: 300px;
+      padding-top: 30px; 
+      padding-bottom: 30px;  
+      /* Optional: Set a fixed width */
+      transition: opacity 2.0s ease-in-out;
+    }
+
+    .alert-success {
+      background-color: beige;
+      /* Green */
+    }
+
+    .alert-warning {
+      background-color: #ff9800;
+      /* Orange */
+    }
+
+    .alert-error {
+      background-color: #f44336;
+      /* Red */
+    }
   </style>
 
   <script src="content.js"></script>
@@ -113,38 +159,73 @@ TODO:
 
   <script>
 
-    const readOnly = true;
+    const readOnly = false;
     const onePost = true; // Set to true to show only one post at a time
 
     window.onload = function () {
-   //   renderPosts();
-   //   generateSideMenu();
+      renderPosts();
+      generateSideMenu();
     };
+
+
+
+
+    function showAlert(message, type = "alert-error", duration = 3000) {
+      const alertBox = document.getElementById("custom-alert");
+      const alertMessage = document.getElementById("alert-message");
+
+      // Set the message and type
+      alertMessage.textContent = message;
+      alertBox.className = `alert ${type}`;
+      alertBox.style.display = "block";
+
+      
+
+  // Add a click event listener to the document
+  const closeAlertOnClick = (event) => {
+    // Check if the click is outside the alert box
+    if (!alertBox.contains(event.target)) {
+      alertBox.style.display = "none"; // Hide the alert
+      document.removeEventListener("click", closeAlertOnClick); // Remove the event listener
+    }
+  };
+
+  document.addEventListener("click", closeAlertOnClick);
+
+  // Optionally, hide the alert after a duration
+  setTimeout(() => {
+    alertBox.style.display = "none";
+    document.removeEventListener("click", closeAlertOnClick); // Remove the event listener
+  }, duration);
+
+
+
+
+
+
+
+
+    }
+
 
 
     // doesn't write out posts 
     function generateSideMenu() {
 
-   //   if (readOnly) {
-    //    const adminElements = document.getElementsByClassName("admin");
-  //      Array.from(adminElements).forEach((element) => {
-   //       element.style.display = "none";
-    //    });
- //     }
-//
+      //   if (readOnly) {
+      //    const adminElements = document.getElementsByClassName("admin");
+      //      Array.from(adminElements).forEach((element) => {
+      //       element.style.display = "none";
+      //    });
+      //     }
+      //
       const sideMenu = document.getElementById("side-menu");
       sideMenu.innerHTML = "";
 
-
-
       if (readOnly)
         var posts = postsContent;
-
       else
         var posts = CRUD.getAllPosts();
-
-
-
 
       posts.forEach((post) => {
         const menuItem = document.createElement("button");
@@ -201,9 +282,7 @@ TODO:
     }
 
 
-
-
-
+    // does read more, read less
     function togglePost() {
       const thisButton = this;
       const post = thisButton.closest(".post");
@@ -217,23 +296,8 @@ TODO:
       }
     }
 
-    function expandAll() {
-      document.querySelectorAll(".content").forEach((content) => {
-        content.style.display = "block";
-      });
-      document.querySelectorAll(".post button[aria-label='Toggle post content'], .w3-card-4 button[aria-label='Toggle welcome post content']").forEach((button) => {
-        button.textContent = "Read Less";
-      });
-    }
 
-    function collapseAll() {
-      document.querySelectorAll(".content").forEach((content) => {
-        content.style.display = "none";
-      });
-      document.querySelectorAll(".post button[aria-label='Toggle post content'], .w3-card-4 button[aria-label='Toggle welcome post content']").forEach((button) => {
-        button.textContent = "Read More";
-      });
-    }
+    // CRUD operations for posts using localStorage
 
     class CRUD {
       static createPost(key, value) {
@@ -281,9 +345,16 @@ TODO:
       static deleteAllPosts() {
         localStorage.clear();
         alert("All posts have been deleted.");
+
+
+
+
+
+
       }
     }
 
+    // to show the posts on page load on the main page
     function renderPosts() {
       const postContainer = document.querySelector(".post-container");
       if (!postContainer) {
@@ -291,15 +362,12 @@ TODO:
         return;
       }
 
-      // Clear only dynamic posts
-      const existingPosts = postContainer.querySelectorAll(".post");
-      existingPosts.forEach(post => post.remove());
-
       if (readOnly)
-        var posts = postsContent;
-
+        var posts = postsContent; // from content.js
       else
         var posts = CRUD.getAllPosts();
+
+      // would be good to have a filter function here to filter and sort posts
 
       // write code to filter posts by date and sort them in descending order
 
@@ -334,13 +402,16 @@ TODO:
         postContainer.appendChild(postElement);
       });
 
-      alert(posts.length + " posts loaded.");
+      //      alert(posts.length + " posts loaded.");
+
+
+      showAlert(posts.length + " posts loaded", "alert-success", 5000); // Closes after 5 seconds
 
 
       generateSideMenu();
     }
 
-   
+
     function setupPostForm() {
 
       const formContainer = document.querySelector(".input-form");
@@ -456,8 +527,6 @@ TODO:
         const currentImageElement = document.getElementById("current-image");
         currentImageElement.textContent = `Current Image: ${post.image || "None"}`;
 
-
-
         // Set the form to edit mode
         const form = document.getElementById("new-post-form");
         form.dataset.editing = "true";
@@ -534,78 +603,18 @@ TODO:
 
     });
 
-    // Initialize posts
-    let testPost = {
-      key: "post1",
-      headline: "Test Post",
-      teaser: "Attract the user interest",
-      content: `
-    <p>This is the content of the test post.</p>
-    <p>It can be long and detailed.</p>
-    <p>It can include multiple paragraphs, lists, and other formatting.</p>
-    <p>It can also include HTML elements like <strong>bold text</strong> or <em>italic text</em>.</p>
-  `,
-      image: "blogging.jpg",
-      date: "2023-10-01",
-    };
-
-    const initialPosts = [
-      {
-        key: "post-1",
-        headline: "Try to Catch the Wind",
-        teaser: "Reflecting on AI and programming history",
-        content: `
-      <p>No, nothing to do with eating Brussel sprouts. I was provoked this morning by reading about upcoming developments in Copilot AI inside GitHub (Microsoft), which would seem a natural match. It made me think how far we have come in my memory, and speculate where we will go to next. A.I. has moved so quickly that to me, just as I start to grok it, it morphs into something else, like the hydra, but maybe in a good way.</p>
-      <p>My first program was written in Secondary school in Mr. Copley’s class. Mr. Copley was famous for his R.E. classes so it was a little strange that he should pop up in the maths department. I had already learned some things from the Open University TV about Boolean logic, analogue v digital, simple programming languages like Basic and Algol, but I was yet to get the baptism of running my first program.</p>
-      <p>The teacher gave us the basic outline, and demonstrated how Fortran did its thing with some examples. Then we were told to get out our notebooks and write a simple program. Next lesson, we got some punch cards and a magnetic pencil and converted each symbol into three marks in every column. This was sent away somewhere and returned together with a printout of the code. I don’t remember a hand punch entering the loop anywhere. Long story short I eventually got the output from my program. For the record it was calculating various scenarios of the taps and baths problem. It worked!</p>
-      <p>There I left it, through 6th form nothing. University, nothing. Post Grad, back to Fortran, a bit of PDP assembler, and some interactive Basic. Never saw a graphic terminal till someone in a lab acquired a Commodore Pet. It played poker.</p>
-      <p>Eventually I got a job and became a Junior Programmer. 25 or so years in the industry, partly as a contractor, I was able to see how it evolved from close up. The PC was a new thing, which I didn’t acquire for many years, but I saw technologies, languages, paradigms come and go. Languages included Cobol, Dibol, Fortran, C, C++, Basic and a few oddballs. I loved it. I would make sure to get my copy of Byte every month, got an AOL account. The days of buying a book, or a bit of software then emailing the author and expecting a reply.</p>
-      <p>Now for A.I. It seemed at first to be something I didn’t understand that people used to make funny photos and present them to you. It was quite a buzz, and the rise of the chatbots—whether the proverbial Mother or Grandmother is using ChatGPT on a regular basis, I think not.</p>
-      <p>The news today enthusing about what the beta versions of the GitHub Copilot team could do left me a bit stunned.</p>
    
-    `,
-        image: "blogging.jpg",
-        date: "2023-10-02",
-      },
-      {
-        key: "post-2",
-        headline: "Come back little Sheba",
-        teaser: "Exploring offstage characters in literature and media",
-        content: `
-      <p>In an earlier post I alluded to the names of our border collie dogs, the senior of which is Sheba. She was so named after an old dog of my mother’s, but in turn this dog was named for a Hollywood Movie “Come Back, Little Sheba”. Sheba disappears months before the start of the film and never appears. It is implied that Sheba is presumed dead. It stars Burt Lancaster, and Shirley Booth, who got a Best Actress Oscar in 1953 for it. I began to wonder if there is a term for such characters and yes Gemini informed me thus:</p>
-      <p>Yes, there is! That type of character is called an offstage character or an unseen character.</p>
-      <p>These characters are important to the plot and the development of other characters, even though the audience never actually sees them. They might be mentioned in dialogue, have actions attributed to them, or even influence the events of the play.</p>
-      ations of the onstage characters.</p>
-  
-    `,
-        image: "puppy.jpg",
-        date: "2023-10-03",
-      },
-    ];
-
-    // Initialize posts if not already in localStorage
-    /*
-    initialPosts.forEach((post) => {
-      if (!CRUD.retrievePost(post.key)) {
-        CRUD.createPost(post.key, post);
-      }
-    });
-*/
-    //  if (!CRUD.retrievePost(testPost.key)) {
-    //    CRUD.createPost(testPost.key, testPost);
-    // }
-
-
-
-
 
 
   </script>
 </head>
 
 <body class="w3-theme-l5">
-  <!-- Navbar -->
 
+  <div id="custom-alert" class="alert"  onclick="document.getElementById('custom-alert').style.display='none'">
+    <span id="alert-message"></span>
+ 
+  </div>
 
 
   <!-- Page Container -->
@@ -617,7 +626,7 @@ TODO:
         <!-- Profile -->
         <div class="w3-card w3-round w3-white">
           <div class="w3-container">
-            <h4 class="w3-center">v1.1 - 1 may 2025</h4>
+            <h4 class="w3-center">v1.11 - 8 may 2025</h4>
             <p class="w3-center"><img src="https://w3schools.com/w3images/avatar3.png" class="w3-circle"
                 style="height:106px;width:106px" alt="Profile picture"></p>
             <hr>
@@ -631,27 +640,6 @@ TODO:
 
         <br>
 
-        <!-- tags-->
-        <div class="w3-card w3-round w3-white w3-hide-small">
-          <div class="w3-container">
-            <p>hashtags</p>
-            <p>
-            <p class="w3-sans-serif" style="font-size: 18px;">Testing text</p>
-            <span class="w3-tag w3-small w3-theme-d5">News</span>
-            <span class="w3-tag w3-small w3-theme-d4">W3Schools</span>
-            <span class="w3-tag w3-small w3-theme-d3">Labels</span>
-            <span class="w3-tag w3-small w3-theme-d2">Games</span>
-            <span class="w3-tag w3-small w3-theme-d1">Friends</span>
-            <span class="w3-tag w3-small w3-theme">Games</span>
-            <span class="w3-tag w3-small w3-theme-l1">Friends</span>
-            <span class="w3-tag w3-small w3-theme-l2">Food</span>
-            <span class="w3-tag w3-small w3-theme-l3">Design</span>
-            <span class="w3-tag w3-small w3-theme-l4">Art</span>
-            <span class="w3-tag w3-small w3-theme-l5">Photos</span>
-            </p>
-          </div>
-        </div>
-        <br>
 
 
       </div>
@@ -757,6 +745,32 @@ TODO:
               </div>
             </div>
             <p>That's all folks</p>
+
+            <!-- tags-->
+            <div class="w3-card w3-round w3-white w3-hide-small">
+              <div class="w3-container">
+                <p>hashtags</p>
+                <p>
+
+                  <span class="w3-tag w3-small w3-theme-d5">News</span>
+                  <span class="w3-tag w3-small w3-theme-d4">W3Schools</span>
+                  <span class="w3-tag w3-small w3-theme-d3">Labels</span>
+                  <span class="w3-tag w3-small w3-theme-d2">Games</span>
+                  <span class="w3-tag w3-small w3-theme-d1">Friends</span>
+                  <span class="w3-tag w3-small w3-theme">Games</span>
+                  <span class="w3-tag w3-small w3-theme-l1">Friends</span>
+                  <span class="w3-tag w3-small w3-theme-l2">Food</span>
+                  <span class="w3-tag w3-small w3-theme-l3">Design</span>
+                  <span class="w3-tag w3-small w3-theme-l4">Art</span>
+                  <span class="w3-tag w3-small w3-theme-l5">Photos</span>
+                </p>
+              </div>
+            </div>
+            <br>
+
+
+
+
             <div id="side-menu"></div>
           </div>
         </div>
@@ -768,7 +782,7 @@ TODO:
 
             <div class="w3-card w3-round w3-white w3-center">
               <div class="w3-container">
-                <p>Storage Operations</p>
+
                 <p><button onclick="CRUD.deleteAllPosts()" class="w3-button w3-block w3-theme-l4">Clear Storage</button>
                 </p>
                 <p><button onclick="downloadPosts()" class="w3-button w3-block w3-theme-l4">Download Posts</button></p>
@@ -779,12 +793,12 @@ TODO:
           </div>
 
 
+
+
+
         </div>
         <br>
-
         <br>
-
-
       </div>
     </div>
   </div>
@@ -797,7 +811,7 @@ TODO:
   </footer>
 
   <script>
-    // Accordion
+    /* Accordion
     function myFunction(id) {
       var x = document.getElementById(id);
       if (x.className.indexOf("w3-show") == -1) {
@@ -808,7 +822,7 @@ TODO:
         x.previousElementSibling.className = x.previousElementSibling.className.replace(" w3-theme-d1", "");
       }
     }
-
+*/
     // Used to toggle the menu on smaller screens when clicking on the menu button
     function openNav() {
       var x = document.getElementById("navDemo");
