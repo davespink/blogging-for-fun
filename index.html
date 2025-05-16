@@ -149,17 +149,30 @@ TODO:
   </style>
 
   <script src="content.js"></script>
+ 
+  <!--
+ 
+  <script src="../simple-static/libjs/blogging-1.0.js"></script>
 
-  <script src="blogging.js"></script>
+
+ -->
+  <script src="https://simple-static-as5.pages.dev/blogging-1.0.js"></script>
 
   <script>
 
-    const readOnly = false;
+
+ //   const thisUrl=location.href;
+ //   alert(thisUrl); make simple router
+
+    const readOnly = true;
     const onePost = true; // Set to true to show only one post at a time
 
     window.onload = function () {
       renderPosts();
       generateSideMenu();
+      version.innerHTML = "v1.12a - 10 may 2025 lib " + getVersion();
+      const test = postsContent;
+ 
     };
  
       
@@ -185,7 +198,7 @@ TODO:
         <!-- Profile -->
         <div class="w3-card w3-round w3-white">
           <div class="w3-container">
-            <h4 class="w3-center">v1.12 - 9 may 2025</h4>
+            <h4 id="version" class="w3-center">v1.12a - 10 may 2025</h4>
             <p class="w3-center"><img src="https://w3schools.com/w3images/avatar3.png" class="w3-circle"
                 style="height:106px;width:106px" alt="Profile picture"></p>
             <hr>
@@ -204,7 +217,7 @@ TODO:
       </div>
 
       <!-- Middle Column -->
-      <div class="w3-col m7" style="padding:0px;">
+      <div id="middle-column" class="w3-col m7" style="padding:0px;">
         <div>
           <div class="w3-col m12" style="padding:0px;margin-left:0px;margin-right:0px;">
             <div class="w3-card w3-round w3-white">
