@@ -9,5 +9,13 @@
         "webRoot": "${workspaceFolder}",
         "sourceMaps": true
       }
+          {
+        "type": "chrome",
+        "request": "launch",
+        "name": "Launch Chrome against server",
+        "url": "http://localhost/projects/blogging-for-fun/index.html",
+        "webRoot": "${workspaceFolder}",
+        "sourceMaps": true
+      }
     ]
   }

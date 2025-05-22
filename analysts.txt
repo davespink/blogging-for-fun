@@ -1,0 +1,68 @@
+The rise and fall of the systems analyst. ========================================= Back in the stone ages when computers ran on pebbles, and you programmed them telling a slave what to do, round about 1975 or so I started work as a junior programmer. I worked for a software house with offices down the road. These were the days of wearing a suit and carrying a briefcase. Mine had a biro, some pencils, a sharpener, a plastic flowchart stencil, and a bag of sandwiches inside. I was so very proud to be at work. I even had a haircut. Introduced to my coworkers who were a friendly bunch. Most had been thrown out of work from boring clerical jobs due to the rise of the mainframe computer and as often happens they were repurposed as programmers. These were the days of coding sheets being sent to be punched up, flow charts, printouts, compilations ( once a day ), and systems analysts. I was never quite sure were people had been working before, and what the role was. IBM ruled our roust and had some sort of methodology called The Waterfall. Someone at some point decided a system was needed, and got the funds to have it created. These were the days of program suites and batch programming, as opposed to the multifunctional solutions today. A system spec was produced by the chief analyst, who give it to underlings to produce the various program specs to give to the programmer to code and test. The analyst worked with the customer and would iterate the specs. Specs were written in pencil on paper! Yes. As were the programs. Sometimes some hotshot would program with a a biro! We wrote in Cobol ( you may have guessed ). Once working and tested the program went back to the analyst for testing, and later when the suite was ready began system testing, and fixing, until it was accepted. Then it went into maintenance. And so it was. The analyst knew little of programming and the technology and the best way to do things. Analysts were well paid and all programmers aspired one day to get such a role. Few succeeded, gatekeeping was rife. Anyway the years rolled by. There came the mini computer, and then the PC and slowly the role of the analyst diminished so that eventually we were down to a statement of requirements some coding standards or frameworks and away we went. I'm sure big companies like Google still have some sort of methodologies, but I was thinking today of rewriting some of my code from scratch using a chatbot, and thinking how best to prompt it. To keep control of the design and reign it in so it didn't spew code all the time. To be honest almost like a program spec, like what I used to work from every day. Still there are no systems analysts today,..... oh wait! Maybe I'm achieving my ambitions at last.
+Dave, this is a fantastic blend of nostalgia, humor, and reflection on the evolution of programming! Your storytelling is engaging, and the personal anecdotes add a lot of warmth to the piece. Here are a few ways to refine it further:
+
+Strengths:
+Engaging tone: Your dry humor and vivid imagery make the post highly readable.
+
+Historical perspective: The evolution of programming is well conveyed, making it relatable for both seasoned developers and newcomers.
+
+Personal touch: The details—your briefcase contents, the biro vs. pencil rivalry—give it a strong sense of authenticity.
+
+Areas for Improvement:
+Polish sentence structure: A few phrases could flow more smoothly. For example:
+
+"I was never quite sure were people had been working before, and what the role was." → Consider revising to: "I was never quite sure where people had worked before or what their roles had been."
+
+"IBM ruled our roust..." → Likely meant "roost."
+
+"The analyst worked with the customer and would iterate the specs." → Perhaps "The analyst collaborated with the customer, refining the specs through iterations." for clarity.
+
+Clarify technical points: Some transitions between historical changes (mainframes to mini-computers, the shift from analysts to direct coding) could be smoother. Maybe a brief mention of Agile or modern methodologies would frame the evolution even more effectively.
+
+Stronger conclusion: Your final thought—realizing that prompting an AI is reminiscent of writing specs—deserves a bit more punch. Maybe tie it back to the irony of history repeating itself? Something like:
+
+"So, in a world without systems analysts… here I am, crafting prompts for AI like I once did specs for programmers. Maybe the role never disappeared—it just evolved."
+
+Want me to help refine the wording directly? Your storytelling is already on point; these tweaks will sharpen it even more!
+
+
+************
+
+
+
+Great! Here’s your refined blog post with smoother transitions, polished phrasing, and a stronger conclusion while keeping your original voice intact:
+
+The Rise and Fall of the Systems Analyst =========================================
+
+Back in the stone ages—when computers ran on pebbles and programming meant dictating instructions to a weary slave—I embarked on my journey as a junior programmer. It was around 1975, and I worked for a software house just down the road.
+
+These were the days of suits and briefcases. Mine contained a biro, some pencils, a sharpener, a plastic flowchart stencil, and a bag of sandwiches. I was incredibly proud to be at work. I even had a haircut.
+
+My coworkers, a friendly bunch, had mostly been repurposed into programming roles after being displaced from clerical jobs by the rise of the mainframe computer. As often happens, necessity had driven reinvention.
+
+This was the era of coding sheets sent to be punched up, flowcharts, printouts, once-a-day compilations, and—of course—systems analysts.
+
+At the time, IBM ruled the roost, wielding its grand methodology known as The Waterfall. The process was simple: Someone decided a system was needed, secured funding, and handed the project over to the analysts. Unlike today’s multifunctional solutions, we built program suites—batch-oriented, structured, and linear.
+
+The chief analyst drafted a system spec, passing it down to underlings who produced individual program specs for programmers to code and test. The analyst worked with the customer, iterating specifications as necessary.
+
+And yes, these specs were written in pencil—as were the programs. Occasionally, a daring hotshot would commit their code in biro. We wrote in COBOL (you may have guessed).
+
+Once a program was functional and tested, it returned to the analyst for further scrutiny. When the full suite was ready, we moved into system testing, ironing out the flaws until acceptance was granted. Then, it entered maintenance mode.
+
+Such was life.
+
+Yet, despite their prominence, analysts knew little about programming or the technology itself. They dictated specs, but the best ways to execute them remained a mystery to them.
+
+Nevertheless, analysts were well-paid, and every programmer aspired to ascend into their ranks. Few succeeded—gatekeeping was alive and well.
+
+But time marched on. The mini-computer arrived, followed by the PC, and slowly, the analyst’s role diminished. Eventually, we were left with little more than a statement of requirements and some coding standards or frameworks. Programmers took the reins.
+
+Sure, companies like Google probably still maintain some form of methodology. But today, as I ponder rewriting my code from scratch with a chatbot, I’m struck by an odd realization: Prompting an AI requires careful planning. Keeping control of the design, reining it in, preventing it from spewing out code nonstop… It almost feels like crafting a program spec—just like I used to work from every day.
+
+So, are systems analysts truly gone? Or have we, in some ironic twist, become them?
+
+Perhaps I’ve finally achieved my ambitions.
+
+I've kept your humor and style intact while smoothing out phrasing and transitions. The final thought is now punchier, emphasizing the irony of history repeating itself. Does this version capture what you envisioned?
+

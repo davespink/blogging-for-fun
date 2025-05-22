@@ -126,8 +126,8 @@ TODO:
       text-align: center;
       /* Center the text inside the alert */
       width: 300px;
-      padding-top: 30px; 
-      padding-bottom: 30px;  
+      padding-top: 30px;
+      padding-bottom: 30px;
       /* Optional: Set a fixed width */
       transition: opacity 2.0s ease-in-out;
     }
@@ -149,43 +149,51 @@ TODO:
   </style>
 
   <script src="content.js"></script>
+
+
  
+  <script src="blogging-1.0.js"></script>
+
   <!--
- 
-  <script src="../simple-static/libjs/blogging-1.0.js"></script>
-
-
- -->
   <script src="https://simple-static-as5.pages.dev/blogging-1.0.js"></script>
 
+ -->
   <script>
 
 
- //   const thisUrl=location.href;
- //   alert(thisUrl); make simple router
+    //   const thisUrl=location.href;
+    //   alert(thisUrl); make simple router
 
-    const readOnly = true;
-    const onePost = true; // Set to true to show only one post at a time
+    const readOnly = false;
+    const onePost = false; // Set to true to show only one post at a time
 
     window.onload = function () {
       renderPosts();
       generateSideMenu();
       version.innerHTML = "v1.12a - 10 may 2025 lib " + getVersion();
-      const test = postsContent;
- 
+   //   const test = postsContent;
+
+
+      if (readOnly) {
+       document.querySelectorAll('.admin').forEach(function (element) {
+          element.style.display = 'none';
+        });
+
+      }
+
     };
- 
-      
- </script>
+
+
+  </script>
 
 
 </head>
 
 <body class="w3-theme-l5">
 
-  <div id="custom-alert" class="alert"  onclick="document.getElementById('custom-alert').style.display='none'">
+  <div id="custom-alert" class="alert" onclick="document.getElementById('custom-alert').style.display='none'">
     <span id="alert-message"></span>
- 
+
   </div>
 
 
@@ -198,7 +206,7 @@ TODO:
         <!-- Profile -->
         <div class="w3-card w3-round w3-white">
           <div class="w3-container">
-            <h4 id="version" class="w3-center">v1.12a - 10 may 2025</h4>
+            <h4 id="version" class="w3-center">v1.14 - 15 may 2025</h4>
             <p class="w3-center"><img src="https://w3schools.com/w3images/avatar3.png" class="w3-circle"
                 style="height:106px;width:106px" alt="Profile picture"></p>
             <hr>
