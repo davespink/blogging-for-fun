@@ -151,7 +151,7 @@ TODO:
   <script src="content.js"></script>
 
 
- 
+
   <script src="blogging-1.0.js"></script>
 
   <!--
@@ -160,10 +160,7 @@ TODO:
  -->
   <script>
 
-
-    //   const thisUrl=location.href;
-    //   alert(thisUrl); make simple router
-
+    var posts = "x";
     const readOnly = false;
     const onePost = false; // Set to true to show only one post at a time
 
@@ -171,11 +168,11 @@ TODO:
       renderPosts();
       generateSideMenu();
       version.innerHTML = "v1.12a - 10 may 2025 lib " + getVersion();
-   //   const test = postsContent;
-
+      //   const test = postsContent;
+      renderHashtags();
 
       if (readOnly) {
-       document.querySelectorAll('.admin').forEach(function (element) {
+        document.querySelectorAll('.admin').forEach(function (element) {
           element.style.display = 'none';
         });
 
@@ -330,20 +327,7 @@ TODO:
             <div class="w3-card w3-round w3-white w3-hide-small">
               <div class="w3-container">
                 <p>hashtags</p>
-                <p>
-
-                  <span class="w3-tag w3-small w3-theme-d5">News</span>
-                  <span class="w3-tag w3-small w3-theme-d4">W3Schools</span>
-                  <span class="w3-tag w3-small w3-theme-d3">Labels</span>
-                  <span class="w3-tag w3-small w3-theme-d2">Games</span>
-                  <span class="w3-tag w3-small w3-theme-d1">Friends</span>
-                  <span class="w3-tag w3-small w3-theme">Games</span>
-                  <span class="w3-tag w3-small w3-theme-l1">Friends</span>
-                  <span class="w3-tag w3-small w3-theme-l2">Food</span>
-                  <span class="w3-tag w3-small w3-theme-l3">Design</span>
-                  <span class="w3-tag w3-small w3-theme-l4">Art</span>
-                  <span class="w3-tag w3-small w3-theme-l5">Photos</span>
-                </p>
+                <div id="hashtags-container"></div>
               </div>
             </div>
             <br>
@@ -412,6 +396,56 @@ TODO:
         x.className = x.className.replace(" w3-show", "");
       }
     }
+
+    // Extract hashtags from all posts and display them
+    function extractHashtags(text) {
+      const matches = text.match(/#\w+/g);
+      if (!matches) return [];
+      // Filter out hashtags that are part of HTML entities (preceded by &)
+      return matches.filter(tag => {
+        const idx = text.indexOf(tag);
+        return idx === 0 || text[idx - 1] !== '&';
+      }).map(tag => tag.toLowerCase());
+    }
+
+    function getAllHashtags(posts) {
+
+      let x = 1;
+      // Create a Set to store unique hashtags
+
+
+
+      const tags = new Set();
+      posts.forEach(post => {
+        // Combine all text fields that may contain hashtags
+        const content = [post.headline, post.teaser, post.content].join(' ');
+        // console.log(content);
+        extractHashtags(content).forEach(tag => tags.add(tag));
+      });
+      return Array.from(tags);
+    }
+
+    function renderHashtags() {
+      if (typeof postsContent === "undefined") return;
+      const hashtags = getAllHashtags(posts);
+
+      const x = postsContent[9].headline;
+
+
+      const container = document.getElementById('hashtags-container');
+      if (!container) return;
+      container.innerHTML = hashtags.length
+        ? hashtags.map(tag =>
+          `<span class="w3-tag w3-small w3-theme-d5">${tag}</span>`
+        ).join(' ')
+        : '<span class="w3-text-grey">No hashtags found</span>';
+    }
+
+    // Call renderHashtags after postsContent is loaded
+    window.addEventListener('DOMContentLoaded', function () {
+      // setTimeout(renderHashtags, 300); // Delay to ensure postsContent is loaded
+      // renderHashtags();
+    });
   </script>
 </body>
 

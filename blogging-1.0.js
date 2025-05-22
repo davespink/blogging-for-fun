@@ -50,7 +50,8 @@ function generateSideMenu() {
   sideMenu.innerHTML = "";
 
   if (readOnly)
-    var posts = postsContent;
+     x = 1;
+  //  var posts = postsContent;
   else
     var posts = CRUD.getAllPosts();
 
@@ -174,37 +175,12 @@ class CRUD {
     alert("All posts have been deleted.");
 
 
-
-
-
-
   }
 }
 
 // to show the posts on page load on the main page
 
-
-function xrenderPosts() {
-  const postsContainer = document.querySelector('.post-container');
-  postsContainer.innerHTML = ''; // Clear existing posts
-
-  if (readOnly)
-    var posts = postsContent; // from content.js
-  else
-    var posts = CRUD.getAllPosts();
-
-  posts.forEach(post => {
-    const postElement = document.createElement('div');
-    postElement.className = 'post';
-    postElement.innerHTML = `
-      <h3>${post.headline}</h3>
-      <p>${post.teaser}</p>
-      <div>${post.content}</div>
-    `;
-    postsContainer.appendChild(postElement);
-  });
-}
-
+ 
 function renderPosts() {
   const postContainer = document.querySelector(".post-container");
   if (!postContainer) {
@@ -213,9 +189,9 @@ function renderPosts() {
   }
 
   if (readOnly)
-    var posts = postsContent; // from content.js
+     posts = postsContent; // from content.js
   else
-    var posts = CRUD.getAllPosts();
+     posts = CRUD.getAllPosts();
 
   // would be good to have a filter function here to filter and sort posts
 
