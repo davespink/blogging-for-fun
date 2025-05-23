@@ -1,5 +1,5 @@
 function getVersion() {
-  const version = "1.0.0"; return version
+  const version = "1.0.1"; return version
 }
 
 function showAlert(message, type = "alert-error", duration = 3000) {
@@ -50,8 +50,8 @@ function generateSideMenu() {
   sideMenu.innerHTML = "";
 
   if (readOnly)
-     x = 1;
-  //  var posts = postsContent;
+ 
+   var posts = postsContent;
   else
     var posts = CRUD.getAllPosts();
 

@@ -14,7 +14,7 @@ TODO:
 
 - Deployed version will not download ( not urgent to fix )
 
-
+ blogging-1.1.js
 
 -->
 
@@ -150,24 +150,28 @@ TODO:
 
   <script src="content.js"></script>
 
+  <script src="C:\xampp\htdocs\projects\simple-static\libjs\blogging-1.1.js"></script>
 
 
-  <script src="blogging-1.0.js"></script>
+
 
   <!--
+  <script src="blogging-1.1.js"></script>
+
+
   <script src="https://simple-static-as5.pages.dev/blogging-1.0.js"></script>
 
  -->
   <script>
 
-    var posts = "x";
+    var posts  ; // important to have this here to avoid errors
     const readOnly = false;
     const onePost = false; // Set to true to show only one post at a time
 
     window.onload = function () {
       renderPosts();
       generateSideMenu();
-      version.innerHTML = "v1.12a - 10 may 2025 lib " + getVersion();
+      version.innerHTML = "v1.14 - 22 may 2025 lib " + getVersion();
       //   const test = postsContent;
       renderHashtags();
 
@@ -314,7 +318,7 @@ TODO:
               <div class="w3-container">
 
                 <!-- Add the Create New Post button -->
-                <button class="w3-button w3-theme-d2 w3-margin-top w3-margin-bottom" onclick="renderPosts()">Show All
+                <button id="show-all-btn" class="w3-button w3-theme-d2 w3-margin-top w3-margin-bottom" onclick="renderPosts()">Show All
                   Posts</button>
                 <button class="w3-button w3-theme-d2 w3-margin-bottom admin" onclick="setupPostForm()">Create New
                   Post</button>
@@ -426,25 +430,58 @@ TODO:
     }
 
     function renderHashtags() {
-      if (typeof postsContent === "undefined") return;
+      if (typeof posts === "undefined" || !Array.isArray(posts)) return;
       const hashtags = getAllHashtags(posts);
-
-      const x = postsContent[9].headline;
-
-
       const container = document.getElementById('hashtags-container');
       if (!container) return;
       container.innerHTML = hashtags.length
         ? hashtags.map(tag =>
-          `<span class="w3-tag w3-small w3-theme-d5">${tag}</span>`
+          `<span class="w3-tag w3-small w3-theme-d5 hashtag-filter" style="cursor:pointer;margin:2px;">${tag}</span>`
         ).join(' ')
         : '<span class="w3-text-grey">No hashtags found</span>';
+
+      // Add click listeners to hashtags
+      document.querySelectorAll('.hashtag-filter').forEach(el => {
+        el.onclick = function() {
+          filterSidebarByHashtag(el.textContent);
+        };
+      });
     }
 
-    // Call renderHashtags after postsContent is loaded
-    window.addEventListener('DOMContentLoaded', function () {
-      // setTimeout(renderHashtags, 300); // Delay to ensure postsContent is loaded
-      // renderHashtags();
+    // Filter posts by hashtag and update sidebar
+    function filterPostsByHashtag(tag) {
+      const filtered = posts.filter(post => {
+        const content = [post.headline, post.teaser, post.content].join(' ');
+        return extractHashtags(content).includes(tag);
+      });
+      renderPosts(filtered); // Only show filtered posts in sidebar
+    }
+
+    // Modify Show All Posts button to restore all posts
+    document.addEventListener('DOMContentLoaded', function() {
+      const showAllBtn = document.querySelector('button[onclick="renderPosts()"]');
+      if (showAllBtn) {
+        showAllBtn.onclick = function() {
+          renderPosts(posts); // Show all posts in sidebar
+        };
+      }
+    });
+  </script>
+  <script>
+    // Attach click handlers after the DOM is ready
+    document.addEventListener("DOMContentLoaded", function () {
+      // Hashtag click: filter sidebar
+      document.querySelectorAll('.hashtag-filter').forEach(el => {
+        el.onclick = function() {
+          filterSidebarByHashtag(el.textContent);
+        };
+      });
+
+      // "Show All" button click: show all sidebar buttons
+      const showAllBtn = document.getElementById('show-all-btn');
+      if (showAllBtn) {
+        showAllBtn.onclick = showAllSidebarButtons;
+      }
     });
   </script>
 </body>
