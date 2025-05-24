@@ -209,8 +209,10 @@ TODO:
 
 
     function showImage(imageUrl) {
-      preview.src = imageUrl;
-     //postId = form.querySelector("#post-key").value;
+      preview.src = imageUrl.url;
+      alert("Image selected: " + imageUrl.name);
+     document.getElementById("current-image").textContent = `${imageUrl.name}`;
+  
 
 // deal with this on save form
     }
@@ -322,7 +324,7 @@ TODO:
 
 
                       <div style="padding: 20px;text-align: center;">
-
+                        <p id="current-image"></p>
 
                         
                         <label for="fileInput" class="button">images</label>

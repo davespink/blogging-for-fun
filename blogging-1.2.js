@@ -297,24 +297,18 @@ function setupPostForm() {
             headline: document.getElementById("post-headlinex").value,
             teaser: document.getElementById("post-teaser").value,
             content: document.getElementById("post-content").value,
-
-
-            image: document.getElementById("post-imagex").files[0]
-                ? document.getElementById("post-imagex").files[0].name
-                : document.getElementById("current-image").textContent.replace("Current Image: ", ""),
-
-
-
-
+            imageName: "",
+            image: "",
 
             date: document.getElementById("post-date").value || new Date().toISOString().split("T")[0],
         };
 
         post.image = preview.getAttribute('src') || "default.jpg"; // Set a default image if none is provided
+        post.imageName = document.getElementById("current-image").textContent;
 
         if (form.dataset.editing) {
             // Update the existing post
-            CRUD.updatePost(post.key, post);
+                CRUD.updatePost(post.key, post);
         } else {
             // Create a new post
             if (post.key == "")
@@ -365,7 +359,7 @@ function editPost(postKey) {
 
         // Display the current image filename
         const currentImageElement = document.getElementById("current-image");
-        currentImageElement.textContent = `Current Image: ${post.image || "None"}`;
+        //currentImageElement.textContent = `Current Image: ${post.image || "None"}`;
 
         // Set the form to edit mode
         const form = document.getElementById("new-post-form");
@@ -471,7 +465,7 @@ function showAllSidebarButtons() {
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("new-post-form");
 
-    document.getElementById("preview").addEventListener("change", function() {
+    document.getElementById("preview").addEventListener("change", function () {
         alert();
         const fileName = this.files[0] ? this.files[0].name : "None";
         document.getElementById("current-image").textContent = `Current Image: ${fileName}`;
