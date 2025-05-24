@@ -1,5 +1,5 @@
 function getVersion() {
-  const version = "1.0.1"; return version
+  const version = "1.0.1"; return version;
 }
 
 function showAlert(message, type = "alert-error", duration = 3000) {
