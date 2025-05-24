@@ -1,0 +1,144 @@
+<html>
+
+
+<!--
+
+<div id="imagePicker" tabindex="0" style="border:1px solid #888; padding:16px; width:220px; text-align:center; cursor:pointer;">
+  Click to pick or right-click to paste image
+</div>
+<img id="preview" width="200" style="display:block; margin-top:10px;" />
+
+<script>
+const imagePicker = document.getElementById('imagePicker');
+const preview = document.getElementById('preview');
+
+// File input (hidden)
+const fileInput = document.createElement('input');
+fileInput.type = 'file';
+fileInput.accept = 'image/*';
+fileInput.style.display = 'none';
+document.body.appendChild(fileInput);
+
+// Click to pick
+imagePicker.addEventListener('click', () => fileInput.click());
+
+// Right-click/contextmenu to enable paste mode
+imagePicker.addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+  imagePicker.textContent = "Paste your image now (Ctrl+V)";
+  imagePicker.focus();
+
+  // Listen for one paste event
+  function onPaste(ev) {
+    const items = ev.clipboardData.items;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf('image') !== -1) {
+        const file = items[i].getAsFile();
+        processFile(file, dataUrl => {
+          preview.src = dataUrl;
+          imagePicker.textContent = "Click to pick or right-click to paste image";
+        });
+        break;
+      }
+    }
+    imagePicker.removeEventListener('paste', onPaste);
+  }
+  imagePicker.addEventListener('paste', onPaste);
+});
+
+// File input handler
+fileInput.addEventListener('change', function() {
+  if (this.files[0]) {
+    processFile(this.files[0], dataUrl => {
+      preview.src = dataUrl;
+      imagePicker.textContent = "Click to pick or right-click to paste image";
+    });
+  }
+});
+
+// Image processing (resample)
+function processFile(file, callback) {
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const img = new Image();
+    img.onload = function () {
+      const maxWidth = 200;
+      const scale = Math.min(maxWidth / img.width, 1);
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+      if (callback) callback(dataUrl);
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+</script>
+
+
+
+
+
+-->
+
+
+<body>
+<style>
+
+
+.button {
+  display: inline-block;
+  padding: 2px 8px 2px 8px;
+  font-size: 16px;
+  border: 1px solid #333;
+  border-radius: 2px;
+  background: #f0f0f0;
+  color: #222;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-align: center;
+}
+.button:hover {
+  background: #e0e0e0;
+}
+
+
+</style>
+
+<script src="lib.js"></script>
+
+  <script>
+
+    function showImage(imageUrl) {
+     preview.src = imageUrl;    
+    }
+
+  </script>
+
+
+
+  <div id="theDiv" style="background-color: blanchedalmond;width:30%;padding: 10px;margin:20px;text-align: center;">
+    <img id="preview" width="200" height="200" style="border-color: black; border-style: solid;"/>
+    <img id="preview2" width="400" />
+    <p id="url" style="display:none"></p>
+    <div style="padding: 20px;text-align: center;">
+      <label for="fileInput" class="button">images</label>
+      <input type="file" id="fileInput" onchange="handleFileSelect(files[0],showImage)" accept="image/*" style="display:none" />
+      <br><p></p>
+      <button id="saveDom" onclick="saveDom()">Save</button>
+      <button id="restoreDom" onclick="restoreDom()">Restore</button>
+    </div>
+
+  </div>
+
+  <script>
+ 
+ 
+  </script>
+
+</body>
+
+</html>

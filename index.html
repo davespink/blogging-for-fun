@@ -146,11 +146,30 @@ TODO:
       background-color: #f44336;
       /* Red */
     }
+
+
+
+    .button {
+      display: inline-block;
+      padding: 2px 8px 2px 8px;
+      font-size: 16px;
+      border: 1px solid #333;
+      border-radius: 2px;
+      background: #f0f0f0;
+      color: #222;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-align: center;
+    }
+
+    .button:hover {
+      background: #e0e0e0;
+    }
   </style>
 
   <script src="content.js"></script>
 
-<!--
+  <!--
    
   <script src="C:\xampp\htdocs\projects\simple-static\libjs\blogging-1.1.js"></script>
  
@@ -160,12 +179,15 @@ TODO:
   <script src="blogging-1.1.js"></script>
  -->
 
-   <script src="https://simple-static-as5.pages.dev/libjs/blogging-1.1.js"></script>
+  <script src="https://simple-static-as5.pages.dev/libjs/blogging-1.1.js"></script>
+
+  <script src="lib.js"></script>
+
 
   <script>
 
     var posts; // important to have this here to avoid errors
-    const readOnly = true;
+    const readOnly = false;
     const onePost = false; // Set to true to show only one post at a time
 
     window.onload = function () {
@@ -183,6 +205,14 @@ TODO:
       }
 
     };
+
+
+    function showImage(imageUrl) {
+      preview.src = imageUrl;
+     //postId = form.querySelector("#post-key").value;
+
+// deal with this on save form
+    }
 
 
   </script>
@@ -282,6 +312,28 @@ TODO:
                       <label for="post-imagex">Image (optional)</label>
                       <input type="file" id="post-imagex" class="w3-input w3-margin-bottom" accept="image/*">
                       <p id="current-image" class="w3-text-grey">Current Image: None</p>
+
+
+
+                      <div style="padding: 20px;text-align: center;">
+                        <label for="fileInput" class="button">images</label>
+                        <input type="file" id="fileInput" onchange="handleFileSelect(files[0],showImage)"
+                          accept="image/*" style="display:none" />
+                     
+
+
+                        <div>
+                  <img id="preview" width="200" height="200"
+                            style="border-color: black; border-style: solid" />
+
+                        </div>
+
+
+
+                      </div>
+
+
+
                       <label for="post-date">Date (optional, defaults to today)</label>
                       <input type="date" id="post-date" class="w3-input w3-margin-bottom">
                       <button type="submit" class="w3-button w3-theme-d2">Save Post</button>
@@ -290,7 +342,14 @@ TODO:
                       <button type="button" class="w3-button w3-theme-l4 w3-right" onclick="hideForm()">Cancel</button>
 
 
+
+
                     </form>
+
+
+
+
+
                   </div>
 
                   <script>
