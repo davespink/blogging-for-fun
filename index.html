@@ -150,22 +150,22 @@ TODO:
 
   <script src="content.js"></script>
 
+<!--
+   
   <script src="C:\xampp\htdocs\projects\simple-static\libjs\blogging-1.1.js"></script>
+ 
 
+  
 
-
-
-  <!--
   <script src="blogging-1.1.js"></script>
-
-
-  <script src="https://simple-static-as5.pages.dev/blogging-1.0.js"></script>
-
  -->
+
+   <script src="https://simple-static-as5.pages.dev/libjs/blogging-1.1.js"></script>
+
   <script>
 
-    var posts  ; // important to have this here to avoid errors
-    const readOnly = false;
+    var posts; // important to have this here to avoid errors
+    const readOnly = true;
     const onePost = false; // Set to true to show only one post at a time
 
     window.onload = function () {
@@ -318,7 +318,8 @@ TODO:
               <div class="w3-container">
 
                 <!-- Add the Create New Post button -->
-                <button id="show-all-btn" class="w3-button w3-theme-d2 w3-margin-top w3-margin-bottom" onclick="renderPosts()">Show All
+                <button id="show-all-btn" class="w3-button w3-theme-d2 w3-margin-top w3-margin-bottom"
+                  onclick="renderPosts()">Show All
                   Posts</button>
                 <button class="w3-button w3-theme-d2 w3-margin-bottom admin" onclick="setupPostForm()">Create New
                   Post</button>
@@ -442,7 +443,7 @@ TODO:
 
       // Add click listeners to hashtags
       document.querySelectorAll('.hashtag-filter').forEach(el => {
-        el.onclick = function() {
+        el.onclick = function () {
           filterSidebarByHashtag(el.textContent);
         };
       });
@@ -458,10 +459,10 @@ TODO:
     }
 
     // Modify Show All Posts button to restore all posts
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const showAllBtn = document.querySelector('button[onclick="renderPosts()"]');
       if (showAllBtn) {
-        showAllBtn.onclick = function() {
+        showAllBtn.onclick = function () {
           renderPosts(posts); // Show all posts in sidebar
         };
       }
@@ -472,7 +473,7 @@ TODO:
     document.addEventListener("DOMContentLoaded", function () {
       // Hashtag click: filter sidebar
       document.querySelectorAll('.hashtag-filter').forEach(el => {
-        el.onclick = function() {
+        el.onclick = function () {
           filterSidebarByHashtag(el.textContent);
         };
       });
