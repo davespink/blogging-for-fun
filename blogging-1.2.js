@@ -308,7 +308,7 @@ function setupPostForm() {
 
         if (form.dataset.editing) {
             // Update the existing post
-                CRUD.updatePost(post.key, post);
+            CRUD.updatePost(post.key, post);
         } else {
             // Create a new post
             if (post.key == "")
@@ -355,6 +355,8 @@ function editPost(postKey) {
         document.getElementById("post-headlinex").value = post.headline;
         document.getElementById("post-teaser").value = post.teaser;
         document.getElementById("post-content").value = post.content;
+        document.getElementById("preview").src = post.image;
+        document.getElementById("current-image").textContent = post.imageName;
         document.getElementById("post-date").value = post.date || "";
 
         // Display the current image filename
@@ -466,7 +468,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("new-post-form");
 
     document.getElementById("preview").addEventListener("change", function () {
-        alert();
+     
         const fileName = this.files[0] ? this.files[0].name : "None";
         document.getElementById("current-image").textContent = `Current Image: ${fileName}`;
     });
