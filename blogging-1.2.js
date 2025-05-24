@@ -471,6 +471,11 @@ function showAllSidebarButtons() {
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("new-post-form");
 
+    document.getElementById("preview").addEventListener("change", function() {
+        alert();
+        const fileName = this.files[0] ? this.files[0].name : "None";
+        document.getElementById("current-image").textContent = `Current Image: ${fileName}`;
+    });
 });
 
 
