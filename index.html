@@ -178,11 +178,12 @@ TODO:
   <script src="https://simple-static-as5.pages.dev/libjs/blogging-1.1.js"></script>
 
 -->
-  
-    <script src="blogging-1.2.js"></script>
+
+  <script src="blogging-1.2.js"></script>
+  <script src="lib.js"></script>
 
   <script>
- 
+
     var posts; // important to have this here to avoid errors
     const readOnly = false;
     const onePost = false; // Set to true to show only one post at a time
@@ -206,11 +207,11 @@ TODO:
 
     function showImage(imageUrl) {
       preview.src = imageUrl.url;
-     // alert("Image selected: " + imageUrl.name);
-     document.getElementById("current-image").textContent = `${imageUrl.name}`;
-  
+      // alert("Image selected: " + imageUrl.name);
+      document.getElementById("current-image").textContent = `${imageUrl.name}`;
 
-// deal with this on save form
+
+      // deal with this on save form
     }
 
 
@@ -308,7 +309,7 @@ TODO:
                       <label for="post-content">Content</label>
                       <textarea id="post-content" class="w3-input w3-margin-bottom"
                         placeholder="Post content (supports HTML)" rows="5" required></textarea>
-                      
+
 
 
                       <!--
@@ -322,16 +323,15 @@ TODO:
                       <div style="padding: 20px;text-align: center;">
                         <p id="current-image"></p>
 
-                        
+
                         <label for="fileInput" class="button">images</label>
                         <input type="file" id="fileInput" onchange="handleFileSelect(files[0],showImage)"
                           accept="image/*" style="display:none" />
-                     
+
 
 
                         <div>
-                  <img id="preview" width="200" height="200"
-                            style="border-color: black; border-style: solid" />
+                          <img id="preview" width="200" height="200" style="border-color: black; border-style: solid" />
 
                         </div>
 
