@@ -39,6 +39,7 @@ function showAlert(message, type = "alert-error", duration = 3000) {
 // doesn't write out posts 
 function generateSideMenu() {
 
+
     //   if (readOnly) {
     //    const adminElements = document.getElementsByClassName("admin");
     //      Array.from(adminElements).forEach((element) => {
@@ -130,6 +131,8 @@ function togglePost() {
 
 // CRUD operations for posts using localStorage
 
+// create two versions of CRUD, one for localStorage and one for Cloudflare key-value storage
+
 class CRUD {
     static createPost(key, value) {
         try {
@@ -160,7 +163,6 @@ class CRUD {
             console.error("Error deleting post:", e);
         }
     }
-
     static getAllPosts() {
         const posts = [];
         for (let i = 0; i < localStorage.length; i++) {
@@ -180,6 +182,9 @@ class CRUD {
 
     }
 }
+
+// cant do this !newCrud = new CRUD();
+
 
 // to show the posts on page load on the main page
 
@@ -417,11 +422,14 @@ function uploadPosts() {
                 try {
                     const posts = JSON.parse(event.target.result);
                     posts.forEach((post) => {
+
+                        console.log("Uploading post:", post);
                         if (!CRUD.retrievePost(post.key)) {
                             CRUD.createPost(post.key, post);
                         }
                     });
                     renderPosts();
+                    console.log("Posts uploaded successfully:");
                     alert("Posts uploaded successfully!");
                 } catch (e) {
                     console.error("Error uploading posts:", e);
@@ -468,7 +476,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("new-post-form");
 
     document.getElementById("preview").addEventListener("change", function () {
-     
+
         const fileName = this.files[0] ? this.files[0].name : "None";
         document.getElementById("current-image").textContent = `Current Image: ${fileName}`;
     });
