@@ -37,7 +37,7 @@ function showAlert(message, type = "alert-error", duration = 3000) {
 
 // doesn't write out posts 
 function generateSideMenu() {
-
+    return;
 
     //   if (readOnly) {
     //    const adminElements = document.getElementsByClassName("admin");
@@ -233,7 +233,7 @@ async function renderPosts() {
         }
 
         newPost.querySelector(".post-headline").textContent = post.headline;
-
+        newPost.querySelector(".post").id = post.key;
 
         let imageUrl = post.image;
         if (imageUrl && !imageUrl.startsWith("data:image/")) {
@@ -246,6 +246,60 @@ async function renderPosts() {
 
         // Now append to the DOM
         postContainer.appendChild(newPost);
+
+        // add button to sidebar
+
+
+        const sidebar = document.getElementById("side-menu");
+        const sidebarTemplate = document.getElementById("sidebar-item-template");
+        const sidebarBtn = sidebarTemplate.content.cloneNode(true);
+
+        // Fill in sidebar button fields
+        const img = sidebarBtn.querySelector(".sidebar-img");
+        img.src = post.image && post.image.startsWith('data:image/')
+            ? post.image
+            : `images/${post.image || 'default.jpg'}`;
+        img.alt = post.headline;
+
+        sidebarBtn.querySelector(".sidebar-title").textContent = post.headline || "Untitled Post";
+
+        // Add click handler
+        //  sidebarBtn.querySelector("button").onclick = () => {
+        // Your sidebar click logic here
+        //    };
+
+
+
+        // Add click functionality
+        sidebarBtn.querySelector("button").onclick = () => {
+
+
+            const targetPost = document.getElementById(post.key);
+            const middleColumn = document.querySelector("#middle-column");
+
+
+            //  remove this code and replace it with a filter function 
+
+            if (onePost) {
+                document.querySelectorAll(".post").forEach((post) => {
+                    post.style.display = "none";
+                });
+                // show the one with post.key
+                targetPost.style.display = "block";
+            }
+
+
+            if (targetPost && middleColumn) {
+                middleColumn.scrollTo({
+                    top: targetPost.offsetTop - middleColumn.offsetTop,
+                    behavior: "smooth",
+                });
+            }
+
+        };
+
+
+        sidebar.appendChild(sidebarBtn);
 
 
     });

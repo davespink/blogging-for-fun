@@ -208,6 +208,37 @@ Move over to a templated version so that I don't need to deal with creating the 
       /* Last button floats right */
 
     }
+
+    .sidebar-btn {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      padding: 10px;
+      text-align: left;
+      border: none;
+      border-radius: 5px;
+      background-color: #f1f1f1;
+      color: #333;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .sidebar-btn:hover {
+      background-color: #e1e1e1;
+    }
+
+    .sidebar-img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      border-radius: 5%;
+    }
+
+    .sidebar-title {
+      font-size: 16px;
+      font-weight: 500;
+    }
   </style>
 
   <script src="content.js"></script>
@@ -362,6 +393,17 @@ Move over to a templated version so that I don't need to deal with creating the 
                           <p>Post content goes here. This is where the full content of the post will be displayed.</p>
                         </div>
                     </template>
+
+
+
+  <template id="sidebar-item-template">
+    <button class="w3-button w3-block w3-theme-l4 sidebar-btn"
+      style="margin-bottom:5px; display:flex; align-items:center;">
+      <img class="sidebar-img" style="width:30px; height:30px; margin-right:10px;">
+      <span class="sidebar-title"></span>
+    </button>
+  </template>
+
 
 
                   </div>
@@ -622,6 +664,7 @@ Move over to a templated version so that I don't need to deal with creating the 
       }
     });
   </script>
+
 </body>
 
 </html>
