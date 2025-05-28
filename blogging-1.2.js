@@ -12,7 +12,6 @@ function showAlert(message, type = "alert-error", duration = 3000) {
     alertBox.style.display = "block";
 
 
-
     // Add a click event listener to the document
     const closeAlertOnClick = (event) => {
         // Check if the click is outside the alert box
@@ -57,6 +56,17 @@ function generateSideMenu() {
         var posts = CRUD.getAllPosts();
 
     posts.forEach((post) => {
+
+
+        const template = document.getElementById("template-post");
+        const newPost = template.content.cloneNode(true);
+        newPost.querySelector(".template-image").setAttribute("src", post.image);
+        // ...fill in other fields...
+        postContainer.appendChild(newPost);
+
+
+        //   newPost.id = post.key; // Set the ID of the post for easy access later
+
         const menuItem = document.createElement("button");
         menuItem.className = "w3-button w3-block w3-theme-l4";
         menuItem.style.marginBottom = "5px";
@@ -118,7 +128,7 @@ function generateSideMenu() {
 function togglePost() {
     const thisButton = this;
     const post = thisButton.closest(".post");
-    const content = post.querySelector(".content");
+    const content = post.querySelector(".post-content");
     if (content.style.display === "none" || !content.style.display) {
         content.style.display = "block";
         thisButton.textContent = "Read Less";
@@ -189,7 +199,7 @@ class CRUD {
 // to show the posts on page load on the main page
 
 
-function renderPosts() {
+async function renderPosts() {
     const postContainer = document.querySelector(".post-container");
     if (!postContainer) {
         console.error("post-container not found");
@@ -206,43 +216,38 @@ function renderPosts() {
     // write code to filter posts by date and sort them in descending order
 
     posts.forEach((post) => {
-        const postElement = document.createElement("div");
 
 
+        let templatePost = document.getElementById("template-post");
 
-        postElement.id = post.key;
-        postElement.className = "post";
-        postElement.style.cssText = "background-color:beige; padding: 12px; margin-bottom: 10px;";
-        const imgSrc = post.image && post.image.startsWith('data:image/')
-            ? post.image
-            : `images/${post.image || 'default.jpg'}`;
+        const postContainer = document.querySelector(".post-container");
+        const newPost = templatePost.content.cloneNode(true);
 
-        postElement.innerHTML = `
-  <div class="w3-card-4 post-header" style="width:100%;margin-bottom:20px;border-radius: 5px; ">
-    <header class="w3-container w3-light-grey" style="padding:0px;">
-      <h3>${post.headline}</h3>
-    </header>
-    <div class="w3-container">
-      <img src="${imgSrc}" alt="Image for ${post.headline}" class="w3-left w3-margin-right" style="max-width:150px;max-height:150px;margin-bottom:10px">
-      <p>${post.teaser}</p><br>
-      <div class="w3-right w3-margin-top">
-      </div>
-    </div>
-    <div style="height:40px;style="background-color: pink;">
-      <button class="admin" style="margin-left:20px" onclick="editPost('${post.key}')">Edit</button>
-      <button class="admin" onclick="deletePost('${post.key}')">Delete</button>
-      <button style="float:right;margin-top: 0px;margin-right:10px" 
-        onclick="togglePost.call(this)" aria-label="Toggle post content">Read More</button>
-    </div>
-  </div>
-  <div class="content" style="display:none">${post.content}</div>
-`;
+        const editBtn = newPost.querySelector(".edit-btn");
+        if (editBtn) {
+            editBtn.onclick = () => editPost(post.key);
+        }
+        const deleteBtn = newPost.querySelector(".delete-btn");
+        if (deleteBtn) {
+            deleteBtn.onclick = () => deletePost(post.key);
+        }
 
-        if (typeof onePost !== "undefined" && onePost) { postElement.style.display = "none"; } // hide all posts
+        newPost.querySelector(".post-headline").textContent = post.headline;
 
 
+        let imageUrl = post.image;
+        if (imageUrl && !imageUrl.startsWith("data:image/")) {
+            imageUrl = "./images/" + imageUrl;
+        }
+        newPost.querySelector(".template-image").setAttribute("src", imageUrl);
 
-        postContainer.appendChild(postElement);
+        newPost.querySelector(".template-teaser").textContent = post.teaser;
+        newPost.querySelector(".post-content").innerHTML = post.content;
+
+        // Now append to the DOM
+        postContainer.appendChild(newPost);
+
+
     });
 
     //      alert(posts.length + " posts loaded.");
@@ -251,7 +256,7 @@ function renderPosts() {
     showAlert(posts.length + " posts loaded", "alert-success", 5000); // Closes after 5 seconds
 
 
-    generateSideMenu();
+    // generateSideMenu();
 }
 
 
@@ -333,8 +338,6 @@ function setupPostForm() {
 
 
 function editPost(postKey) {
-
-
 
     const post = CRUD.retrievePost(postKey); // Retrieve the post data
     if (post) {

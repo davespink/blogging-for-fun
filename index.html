@@ -16,7 +16,7 @@ TODO:
 
  blogging-1.1.js
 
-Move over to a templated version so that I dont need to deal with creating the HTML elements in the JS code.
+Move over to a templated version so that I don't need to deal with creating the HTML elements in the JS code.
 
 
 
@@ -80,7 +80,7 @@ Move over to a templated version so that I dont need to deal with creating the H
       /* Adjust height as needed */
       height: 1000px;
       overflow-y: auto;
-      margin-bottom:auto;
+      margin-bottom: auto;
       /* Enable vertical scrolling */
     }
 
@@ -169,6 +169,44 @@ Move over to a templated version so that I dont need to deal with creating the H
 
     .button:hover {
       background: #e0e0e0;
+    }
+
+    /* Style the content row: image left, text right */
+    .template-content {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    /* Make sure the text takes up remaining space */
+    .template-text {
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Style the buttons row */
+    .template-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      gap: 10px;
+    }
+
+
+    #template {
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+    }
+
+    /* Optional: group first two buttons on left */
+
+
+    .template-buttons button:last-child {
+      margin-left: auto;
+
+      /* Last button floats right */
+
     }
   </style>
 
@@ -272,6 +310,8 @@ Move over to a templated version so that I dont need to deal with creating the H
                 <div class="w3-container w3-card W3-FloralWhite w3-round w3-margin"
                   style="margin-bottom:10px;padding:0px">
                   <br>
+
+
                   <div class="w3-container w3-sans-serif post-container">
                     <div class="w3-card-4 post-header"
                       style="width:100%;height:200px;margin-bottom:20px;border-radius: 5px;">
@@ -294,8 +334,37 @@ Move over to a templated version so that I dont need to deal with creating the H
                         my ideas with others. I hope that one day people will return to blogging for fun, but until
                         then, I will continue to write for myself.</p>
                     </div>
-                  </div>
 
+
+                    <template id="template-post">
+                      <div class="post" id="post" style="background-color: beige; padding: 12px; margin-bottom: 10px;">
+                        <div class="post-header w3-container w3-light-grey"
+                          style="width:100%; border-radius: 10px; box-shadow: 0 18px 12px rgba(0,0,0,.25);">
+                          <header>
+                            <h3 class="post-headline">Template</h3>
+                          </header>
+                          <div class="template-content">
+                            <img class="template-image" src="images/puppy.jpg" height="150" alt="Avatar">
+                            <div class="template-teaser">
+                              <p>Some text</p>
+                            </div>
+                          </div>
+                          <div class="template-buttons">
+                            <button class="admin edit-btn" onclick=" ">Edit</button>
+                            <button class="admin delete-btn" onclick=" ">Delete</button>
+
+                            <button class="readmore-btn" onclick="togglePost.call(this)"
+                              aria-label="Toggle post content">Read More</button>
+                          </div>
+                        </div>
+
+                        <div class="post-content" style="display: none;padding-top: 10px;">
+                          <p>Post content goes here. This is where the full content of the post will be displayed.</p>
+                        </div>
+                    </template>
+
+
+                  </div>
 
 
                   <div class="w3-container input-form" style="padding: 10px;">
@@ -315,11 +384,8 @@ Move over to a templated version so that I dont need to deal with creating the H
                       <textarea id="post-content" class="w3-input w3-margin-bottom"
                         placeholder="Post content (supports HTML)" rows="5" required></textarea>
 
-
-
                       <!--
-                      
-                   
+                          
                       <input type="file" id="post-imagex" class="w3-input w3-margin-bottom" accept="image/*">
                       <p id="current-image" class="w3-text-grey">Current Image: None</p>
    -->
