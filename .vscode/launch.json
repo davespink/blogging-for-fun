@@ -1,6 +1,7 @@
 {
   "version": "0.2.0",
   "configurations": [
+
     {
       "type": "chrome",
       "request": "launch",
@@ -13,7 +14,7 @@
       "type": "chrome",
       "request": "launch",
       "name": "Launch test against file",
-      "file": "C:/xampp/htdocs/projects/blogging-for-fun/test.html",
+      "file": "C:/xampp/htdocs/projects/blogging-for-fun/test.html?p=1746032695922",
       "webRoot": "${workspaceFolder}",
       "sourceMaps": true
     },

@@ -1,3 +1,36 @@
+function gid(id) {
+    return document.getElementById(id);
+}
+function qs(q) {
+    return document.querySelector(q);
+}
+function qsa(q) {
+    return document.querySelectorAll(q);
+}
+function hid(el) {
+    el.style.display = 'none';
+}
+function vid(el) {
+    el.style.display = 'initial';
+}
+function tvid(el) {
+    if (el.style.display == 'initial')
+        hid(el)
+    else vid(el);
+}
+function viz(el) {
+    if (el.style.display == 'initial')
+        return true; else return false;
+}
+function isa(el, c) {
+    if (el == undefined || el == null || el == document)
+        return false;
+    if (el.classList.contains(c))
+        return true; else return false;
+}
+
+
+
 function getVersion() {
     const version = "1.0.2"; return version;
 }
@@ -29,13 +62,32 @@ function showAlert(message, type = "alert-error", duration = 3000) {
         document.removeEventListener("click", closeAlertOnClick); // Remove the event listener
     }, duration);
 
-
-
 }
 
 
 
-// doesn't write out posts 
+function scrollToPost(postKey, onePost = false) {
+
+    const targetPost = document.getElementById(postKey);
+    const middleColumn = document.querySelector("#middle-column");
+
+
+
+    if (targetPost && middleColumn) {
+
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+
+
+        middleColumn.scrollTo({
+            top: targetPost.offsetTop - middleColumn.offsetTop,
+            behavior: "smooth",
+        });
+    }
+}
+
+
+/* doesn't write out posts 
 function generateSideMenu() {
     return;
 
@@ -111,6 +163,10 @@ function generateSideMenu() {
 
 
             if (targetPost && middleColumn) {
+                alert("top");
+
+                window.scrollTo({ top: 0, behavior: "smooth" });
+
                 middleColumn.scrollTo({
                     top: targetPost.offsetTop - middleColumn.offsetTop,
                     behavior: "smooth",
@@ -122,7 +178,7 @@ function generateSideMenu() {
         sideMenu.appendChild(menuItem);
     });
 }
-
+*/
 
 // does read more, read less
 function togglePost() {
@@ -148,7 +204,9 @@ class CRUD {
         try {
             localStorage.setItem(key, JSON.stringify(value));
         } catch (e) {
-            console.error("Error saving post:", e);
+
+            alert("Error saving post: " + e.message);
+            localStorage.clear();
         }
     }
 
@@ -199,7 +257,7 @@ class CRUD {
 // to show the posts on page load on the main page
 
 
- function renderPosts() {
+function renderPosts() {
     const postContainer = document.querySelector(".post-container");
     if (!postContainer) {
         console.error("post-container not found");
@@ -221,6 +279,8 @@ class CRUD {
         let templatePost = document.getElementById("template-post");
 
         const postContainer = document.querySelector(".post-container");
+        //   const allPosts = postContainer.querySelector(".all-posts");
+
         const newPost = templatePost.content.cloneNode(true);
 
         const editBtn = newPost.querySelector(".edit-btn");
@@ -245,10 +305,11 @@ class CRUD {
         newPost.querySelector(".post-content").innerHTML = post.content;
 
         // Now append to the DOM
-        postContainer.appendChild(newPost);
+        allPosts.appendChild(newPost);
 
+        // Sidebar stuff
         // add button to sidebar
-
+        // Check if the sidebar exists
 
         const sidebar = document.getElementById("side-menu");
         const sidebarTemplate = document.getElementById("sidebar-item-template");
@@ -273,12 +334,13 @@ class CRUD {
         // Add click functionality
         sidebarBtn.querySelector("button").onclick = () => {
 
+            return  scrollToPost(post.key, onePost);
 
+            /*
             const targetPost = document.getElementById(post.key);
             const middleColumn = document.querySelector("#middle-column");
 
 
-            //  remove this code and replace it with a filter function 
 
             if (onePost) {
                 document.querySelectorAll(".post").forEach((post) => {
@@ -290,11 +352,14 @@ class CRUD {
 
 
             if (targetPost && middleColumn) {
+
+                window.scrollTo({ top: 0, behavior: "smooth" });
                 middleColumn.scrollTo({
                     top: targetPost.offsetTop - middleColumn.offsetTop,
                     behavior: "smooth",
                 });
-            }
+
+            }*/
 
         };
 
@@ -314,7 +379,7 @@ class CRUD {
 }
 
 
-function setupPostForm() {
+function setupPostForm(isNewPost) {
 
     const formContainer = document.querySelector(".input-form");
     if (formContainer) {
@@ -331,11 +396,10 @@ function setupPostForm() {
 
     // Reset the form fields for creating a new post
     const form = document.getElementById("new-post-form");
-    if (!form.dataset.editing) {
+    if (isNewPost) {
         form.reset(); // Reset the form only if not editing
         document.getElementById("post-key").value = Date.now(); // Generate a new unique key
-
-
+        preview.setAttribute('src', ''); // Set default image
         const postType = document.getElementById("editType");
         postType.innerHTML = "Create Post";
 
