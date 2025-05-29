@@ -199,7 +199,7 @@ class CRUD {
 // to show the posts on page load on the main page
 
 
-async function renderPosts() {
+ function renderPosts() {
     const postContainer = document.querySelector(".post-container");
     if (!postContainer) {
         console.error("post-container not found");
