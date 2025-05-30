@@ -71,8 +71,6 @@ function scrollToPost(postKey, onePost = false) {
     const targetPost = document.getElementById(postKey);
     const middleColumn = document.querySelector("#middle-column");
 
-
-
     if (targetPost && middleColumn) {
 
 
@@ -86,99 +84,8 @@ function scrollToPost(postKey, onePost = false) {
     }
 }
 
-
-/* doesn't write out posts 
-function generateSideMenu() {
-    return;
-
-    //   if (readOnly) {
-    //    const adminElements = document.getElementsByClassName("admin");
-    //      Array.from(adminElements).forEach((element) => {
-    //       element.style.display = "none";
-    //    });
-    //     }
-    //
-    const sideMenu = document.getElementById("side-menu");
-    sideMenu.innerHTML = "";
-
-    if (readOnly)
-
-        var posts = postsContent;
-    else
-        var posts = CRUD.getAllPosts();
-
-    posts.forEach((post) => {
-
-
-        const template = document.getElementById("template-post");
-        const newPost = template.content.cloneNode(true);
-        newPost.querySelector(".template-image").setAttribute("src", post.image);
-        // ...fill in other fields...
-        postContainer.appendChild(newPost);
-
-
-        //   newPost.id = post.key; // Set the ID of the post for easy access later
-
-        const menuItem = document.createElement("button");
-        menuItem.className = "w3-button w3-block w3-theme-l4";
-        menuItem.style.marginBottom = "5px";
-        menuItem.style.display = "flex"; // Align image and text horizontally
-        menuItem.style.alignItems = "center"; // Center-align image and text
-
-        // Add an image to the button
-        const img = document.createElement("img");
-        const imgSrc = post.image && post.image.startsWith('data:image/')
-            ? post.image
-            : `images/${post.image || 'default.jpg'}`;
-        img.src = imgSrc; // Use the post's image
-        img.alt = post.headline;
-        img.style.width = "30px"; // Set image size
-        img.style.height = "30px";
-        img.style.marginRight = "10px"; // Add spacing between image and text
-
-        // Add text to the button
-        const text = document.createTextNode(post.headline || "Untitled Post");
-
-        // Append image and text to the button
-        menuItem.appendChild(img);
-        menuItem.appendChild(text);
-
-        // Add click functionality
-        menuItem.onclick = () => {
-
-
-            const targetPost = document.getElementById(post.key);
-            const middleColumn = document.querySelector("#middle-column");
-
-
-            //  remove this code and replace it with a filter function 
-
-            if (onePost) {
-                document.querySelectorAll(".post").forEach((post) => {
-                    post.style.display = "none";
-                });
-                // show the one with post.key
-                targetPost.style.display = "block";
-            }
-
-
-            if (targetPost && middleColumn) {
-                alert("top");
-
-                window.scrollTo({ top: 0, behavior: "smooth" });
-
-                middleColumn.scrollTo({
-                    top: targetPost.offsetTop - middleColumn.offsetTop,
-                    behavior: "smooth",
-                });
-            }
-
-        };
-
-        sideMenu.appendChild(menuItem);
-    });
-}
-*/
+ 
+ 
 
 // does read more, read less
 function togglePost() {
@@ -195,11 +102,11 @@ function togglePost() {
 }
 
 
-// CRUD operations for posts using localStorage
+// crud operations for posts using localStorage
 
-// create two versions of CRUD, one for localStorage and one for Cloudflare key-value storage
+// create two versions of crud, one for localStorage and one for Cloudflare key-value storage
 
-class CRUD {
+class crud {
     static createPost(key, value) {
         try {
             localStorage.setItem(key, JSON.stringify(value));
@@ -251,11 +158,9 @@ class CRUD {
     }
 }
 
-// cant do this !newCrud = new CRUD();
-
-
-// to show the posts on page load on the main page
-
+function deleteAllPosts() {
+    crud.deleteAllPosts();
+}
 
 function renderPosts() {
     const postContainer = document.querySelector(".post-container");
@@ -267,7 +172,7 @@ function renderPosts() {
     if (readOnly)
         posts = postsContent; // from content.js
     else
-        posts = CRUD.getAllPosts();
+        posts = crud.getAllPosts();
 
     // would be good to have a filter function here to filter and sort posts
 
@@ -414,7 +319,7 @@ function setupPostForm(isNewPost) {
         const error = document.getElementById("post-key-error");
 
         // Check for duplicate keys only when creating a new post
-        if (!form.dataset.editing && CRUD.retrievePost(key)) {
+        if (!form.dataset.editing && crud.retrievePost(key)) {
             error.style.display = "block";
             return;
         }
@@ -437,14 +342,14 @@ function setupPostForm(isNewPost) {
 
         if (form.dataset.editing) {
             // Update the existing post
-            CRUD.updatePost(post.key, post);
+            crud.updatePost(post.key, post);
         } else {
             // Create a new post
             if (post.key == "")
                 alert("Key is empty. Please enter a valid key.");
             else {
                 alert("new post");
-                CRUD.createPost(post.key, post);
+                crud.createPost(post.key, post);
             }
         }
 
@@ -458,7 +363,7 @@ function setupPostForm(isNewPost) {
 
 function editPost(postKey) {
 
-    const post = CRUD.retrievePost(postKey); // Retrieve the post data
+    const post = crud.retrievePost(postKey); // Retrieve the post data
     if (post) {
         const formContainer = document.querySelector(".input-form");
         if (formContainer) {
@@ -506,7 +411,7 @@ function editPost(postKey) {
 
 function deletePost(postKey) {
     if (confirm("Delete this post?")) {
-        CRUD.deletePost(postKey);
+        crud.deletePost(postKey);
         renderPosts();
     }
 }
@@ -522,7 +427,7 @@ function hideForm() {
 
 
 function downloadPosts() {
-    const posts = CRUD.getAllPosts();
+    const posts = crud.getAllPosts();
     const data = JSON.stringify(posts, null, 2);
     const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -547,8 +452,8 @@ function uploadPosts() {
                     posts.forEach((post) => {
 
                         console.log("Uploading post:", post);
-                        if (!CRUD.retrievePost(post.key)) {
-                            CRUD.createPost(post.key, post);
+                        if (!crud.retrievePost(post.key)) {
+                            crud.createPost(post.key, post);
                         }
                     });
                     renderPosts();
