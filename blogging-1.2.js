@@ -73,19 +73,24 @@ function scrollToPost(postKey, onePost = false) {
 
     if (targetPost && middleColumn) {
 
-
         window.scrollTo({ top: 0, behavior: "smooth" });
-
-
         middleColumn.scrollTo({
             top: targetPost.offsetTop - middleColumn.offsetTop,
             behavior: "smooth",
         });
+    } else {
+        // Handle case where post or middleColumn is not found
+        //   alert("Post or middle column not found");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        middleColumn.scrollTo({
+            top: 0, // Scroll to the top of the middle column
+            behavior: "smooth",
+        });
+
+
+
     }
 }
-
-
-
 
 // does read more, read less
 function togglePost() {
@@ -104,7 +109,7 @@ function togglePost() {
 
 // crud operations for posts using localStorage
 
-// create two versions of crud, one for localStorage and one for Cloudflare key-value storage
+
 
 class LocalCrud {
     createPost(key, value) {
@@ -158,7 +163,123 @@ class LocalCrud {
     }
 }
 
-const crud = new LocalCrud();
+
+class RemoteCrud {
+    constructor(baseUrl) {
+        this.baseUrl = baseUrl;
+
+    }
+    async createPost(key, value) {
+        try {
+
+            const response = await fetch(`${this.baseUrl}/create?key=${encodeURIComponent(key)}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(value),
+            });
+            return await response.text();
+        } catch (error) {
+            console.error('Error creating:', error);
+            throw error;
+        }
+    }
+
+    async retrievePost(key) {
+
+        try {
+            const response = await fetch(`${this.baseUrl}/retrieve?key=${encodeURIComponent(key)}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                },
+            });
+            return await response.json();
+        } catch (error) {
+            console.error('Error retrieving:', error);
+            throw error;
+        }
+    }
+
+    async updatePost(key, value) {
+        key = this.makeNameSpace(key);
+        try {
+            const response = await fetch(`${this.baseUrl}/update?key=${encodeURIComponent(key)}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(value),
+            });
+            return await response.text();
+        } catch (error) {
+            console.error('Error updating:', error);
+            throw error;
+        }
+    }
+
+    async deletePost(key) {
+
+        try {
+            const response = await fetch(`${this.baseUrl}/delete?key=${encodeURIComponent(key)}`, {
+                method: 'GET',
+            });
+            return await response.text();
+        } catch (error) {
+            console.error('Error deleting:', error);
+            throw error;
+        }
+    }
+
+    async getAllPosts() {
+        let x = await this.listAll();
+
+        const posts = Array.from(x);
+
+        return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    }
+
+
+    async listAll() {
+        try {
+            const response = await fetch(`${this.baseUrl}/all`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                },
+            });
+            return await response.json();
+
+        } catch (error) {
+            console.error('Error listing all:', error);
+            throw error;
+        }
+    }
+
+    async deleteAllPosts() {
+        try {
+            const response = await fetch(`${this.baseUrl}/delete-all`, {
+                method: 'POST',
+            });
+            return await response.text();
+        } catch (error) {
+            console.error('Error deleting all:', error);
+            throw error;
+        }
+    }
+}
+
+const useRemote = false; // Set to true to use RemoteCrud, false for LocalCrud
+
+let crud;
+if (useRemote) {
+    crud = new RemoteCrud();
+} else {
+    crud = new LocalCrud();
+}
+
+
 
 
 

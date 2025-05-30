@@ -318,32 +318,24 @@ Move over to a templated version so that I don't need to deal with creating the 
     <div class="w3-row" style="padding:0px">
       <!-- Left Column -->
       <div class="w3-col m2">
-        <!-- Profile -->
-        <div class="w3-card w3-round w3-white">
-          <div class="w3-container">
-            <h4 id="version" class="w3-center">v1.14 - 15 may 2025</h4>
-            <p class="w3-center"><img src="https://w3schools.com/w3images/avatar3.png" class="w3-circle"
-                style="height:106px;width:106px" alt="Profile picture"></p>
-            <hr>
-            <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Designer, UI</p>
-            <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> London, UK</p>
-            <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> April 1, 1988</p>
-          </div>
-        </div>
-        <br>
 
-        <div class="w3-card w3-round w3-white w3-center admin">
+
+
+
+        
+        <!-- Admin Operations -->
+        <div class="w3-card w3-round w3-white w3-center admin" style="height:50vh">
 
           <div class="w3-container">
             <p>Storage Operations</p>
 
             <div class="w3-card w3-round w3-white w3-center">
               <div class="w3-container">
-
-                <p><button onclick="deleteAllPosts()" class="w3-button w3-block w3-theme-l4">Clear Storage</button>
+ 
+                <p><button onclick="deleteAllPosts()" class="w3-button w3-block w3-theme-d2">Clear Storage</button>
                 </p>
-                <p><button onclick="downloadPosts()" class="w3-button w3-block w3-theme-l4">Download Posts</button></p>
-                <p><button onclick="uploadPosts()" class="w3-button w3-block w3-theme-l4">Upload Posts</button></p>
+                <p><button onclick="downloadPosts()" class="w3-button w3-block w3-theme-d2">Download Posts</button></p>
+                <p><button onclick="uploadPosts()" class="w3-button w3-block w3-theme-d2">Upload Posts</button></p>
               </div>
             </div>
 
@@ -355,6 +347,27 @@ Move over to a templated version so that I don't need to deal with creating the 
 
         </div>
         <br>
+
+        <!-- Profile -->
+        <div class="w3-card w3-round w3-white">
+          <div class="w3-container">
+            <h4 id="version" class="w3-center">v1.14 - 15 may 2025</h4>
+            
+            <p class="w3-center" onclick="scrollToPost();" style="cursor:pointer; color:blue; text-decoration:underline;"
+                title="Click to scroll to the post with key 1746032695922"
+            >
+            
+            <img src="images/blogging.jpg" class="w3-circle"
+                style="height:120px;width:120px" alt="blog image"></p>
+            <hr>
+            <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Designer, UI</p>
+            <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> London, UK</p>
+            <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> April 1, 1988</p>
+          </div>
+        </div>
+        <br>
+
+
 
 
 
@@ -381,7 +394,7 @@ Move over to a templated version so that I don't need to deal with creating the 
                         <h3>Welcome</h3>
                       </header>
                       <div class="w3-container">
-                        <img src="images/blogging.jpg" alt="Author's profile picture" class="w3-left w3-margin-right"
+                        <img src="images/blogging.jpg" alt="blog image" class="w3-left w3-margin-right"
                           style="width:150px;margin-bottom:10px">
                         <h6>No one seems to blog for fun nowadays.</h6><br>
                       </div>
