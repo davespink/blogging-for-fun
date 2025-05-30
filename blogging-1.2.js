@@ -84,8 +84,8 @@ function scrollToPost(postKey, onePost = false) {
     }
 }
 
- 
- 
+
+
 
 // does read more, read less
 function togglePost() {
@@ -106,8 +106,8 @@ function togglePost() {
 
 // create two versions of crud, one for localStorage and one for Cloudflare key-value storage
 
-class crud {
-    static createPost(key, value) {
+class LocalCrud {
+    createPost(key, value) {
         try {
             localStorage.setItem(key, JSON.stringify(value));
         } catch (e) {
@@ -117,7 +117,7 @@ class crud {
         }
     }
 
-    static retrievePost(key) {
+    retrievePost(key) {
         try {
             const data = localStorage.getItem(key);
             return data ? JSON.parse(data) : null;
@@ -127,18 +127,18 @@ class crud {
         }
     }
 
-    static updatePost(key, value) {
+    updatePost(key, value) {
         this.createPost(key, value);
     }
 
-    static deletePost(key) {
+    deletePost(key) {
         try {
             localStorage.removeItem(key);
         } catch (e) {
             console.error("Error deleting post:", e);
         }
     }
-    static getAllPosts() {
+    getAllPosts() {
         const posts = [];
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
@@ -150,13 +150,17 @@ class crud {
         return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
     }
 
-    static deleteAllPosts() {
+    deleteAllPosts() {
         localStorage.clear();
         alert("All posts have been deleted.");
 
 
     }
 }
+
+const crud = new LocalCrud();
+
+
 
 function deleteAllPosts() {
     crud.deleteAllPosts();
@@ -239,7 +243,7 @@ function renderPosts() {
         // Add click functionality
         sidebarBtn.querySelector("button").onclick = () => {
 
-            return  scrollToPost(post.key, onePost);
+            return scrollToPost(post.key, onePost);
 
             /*
             const targetPost = document.getElementById(post.key);
