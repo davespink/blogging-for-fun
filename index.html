@@ -264,10 +264,18 @@ Move over to a templated version so that I don't need to deal with creating the 
 
     window.onload = function () {
       renderPosts();
-      //   generateSideMenu();
-      version.innerHTML = "v1.14 - 22 may 2025 lib " + getVersion();
-      //   const test = postsContent;
+      version.innerHTML = "v1.15 - 30 may 2025 lib " + getVersion();
       renderHashtags();
+
+      // Parse slug from query string
+      const params = new URLSearchParams(window.location.search);
+      const slug = params.get('slug');
+      if (slug && Array.isArray(posts)) {
+        const post = posts.find(p => p.slug === slug);
+        if (post) {
+          scrollToPost(post.key);
+        }
+      }
 
       if (readOnly) {
         document.querySelectorAll('.admin').forEach(function (element) {
@@ -276,14 +284,7 @@ Move over to a templated version so that I don't need to deal with creating the 
 
       }
       // scrollToPost(1746032695922)
-      const search = window.location.search;
-
-      let SearchPost = search.split("=")[1];
-
-      if (SearchPost) {
-        scrollToPost(SearchPost);
-
-      }
+ 
 
     };
 
@@ -449,9 +450,22 @@ Move over to a templated version so that I don't need to deal with creating the 
                       <input type="text" id="post-key" class="w3-input w3-margin-bottom" placeholder="e.g., post-123"
                         required aria-describedby="post-key-error">
                       <span id="post-key-error" class="w3-text-red" style="display:none;">Key must be unique.</span>
+
+
+                      <label for="post-slug">Slug</label>
+                      <input type="text" id="post-slug" class="w3-input w3-margin-bottom"
+                        placeholder="Post Slug">
+
+
+
                       <label for="post-headlinex">Headline</label>
                       <input type="text" id="post-headlinex" class="w3-input w3-margin-bottom"
                         placeholder="Post Headline" required>
+
+
+
+
+
                       <label for="post-teaser">Teaser</label>
                       <input type="text" id="post-teaser" class="w3-input w3-margin-bottom"
                         placeholder="Short teaser text" required>
@@ -556,7 +570,7 @@ Move over to a templated version so that I don't need to deal with creating the 
           </div>
         </div>
         <br>
-   
+
         <br>
         <br>
       </div>

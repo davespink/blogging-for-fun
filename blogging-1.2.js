@@ -32,7 +32,7 @@ function isa(el, c) {
 
 
 function getVersion() {
-    const version = "1.0.2"; return version;
+    const version = "1.2.1 30 may 25 "; return version;
 }
 
 function showAlert(message, type = "alert-error", duration = 3000) {
@@ -423,6 +423,7 @@ function setupPostForm(isNewPost) {
         const post = {
             key: document.getElementById("post-key").value,
             headline: document.getElementById("post-headlinex").value,
+            slug: document.getElementById("post-slug").value,
             teaser: document.getElementById("post-teaser").value,
             content: document.getElementById("post-content").value,
             imageName: "",
@@ -479,6 +480,7 @@ function editPost(postKey) {
         // Populate the form fields with the post's data
         document.getElementById("post-key").value = post.key;
         document.getElementById("post-headlinex").value = post.headline;
+        document.getElementById("post-slug").value = post.slug;
         document.getElementById("post-teaser").value = post.teaser;
         document.getElementById("post-content").value = post.content;
         document.getElementById("preview").src = post.image;
