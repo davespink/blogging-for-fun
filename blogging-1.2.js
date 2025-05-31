@@ -203,7 +203,8 @@ class RemoteCrud {
     }
 
     async updatePost(key, value) {
-        key = this.makeNameSpace(key);
+
+ 
         try {
             const response = await fetch(`${this.baseUrl}/update?key=${encodeURIComponent(key)}`, {
                 method: 'POST',
@@ -445,7 +446,7 @@ function setupPostForm(isNewPost) {
     }
 
 
-    form.onsubmit = (e) => {
+        form.onsubmit = async (e) => {
         e.preventDefault();
         console.log("Form submitted!"); // Debugging statement
         const key = document.getElementById("post-key").value;
@@ -475,14 +476,14 @@ function setupPostForm(isNewPost) {
 
         if (form.dataset.editing) {
             // Update the existing post
-            crud.updatePost(post.key, post);
+            await crud.updatePost(post.key, post);
         } else {
             // Create a new post
             if (post.key == "")
                 alert("Key is empty. Please enter a valid key.");
             else {
                 alert("new post");
-                crud.createPost(post.key, post);
+                await crud.createPost(post.key, post);
             }
         }
 
