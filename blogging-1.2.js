@@ -283,7 +283,7 @@ const useRemote = true; // Set to true to use RemoteCrud, false for LocalCrud
 
 let crud;
 if (useRemote) {
-    crud = new RemoteCrud("http://127.0.0.1:8787");
+    crud = new RemoteCrud("https://new-crud.henrytatum.workers.dev");
 } else {
     crud = new LocalCrud();
 }
