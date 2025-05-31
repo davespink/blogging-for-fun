@@ -233,9 +233,17 @@ class RemoteCrud {
     }
 
     async getAllPosts() {
+        
         let x = await this.listAll();
 
-        const posts = Array.from(x);
+        const remotePosts = Array.from(x);
+        const posts = [];
+
+        remotePosts.forEach(post => {
+            let fixPost;
+            fixPost = JSON.parse(post.value);
+            posts.push(fixPost);
+        });
 
         return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
     }
@@ -270,11 +278,11 @@ class RemoteCrud {
     }
 }
 
-const useRemote = false; // Set to true to use RemoteCrud, false for LocalCrud
+const useRemote = true; // Set to true to use RemoteCrud, false for LocalCrud
 
 let crud;
 if (useRemote) {
-    crud = new RemoteCrud();
+    crud = new RemoteCrud("http://127.0.0.1:8787");
 } else {
     crud = new LocalCrud();
 }
@@ -287,7 +295,7 @@ function deleteAllPosts() {
     crud.deleteAllPosts();
 }
 
-function renderPosts() {
+async function renderPosts() {
     const postContainer = document.querySelector(".post-container");
     if (!postContainer) {
         console.error("post-container not found");
@@ -297,7 +305,7 @@ function renderPosts() {
     if (readOnly)
         posts = postsContent; // from content.js
     else
-        posts = crud.getAllPosts();
+        posts = await crud.getAllPosts();
 
     // would be good to have a filter function here to filter and sort posts
 
@@ -444,10 +452,10 @@ function setupPostForm(isNewPost) {
         const error = document.getElementById("post-key-error");
 
         // Check for duplicate keys only when creating a new post
-        if (!form.dataset.editing && crud.retrievePost(key)) {
-            error.style.display = "block";
-            return;
-        }
+        //     if (!form.dataset.editing && crud.retrievePost(key)) {
+        //        error.style.display = "block";
+        //       return;
+        //   }
         error.style.display = "none";
 
         const post = {
@@ -486,9 +494,9 @@ function setupPostForm(isNewPost) {
 }
 
 
-function editPost(postKey) {
+async function editPost(postKey) {
 
-    const post = crud.retrievePost(postKey); // Retrieve the post data
+    const post = await crud.retrievePost(postKey); // Retrieve the post data
     if (post) {
         const formContainer = document.querySelector(".input-form");
         if (formContainer) {
@@ -577,9 +585,9 @@ function uploadPosts() {
                     posts.forEach((post) => {
 
                         console.log("Uploading post:", post);
-                        if (!crud.retrievePost(post.key)) {
+                      //  if (!crud.retrievePost(post.key)) {
                             crud.createPost(post.key, post);
-                        }
+                      //  }
                     });
                     renderPosts();
                     console.log("Posts uploaded successfully:");
