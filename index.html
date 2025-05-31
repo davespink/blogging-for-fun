@@ -152,8 +152,6 @@ Move over to a templated version so that I don't need to deal with creating the 
       /* Red */
     }
 
-
-
     .button {
       display: inline-block;
       padding: 2px 8px 2px 8px;
@@ -261,6 +259,7 @@ Move over to a templated version so that I don't need to deal with creating the 
     var posts; // important to have this here to avoid errors
     const readOnly = false;
     const onePost = false; // Set to true to show only one post at a time
+    var isAdmin;
 
     window.onload = function () {
       renderPosts();
@@ -270,11 +269,19 @@ Move over to a templated version so that I don't need to deal with creating the 
       // Parse slug from query string
       const params = new URLSearchParams(window.location.search);
       const slug = params.get('slug');
+      const isAdmin = params.get('admin') === 'true';
       if (slug && Array.isArray(posts)) {
         const post = posts.find(p => p.slug === slug);
         if (post) {
           scrollToPost(post.key);
         }
+      }
+
+      if (!isAdmin) {
+        // Hide admin controls if not in admin mode
+        document.querySelectorAll('.admin').forEach(function (element) {
+          element.style.display = 'none';
+        });
       }
 
       if (readOnly) {
@@ -283,8 +290,8 @@ Move over to a templated version so that I don't need to deal with creating the 
         });
 
       }
-      // scrollToPost(1746032695922)
- 
+
+
 
     };
 
@@ -322,7 +329,7 @@ Move over to a templated version so that I don't need to deal with creating the 
 
 
 
-        
+
         <!-- Admin Operations -->
         <div class="w3-card w3-round w3-white w3-center admin" style="height:50vh">
 
@@ -331,7 +338,7 @@ Move over to a templated version so that I don't need to deal with creating the 
 
             <div class="w3-card w3-round w3-white w3-center">
               <div class="w3-container">
- 
+
                 <p><button onclick="deleteAllPosts()" class="w3-button w3-block w3-theme-d2">Clear Storage</button>
                 </p>
                 <p><button onclick="downloadPosts()" class="w3-button w3-block w3-theme-d2">Download Posts</button></p>
@@ -352,13 +359,13 @@ Move over to a templated version so that I don't need to deal with creating the 
         <div class="w3-card w3-round w3-white">
           <div class="w3-container">
             <h4 id="version" class="w3-center">v1.14 - 15 may 2025</h4>
-            
-            <p class="w3-center" onclick="scrollToPost();" style="cursor:pointer; color:blue; text-decoration:underline;"
-                title="Click to scroll to the post with key 1746032695922"
-            >
-            
-            <img src="images/blogging.jpg" class="w3-circle"
-                style="height:120px;width:120px" alt="blog image"></p>
+
+            <p class="w3-center" onclick="scrollToPost();"
+              style="cursor:pointer; color:blue; text-decoration:underline;"
+              title="Click to scroll to the post with key 1746032695922">
+
+              <img src="images/blogging.jpg" class="w3-circle" style="height:120px;width:120px" alt="blog image">
+            </p>
             <hr>
             <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Designer, UI</p>
             <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> London, UK</p>
@@ -438,6 +445,7 @@ Move over to a templated version so that I don't need to deal with creating the 
 
                         <div class="post-content" style="display: none;padding-top: 10px;">
                           <p>Post content goes here. This is where the full content of the post will be displayed.</p>
+                      
                         </div>
                     </template>
 
@@ -466,8 +474,7 @@ Move over to a templated version so that I don't need to deal with creating the 
 
 
                       <label for="post-slug">Slug</label>
-                      <input type="text" id="post-slug" class="w3-input w3-margin-bottom"
-                        placeholder="Post Slug">
+                      <input type="text" id="post-slug" class="w3-input w3-margin-bottom" placeholder="Post Slug">
 
 
 

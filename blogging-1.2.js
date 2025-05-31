@@ -32,7 +32,7 @@ function isa(el, c) {
 
 
 function getVersion() {
-    const version = "1.2.1 30 may 25 "; return version;
+    const version = "1.2.2 31 may 25 "; return version;
 }
 
 function showAlert(message, type = "alert-error", duration = 3000) {
@@ -204,7 +204,7 @@ class RemoteCrud {
 
     async updatePost(key, value) {
 
- 
+
         try {
             const response = await fetch(`${this.baseUrl}/update?key=${encodeURIComponent(key)}`, {
                 method: 'POST',
@@ -234,7 +234,7 @@ class RemoteCrud {
     }
 
     async getAllPosts() {
-        
+
         let x = await this.listAll();
 
         const remotePosts = Array.from(x);
@@ -303,6 +303,12 @@ async function renderPosts() {
         return;
     }
 
+
+    const alertBox = document.getElementById("custom-alert");
+    const alertMessage = document.getElementById("alert-message");
+     alertMessage.textContent = "Loading...";
+
+
     if (readOnly)
         posts = postsContent; // from content.js
     else
@@ -331,6 +337,11 @@ async function renderPosts() {
             deleteBtn.onclick = () => deletePost(post.key);
         }
 
+        if (!isAdmin) {
+            editBtn.style.display = "none"; // Hide edit button for non-admin users
+            deleteBtn.style.display = "none"; // Hide delete button for non-admin users
+        }
+
         newPost.querySelector(".post-headline").textContent = post.headline;
         newPost.querySelector(".post").id = post.key;
 
@@ -341,7 +352,9 @@ async function renderPosts() {
         newPost.querySelector(".template-image").setAttribute("src", imageUrl);
 
         newPost.querySelector(".template-teaser").textContent = post.teaser;
-        newPost.querySelector(".post-content").innerHTML = post.content;
+        newPost.querySelector(".post-content").innerHTML = post.content + 
+        `<br><button class="readmore-btn" onclick="togglePost.call(this)"
+         aria-label="Toggle post content" style="float:right;">Read Less</button>`;
 
         // Now append to the DOM
         allPosts.appendChild(newPost);
@@ -375,7 +388,7 @@ async function renderPosts() {
 
             return scrollToPost(post.key, onePost);
 
-            /*
+
             const targetPost = document.getElementById(post.key);
             const middleColumn = document.querySelector("#middle-column");
 
@@ -398,7 +411,7 @@ async function renderPosts() {
                     behavior: "smooth",
                 });
 
-            }*/
+            }
 
         };
 
@@ -410,6 +423,11 @@ async function renderPosts() {
 
     //      alert(posts.length + " posts loaded.");
 
+
+    if (alertBox && alertMessage) {
+        alertBox.style.display = "none";
+        alertMessage.textContent = "";
+    }
 
     showAlert(posts.length + " posts loaded", "alert-success", 5000); // Closes after 5 seconds
 
@@ -446,7 +464,7 @@ function setupPostForm(isNewPost) {
     }
 
 
-        form.onsubmit = async (e) => {
+    form.onsubmit = async (e) => {
         e.preventDefault();
         console.log("Form submitted!"); // Debugging statement
         const key = document.getElementById("post-key").value;
@@ -586,9 +604,9 @@ function uploadPosts() {
                     posts.forEach((post) => {
 
                         console.log("Uploading post:", post);
-                      //  if (!crud.retrievePost(post.key)) {
-                            crud.createPost(post.key, post);
-                      //  }
+                        //  if (!crud.retrievePost(post.key)) {
+                        crud.createPost(post.key, post);
+                        //  }
                     });
                     renderPosts();
                     console.log("Posts uploaded successfully:");
