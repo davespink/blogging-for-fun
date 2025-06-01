@@ -32,7 +32,7 @@ Move over to a templated version so that I don't need to deal with creating the 
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
   <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
   <style>
     html,
     body,
@@ -238,10 +238,10 @@ Move over to a templated version so that I don't need to deal with creating the 
       font-weight: 500;
     }
   </style>
-
+  <!--
   <script src="content.js"></script>
 
-  <!--
+
    
   <script src="C:\xampp\htdocs\projects\simple-static\libjs\blogging-1.1.js"></script>
 
@@ -280,13 +280,13 @@ Move over to a templated version so that I don't need to deal with creating the 
       if (!isAdmin) {
         // Hide admin controls if not in admin mode
         document.querySelectorAll('.admin').forEach(function (element) {
-          element.style.display = 'none';
+          //      element.style.display = 'none';
         });
       }
 
       if (readOnly) {
         document.querySelectorAll('.admin').forEach(function (element) {
-          element.style.display = 'none';
+          //   element.style.display = 'none';
         });
 
       }
@@ -445,8 +445,10 @@ Move over to a templated version so that I don't need to deal with creating the 
 
                         <div class="post-content" style="display: none;padding-top: 10px;">
                           <p>Post content goes here. This is where the full content of the post will be displayed.</p>
-                      
+
                         </div>
+                    
+
                     </template>
 
 

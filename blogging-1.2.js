@@ -107,6 +107,21 @@ function togglePost() {
 }
 
 
+function readLess() {
+
+
+    const thisButton = this;
+    const post = thisButton.closest(".post");
+
+    let b = post.querySelector(".readmore-btn");
+
+    b.click(); // Trigger the read more button click
+
+}
+
+
+
+
 // crud operations for posts using localStorage
 
 
@@ -306,7 +321,7 @@ async function renderPosts() {
 
     const alertBox = document.getElementById("custom-alert");
     const alertMessage = document.getElementById("alert-message");
-     alertMessage.textContent = "Loading...";
+    alertMessage.textContent = "Loading...";
 
 
     if (readOnly)
@@ -338,8 +353,8 @@ async function renderPosts() {
         }
 
         if (!isAdmin) {
-            editBtn.style.display = "none"; // Hide edit button for non-admin users
-            deleteBtn.style.display = "none"; // Hide delete button for non-admin users
+            //        editBtn.style.display = "none"; // Hide edit button for non-admin users
+            //      deleteBtn.style.display = "none"; // Hide delete button for non-admin users
         }
 
         newPost.querySelector(".post-headline").textContent = post.headline;
@@ -352,12 +367,15 @@ async function renderPosts() {
         newPost.querySelector(".template-image").setAttribute("src", imageUrl);
 
         newPost.querySelector(".template-teaser").textContent = post.teaser;
-        newPost.querySelector(".post-content").innerHTML = post.content + 
-        `<br><button class="readmore-btn" onclick="togglePost.call(this)"
-         aria-label="Toggle post content" style="float:right;">Read Less</button>`;
+
+        theHTML = `<BUTTON onclick="readLess.call(this)" style="float:right">Read Less</BUTTON>`;
+
+
+        newPost.querySelector(".post-content").innerHTML = post.content + theHTML;
+
 
         // Now append to the DOM
-        allPosts.appendChild(newPost);
+        gid("allPosts").appendChild(newPost);
 
         // Sidebar stuff
         // add button to sidebar
