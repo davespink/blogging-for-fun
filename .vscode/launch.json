@@ -13,8 +13,8 @@
     {
       "type": "chrome",
       "request": "launch",
-      "name": "Launch test against file",
-      "file": "C:/xampp/htdocs/projects/blogging-for-fun/test.html?p=1746032695922",
+      "name": "Launch one post",
+      "file": "C:/xampp/htdocs/projects/blogging-for-fun/index.html?slug=words",
       "webRoot": "${workspaceFolder}",
       "sourceMaps": true
     },

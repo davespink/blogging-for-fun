@@ -298,7 +298,8 @@ const useRemote = true; // Set to true to use RemoteCrud, false for LocalCrud
 
 let crud;
 if (useRemote) {
-    crud = new RemoteCrud("https://new-crud.henrytatum.workers.dev");
+  //crud = new RemoteCrud("https://new-crud.henrytatum.workers.dev");
+    crud = new RemoteCrud("http://127.0.0.1:8787"); // Local development URL
 } else {
     crud = new LocalCrud();
 }
@@ -352,10 +353,10 @@ async function renderPosts() {
             deleteBtn.onclick = () => deletePost(post.key);
         }
 
-        if (!isAdmin) {
-            //        editBtn.style.display = "none"; // Hide edit button for non-admin users
-            //      deleteBtn.style.display = "none"; // Hide delete button for non-admin users
-        }
+        //   if (!isAdmin) {
+        //        editBtn.style.display = "none"; // Hide edit button for non-admin users
+        //      deleteBtn.style.display = "none"; // Hide delete button for non-admin users
+        //   }
 
         newPost.querySelector(".post-headline").textContent = post.headline;
         newPost.querySelector(".post").id = post.key;
@@ -449,8 +450,31 @@ async function renderPosts() {
 
     showAlert(posts.length + " posts loaded", "alert-success", 5000); // Closes after 5 seconds
 
+    // Parse slug from query string
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('slug');
+    const isAdmin = params.get('admin') === 'true';
 
-    // generateSideMenu();
+    if (!isAdmin) {
+
+        // Hide edit and delete buttons for non-admin users
+        document.querySelectorAll(".edit-btn, .delete-btn").forEach(btn => {
+            btn.style.display = "none";
+        });
+
+        document.querySelectorAll(".admin").forEach(element => {
+            element.style.display = "none";
+        });
+    }
+
+
+
+    if (slug && Array.isArray(posts)) {
+        const post = posts.find(p => p.slug === slug);
+        if (post) {
+            scrollToPost(post.key);
+        }
+    }
 }
 
 
