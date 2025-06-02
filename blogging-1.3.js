@@ -294,14 +294,14 @@ class RemoteCrud {
     }
 }
 
-const useRemote = true; // Set to true to use RemoteCrud, false for LocalCrud
+const useRemote = false; // Set to true to use RemoteCrud, false for LocalCrud
 
 let crud;
 if (useRemote) {
-    crud = new RemoteCrud("https://new-crud.henrytatum.workers.dev");
-// crud = new RemoteCrud("http://127.0.0.1:8787"); // Local development URL
+   crud = new RemoteCrud("https://new-crud.henrytatum.workers.dev"); // Cloudflare Workers URL
+// crud = new RemoteCrud("http://127.0.0.1:8787"); // Local server development URL
 } else {
-    crud = new LocalCrud();
+    crud = new LocalCrud(); // Local storage
 }
 
 
