@@ -326,7 +326,7 @@ Move over to a templated version so that I don't need to deal with creating the 
 
   window.onload = async function () {
       await renderPosts();
-      version.innerHTML = "v1.15 - 30 may 2025 lib " + getVersion();
+      version.innerHTML = "v1.16 - 1 June 2025 lib " + getVersion();
       renderHashtags();
 
       // Parse slug from query string
@@ -386,6 +386,9 @@ Move over to a templated version so that I don't need to deal with creating the 
   <div class="w3-container w3-content" style="max-width:1400px;margin-top:10px;padding:0px;">
     <!-- The Grid -->
     <div class="w3-row" style="padding:0px">
+
+
+
       <!-- Left Column -->
       <div id="left-column" class="w3-col m2">
 
@@ -659,7 +662,6 @@ Move over to a templated version so that I don't need to deal with creating the 
 
 
   <footer class="w3-container" style="background-color:orange;padding:0px;text-align: center;">
-
     <h6 style="color:white">Template by w3.css&nbsp;&nbsp;powered by cloudflare</h6>
     </p>
   </footer>
@@ -676,8 +678,8 @@ Move over to a templated version so that I don't need to deal with creating the 
         x.previousElementSibling.className = x.previousElementSibling.className.replace(" w3-theme-d1", "");
       }
     }
-*/
-    // Used to toggle the menu on smaller screens when clicking on the menu button
+
+ 
     function openNav() {
       var x = document.getElementById("navDemo");
       if (x.className.indexOf("w3-show") == -1) {
@@ -686,6 +688,8 @@ Move over to a templated version so that I don't need to deal with creating the 
         x.className = x.className.replace(" w3-show", "");
       }
     }
+
+    */
 
     // Extract hashtags from all posts and display them
     function extractHashtags(text) {
@@ -699,12 +703,7 @@ Move over to a templated version so that I don't need to deal with creating the 
     }
 
     function getAllHashtags(posts) {
-
-      let x = 1;
       // Create a Set to store unique hashtags
-
-
-
       const tags = new Set();
       posts.forEach(post => {
         // Combine all text fields that may contain hashtags

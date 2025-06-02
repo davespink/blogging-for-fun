@@ -32,7 +32,7 @@ function isa(el, c) {
 
 
 function getVersion() {
-    const version = "1.2.2 31 may 25 "; return version;
+    const version = "1.2.3 1 June 25 "; return version;
 }
 
 function showAlert(message, type = "alert-error", duration = 3000) {
