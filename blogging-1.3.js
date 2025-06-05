@@ -330,7 +330,7 @@ async function renderPosts() {
     // would be good to have a filter function here to filter and sort posts
 
     // write code to filter posts by date and sort them in descending order
-
+  
     posts.forEach((post) => {
 
 
@@ -527,7 +527,7 @@ function setupPostForm(isNewPost) {
         post.image = preview.getAttribute('src') || "default.jpg"; // Set a default image if none is provided
         post.imageName = document.getElementById("current-image").textContent;
 
-// fix
+        // fix
         post.image = post.imageName;
 
         if (form.dataset.editing) {
@@ -578,13 +578,16 @@ async function editPost(postKey) {
         document.getElementById("post-slug").value = post.slug;
         document.getElementById("post-teaser").value = post.teaser;
         document.getElementById("post-content").value = post.content;
-        document.getElementById("preview").src = post.image;
+
+        // fix  document.getElementById("preview").src = post.image;
+        document.getElementById("preview").src = "images/" + post.image;
+   
+
         document.getElementById("current-image").textContent = post.imageName;
-        document.getElementById("post-date").value = post.date || "";
 
         // Display the current image filename
-        const currentImageElement = document.getElementById("current-image");
-        //currentImageElement.textContent = `Current Image: ${post.image || "None"}`;
+ 
+
 
         // Set the form to edit mode
         const form = document.getElementById("new-post-form");
@@ -688,7 +691,7 @@ function estimateReadingTime(wordCount, wpm = 225) {
 //const minutes = estimateReadingTime(words);
 //console.log(`${minutes} min read`);
 
- 
+
 
 function filterSidebarByHashtag(tag) {
     // Hide all sidebar buttons
