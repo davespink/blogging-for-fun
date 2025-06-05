@@ -298,18 +298,15 @@ const useRemote = false; // Set to true to use RemoteCrud, false for LocalCrud
 
 let crud;
 if (useRemote) {
-   crud = new RemoteCrud("https://new-crud.henrytatum.workers.dev"); // Cloudflare Workers URL
-// crud = new RemoteCrud("http://127.0.0.1:8787"); // Local server development URL
+    crud = new RemoteCrud("https://new-crud.henrytatum.workers.dev"); // Cloudflare Workers URL
+    // crud = new RemoteCrud("http://127.0.0.1:8787"); // Local server development URL
 } else {
     crud = new LocalCrud(); // Local storage
 }
 
 
-
-
-
-function deleteAllPosts() {
-    crud.deleteAllPosts();
+async function deleteAllPosts() {
+    await crud.deleteAllPosts();
 }
 
 async function renderPosts() {
@@ -411,8 +408,6 @@ async function renderPosts() {
             const targetPost = document.getElementById(post.key);
             const middleColumn = document.querySelector("#middle-column");
 
-
-
             if (onePost) {
                 document.querySelectorAll(".post").forEach((post) => {
                     post.style.display = "none";
@@ -466,8 +461,6 @@ async function renderPosts() {
             element.style.display = "none";
         });
     }
-
-
 
     if (slug && Array.isArray(posts)) {
         const post = posts.find(p => p.slug === slug);
@@ -533,6 +526,9 @@ function setupPostForm(isNewPost) {
 
         post.image = preview.getAttribute('src') || "default.jpg"; // Set a default image if none is provided
         post.imageName = document.getElementById("current-image").textContent;
+
+// fix
+        post.image = post.imageName;
 
         if (form.dataset.editing) {
             // Update the existing post
@@ -620,8 +616,17 @@ function hideForm() {
 
 
 
-function downloadPosts() {
-    const posts = crud.getAllPosts();
+async function downloadPosts() {
+    const posts = await crud.getAllPosts();
+
+
+    posts.forEach(post => {
+        console.log("Post:", post);
+        post.image = post.imageName;
+    });
+
+
+
     const data = JSON.stringify(posts, null, 2);
     const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -664,7 +669,26 @@ function uploadPosts() {
     input.click();
 }
 
-// Add this function to your blogging-1.0.js
+
+function countWordsFromHtml(html) {
+    // Remove HTML tags
+    const text = html.replace(/<[^>]*>/g, ' ');
+    // Replace multiple spaces/newlines with a single space
+    const clean = text.replace(/\s+/g, ' ').trim();
+    // Split by space and filter out empty strings
+    return clean ? clean.split(' ').length : 0;
+}
+
+function estimateReadingTime(wordCount, wpm = 225) {
+    return Math.max(1, Math.round(wordCount / wpm));
+}
+
+// Example usage:
+//const words = countWordsFromHtml(post.content);
+//const minutes = estimateReadingTime(words);
+//console.log(`${minutes} min read`);
+
+ 
 
 function filterSidebarByHashtag(tag) {
     // Hide all sidebar buttons
@@ -706,60 +730,60 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // lib.js ---- this is the image stuff
- 
+
 
 function handleFileSelect(file, callback) {
 
-  if (file) {
-    processFile(file, callback);
-  }
-  
+    if (file) {
+        processFile(file, callback);
+    }
+
 }
 
 function saveDom() {
-  // Save the current body HTML to localStorage
-  localStorage.setItem('savedDom', theDiv.innerHTML);
-  // alert('DOM saved!');
+    // Save the current body HTML to localStorage
+    localStorage.setItem('savedDom', theDiv.innerHTML);
+    // alert('DOM saved!');
 };
 
 // Restore DOM button
 function restoreDom() {
-  // Restore the saved HTML from localStorage
-  const saved = localStorage.getItem('savedDom');
-  if (saved) {
-    theDiv.innerHTML = saved;
-  }
+    // Restore the saved HTML from localStorage
+    const saved = localStorage.getItem('savedDom');
+    if (saved) {
+        theDiv.innerHTML = saved;
+    }
 }
 
 
 function processFile(file, callback) {
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    const img = new Image();
-    img.onload = function () {
-      const maxWidth = 200;
-      const scale = Math.min(maxWidth / img.width, 1);
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width * scale;
-      canvas.height = img.height * scale;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const img = new Image();
+        img.onload = function () {
+            const maxWidth = 200;
+            const scale = Math.min(maxWidth / img.width, 1);
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width * scale;
+            canvas.height = img.height * scale;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
 
-      //    if (callback) callback(dataUrl); // Call the callback with the Data URL
+            //    if (callback) callback(dataUrl); // Call the callback with the Data URL
 
-      if (callback)
-        callback({
-          url: e.target.result,
-          name: file.name
-        });
+            if (callback)
+                callback({
+                    url: e.target.result,
+                    name: file.name
+                });
 
+        };
+        img.src = e.target.result; // causes the onload
     };
-    img.src = e.target.result; // causes the onload
-  };
-  reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
 
-  let x = 1;
+    let x = 1;
 
 }
 
