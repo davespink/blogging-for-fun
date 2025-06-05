@@ -34,9 +34,8 @@ Move over to a templated version so that I don't need to deal with creating the 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
 
   <style>
-
     :root {
-      --primary-bg:w3-card;
+      --primary-bg: w3-card;
       --secondary-bg: #0cr802021c;
       --accent: #ff9800;
       --button-bg: black;
@@ -106,9 +105,9 @@ Move over to a templated version so that I don't need to deal with creating the 
 
     .post-header {
       height: 280px;
-   /*   background-color: #f1f1f1; */
+      /*   background-color: #f1f1f1; */
 
- 
+
 
       border-radius: 20px;
       padding: 10px;
@@ -132,6 +131,15 @@ Move over to a templated version so that I don't need to deal with creating the 
 
     .hidden {
       display: none;
+    }
+
+    .image-left {
+      float: left;
+      margin-right: 15px;
+    }
+     .image-right {
+      float: right;
+      margin-left: 15px;
     }
 
     .alert {
@@ -339,21 +347,21 @@ Move over to a templated version so that I don't need to deal with creating the 
 
   <script src="blogging-1.3.js"></script>
 
- 
-  
+
+
   <script src="content.js"></script>
   <script>
 
     var posts; // important to have this here to avoid errors
-     
-    const readOnly = false;
+
+    const readOnly =  true;
     const onePost = false; // Set to true to show only one post at a time
     var isAdmin;
 
-  window.onload = async function () {
-  
+    window.onload = async function () {
+
       await renderPosts();
-      version.innerHTML = "v1.16 - 1 June 2025 lib " + getVersion();
+      version.innerHTML = "v1.17 - 5 June 2025 lib " + getVersion();
       renderHashtags();
 
       // Parse slug from query string
@@ -369,13 +377,13 @@ Move over to a templated version so that I don't need to deal with creating the 
 
       if (!isAdmin) {
         // Hide admin controls if not in admin mode
-        document.querySelectorAll('.admin').forEach(function (element) {
+        qsa('.admin').forEach(function (element) {
           //      element.style.display = 'none';
         });
       }
 
       if (readOnly) {
-        document.querySelectorAll('.admin').forEach(function (element) {
+        qsa('.admin').forEach(function (element) {
           //   element.style.display = 'none';
         });
 
@@ -389,7 +397,7 @@ Move over to a templated version so that I don't need to deal with creating the 
     function showImage(imageUrl) {
       preview.src = imageUrl.url;
       // alert("Image selected: " + imageUrl.name);
-      document.getElementById("current-image").textContent = `${imageUrl.name}`;
+      gid("current-image").textContent = `${imageUrl.name}`;
 
 
       // deal with this on save form

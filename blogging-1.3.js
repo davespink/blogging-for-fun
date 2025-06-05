@@ -1,3 +1,8 @@
+function getVersion() {
+    const version = "1.3 5 June 25 "; return version;
+}
+
+
 function gid(id) {
     return document.getElementById(id);
 }
@@ -31,11 +36,9 @@ function isa(el, c) {
 
 
 
-function getVersion() {
-    const version = "1.3 2 June 25 "; return version;
-}
 
-function showAlert(message, type = "alert-error", duration = 3000) {
+
+function showAlert(message, type = "alert-error", duration = 1000) {
     const alertBox = document.getElementById("custom-alert");
     const alertMessage = document.getElementById("alert-message");
 
@@ -330,7 +333,7 @@ async function renderPosts() {
     // would be good to have a filter function here to filter and sort posts
 
     // write code to filter posts by date and sort them in descending order
-  
+
     posts.forEach((post) => {
 
 
@@ -366,7 +369,7 @@ async function renderPosts() {
 
         newPost.querySelector(".template-teaser").textContent = post.teaser;
 
-        theHTML = `<BUTTON onclick="readLess.call(this)" style="float:right">Read Less</BUTTON>`;
+        theHTML = `<BUTTON onclick="readLess.call(this)" style="float:right">Read Less</BUTTON>&nbsp;&nbsp;<br><br>`;
 
 
         newPost.querySelector(".post-content").innerHTML = post.content + theHTML;
@@ -581,12 +584,12 @@ async function editPost(postKey) {
 
         // fix  document.getElementById("preview").src = post.image;
         document.getElementById("preview").src = "images/" + post.image;
-   
+
 
         document.getElementById("current-image").textContent = post.imageName;
 
         // Display the current image filename
- 
+
 
 
         // Set the form to edit mode
