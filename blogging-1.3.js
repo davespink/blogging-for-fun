@@ -366,7 +366,7 @@ async function renderPosts() {
         //      deleteBtn.style.display = "none"; // Hide delete button for non-admin users
         //   }
 
-        let readTime =  " <br><br>   - ( reading time " +  estimateReadingTime(countWordsFromHtml(post.content)) + " minutes )";
+   //     let readTime =  " <br><br>   - ( reading time " +  estimateReadingTime(countWordsFromHtml(post.content)) + " minutes )";
 
         newPost.querySelector(".post-headline").textContent = post.headline;
         newPost.querySelector(".post").id = post.key;
@@ -377,7 +377,7 @@ async function renderPosts() {
         }
         newPost.querySelector(".template-image").setAttribute("src", imageUrl);
 
-        newPost.querySelector(".template-teaser").innerHTML = post.teaser + readTime;
+        newPost.querySelector(".template-teaser").innerHTML = post.teaser;
 
         theHTML = `<BUTTON onclick="readLess.call(this)" style="float:right">Read Less</BUTTON>&nbsp;&nbsp;<br><br>`;
 

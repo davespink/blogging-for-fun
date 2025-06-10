@@ -104,14 +104,13 @@ Move over to a templated version so that I don't need to deal with creating the 
     }
 
     .post-header {
-      height: 280px;
+      height: 300px;
       /*   background-color: #f1f1f1; */
-
-
 
       border-radius: 20px;
       padding: 10px;
-      margin-bottom: 10px;
+      padding-bottom:30px;
+    
     }
 
     .post-container {
@@ -217,10 +216,12 @@ Move over to a templated version so that I don't need to deal with creating the 
 
     /* Style the buttons row */
     .template-buttons {
+  
       display: flex;
       justify-content: space-between;
       margin-top: 10px;
-      gap: 10px;
+      margin-right: 30px;
+  
     }
 
 
@@ -331,6 +332,20 @@ Move over to a templated version so that I don't need to deal with creating the 
         width: 80px !important;
         height: auto !important;
       }
+    }
+
+    .reading-time {
+      position: absolute;
+      top: 10px;
+      right: 16px;
+      font-size: 0.5em;
+      color: #000000;
+      background: white;
+      padding: 2px 8px;
+      border-radius: 8px;
+      border: 1px solid black;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+      z-index: 2;
     }
   </style>
   <!--
@@ -521,25 +536,24 @@ Move over to a templated version so that I don't need to deal with creating the 
                     <template id="template-post">
                       <div class="post" id="post" style="background-color: beige; padding: 12px; margin-bottom: 10px;">
                         <div class="post-header w3-container w3-light-grey"
-                          style="width:100%; border-radius: 10px; box-shadow: 0 18px 12px rgba(0,0,0,.25);">
-                          <header>
-                            <h3 class="post-headline">Template</h3>
+                          style="width:100%; border-radius: 20px; box-shadow: 0 18px 12px rgba(0,0,0,.25); position: relative;">
+                          <span id="reading-time" class="reading-time">Reading time - 5 minutes</span>
+                          <header style="margin-left: 280px;">
+                            <h2 class="post-headline">Template</h>
                           </header>
                           <div class="template-content">
-                            <img class="template-image post-image" src="images/puppy.jpg" height="150" alt="Avatar">
+                            <img class="template-image post-image" style="margin-left: 20px" src="images/puppy.jpg" height="150" alt="Avatar">
                             <div class="template-teaser">
                               <p>Some text</p>
                             </div>
                           </div>
-                          <div class="template-buttons">
-                            <button class="admin edit-btn" onclick=" ">Edit</button>
-                            <button class="admin delete-btn" onclick=" ">Delete</button>
-
+                          <div class="template-buttons" >
+                            <button class="admin edit-btn" style="margin-left: 20px;" onclick=" ">Edit</button>
+                            <button class="admin delete-btn" style="margin-left: 20px;" onclick=" ">Delete</button>
                             <button class="readmore-btn" onclick="togglePost.call(this)"
                               aria-label="Toggle post content">Read More</button>
                           </div>
                         </div>
-
                         <div class="post-content" style="display: none;padding-top: 10px;">
                           <p>Post content goes here. This is where the full content of the post will be displayed.</p>
 
@@ -549,6 +563,7 @@ Move over to a templated version so that I don't need to deal with creating the 
                     </template>
 
 
+                
 
                     <template id="sidebar-item-template">
                       <button class="w3-button w3-block w3-theme-l4 sidebar-btn"

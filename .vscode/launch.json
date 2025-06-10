@@ -26,6 +26,14 @@
       "webRoot": "${workspaceFolder}",
       "sourceMaps": true
     },
+        {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Launch Temp against Server",
+      "url": "http://localhost/projects/blogging-for-fun/temp.html",
+      "webRoot": "${workspaceFolder}",
+      "sourceMaps": true
+    },
  
   ]
 }
