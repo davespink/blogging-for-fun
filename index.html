@@ -109,8 +109,8 @@ Move over to a templated version so that I don't need to deal with creating the 
 
       border-radius: 20px;
       padding: 10px;
-      padding-bottom:30px;
-    
+      padding-bottom: 30px;
+
     }
 
     .post-container {
@@ -121,6 +121,13 @@ Move over to a templated version so that I don't need to deal with creating the 
       /* Adjust font size as needed */
 
       width: 100%
+    }
+
+    .post-headline {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
     }
 
     .input-form {
@@ -216,12 +223,12 @@ Move over to a templated version so that I don't need to deal with creating the 
 
     /* Style the buttons row */
     .template-buttons {
-  
+
       display: flex;
       justify-content: space-between;
       margin-top: 10px;
       margin-right: 30px;
-  
+
     }
 
 
@@ -245,6 +252,7 @@ Move over to a templated version so that I don't need to deal with creating the 
       align-items: center;
       justify-content: flex-start;
       width: 100%;
+      height:fit-content;
       padding: 10px;
       text-align: left;
       border: none;
@@ -267,7 +275,7 @@ Move over to a templated version so that I don't need to deal with creating the 
     }
 
     .sidebar-title {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 500;
     }
 
@@ -536,18 +544,19 @@ Move over to a templated version so that I don't need to deal with creating the 
                     <template id="template-post">
                       <div class="post" id="post" style="background-color: beige; padding: 12px; margin-bottom: 10px;">
                         <div class="post-header w3-container w3-light-grey"
-                          style="width:100%; border-radius: 20px; box-shadow: 0 18px 12px rgba(0,0,0,.25); position: relative;">
-                          <span id="reading-time" class="reading-time">Reading time - 5 minutes</span>
-                          <header style="margin-left: 280px;">
+                          style="width:100%;height:fit-content; border-radius: 20px; box-shadow: 0 18px 12px rgba(0,0,0,.25); position: relative;">
+                          <span class="reading-time">Reading time - 5 minutes</span>
+                          <header>
                             <h2 class="post-headline">Template</h>
                           </header>
                           <div class="template-content">
-                            <img class="template-image post-image" style="margin-left: 20px" src="images/puppy.jpg" height="150" alt="Avatar">
+                            <img class="template-image post-image" style="margin-left: 20px" src="images/puppy.jpg"
+                              height="150" alt="Avatar">
                             <div class="template-teaser">
                               <p>Some text</p>
                             </div>
                           </div>
-                          <div class="template-buttons" >
+                          <div class="template-buttons">
                             <button class="admin edit-btn" style="margin-left: 20px;" onclick=" ">Edit</button>
                             <button class="admin delete-btn" style="margin-left: 20px;" onclick=" ">Delete</button>
                             <button class="readmore-btn" onclick="togglePost.call(this)"
@@ -563,7 +572,7 @@ Move over to a templated version so that I don't need to deal with creating the 
                     </template>
 
 
-                
+
 
                     <template id="sidebar-item-template">
                       <button class="w3-button w3-block w3-theme-l4 sidebar-btn"
@@ -590,19 +599,15 @@ Move over to a templated version so that I don't need to deal with creating the 
                       <label for="post-slug">Slug</label>
                       <input type="text" id="post-slug" class="w3-input w3-margin-bottom" placeholder="Post Slug">
 
-
-
                       <label for="post-headlinex">Headline</label>
                       <input type="text" id="post-headlinex" class="w3-input w3-margin-bottom"
                         placeholder="Post Headline" required>
-
-
-
-
-
                       <label for="post-teaser">Teaser</label>
-                      <input type="text" id="post-teaser" class="w3-input w3-margin-bottom"
-                        placeholder="Short teaser text" required>
+
+
+                      <textarea id="post-teaser" class="w3-input w3-margin-bottom"
+                        placeholder="Post content (supports HTML)" rows="5" required></textarea>
+
                       <label for="post-content">Content</label>
                       <textarea id="post-content" class="w3-input w3-margin-bottom"
                         placeholder="Post content (supports HTML)" rows="5" required></textarea>
@@ -640,7 +645,9 @@ Move over to a templated version so that I don't need to deal with creating the 
                       <button type="submit" class="w3-button w3-theme-d2">Save Post</button>
 
                       <!-- New button to hide the form -->
-                      <button type="button" class="w3-button w3-theme-l4 w3-right" onclick="hideForm()">Cancel</button>
+                      <button type="button" class="w3-button w3-theme-l4 w3-right"
+                      
+                      onclick="hideForm()">Cancel</button>
 
 
 

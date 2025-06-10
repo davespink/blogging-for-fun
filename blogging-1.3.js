@@ -361,14 +361,7 @@ async function renderPosts() {
             deleteBtn.onclick = () => deletePost(post.key);
         }
 
-        //   if (!isAdmin) {
-        //        editBtn.style.display = "none"; // Hide edit button for non-admin users
-        //      deleteBtn.style.display = "none"; // Hide delete button for non-admin users
-        //   }
-
-   //     let readTime =  " <br><br>   - ( reading time " +  estimateReadingTime(countWordsFromHtml(post.content)) + " minutes )";
-
-        newPost.querySelector(".post-headline").textContent = post.headline;
+        newPost.querySelector(".post-headline").innerHTML = post.headline;
         newPost.querySelector(".post").id = post.key;
 
         let imageUrl = post.image;
@@ -378,6 +371,8 @@ async function renderPosts() {
         newPost.querySelector(".template-image").setAttribute("src", imageUrl);
 
         newPost.querySelector(".template-teaser").innerHTML = post.teaser;
+
+        newPost.querySelector(".reading-time").innerHTML = " reading time " + estimateReadingTime(countWordsFromHtml(post.content)) + " minutes ";
 
         theHTML = `<BUTTON onclick="readLess.call(this)" style="float:right">Read Less</BUTTON>&nbsp;&nbsp;<br><br>`;
 
@@ -459,9 +454,9 @@ async function renderPosts() {
     showAlert(posts.length + " posts loaded", "alert-success", 5000); // Closes after 5 seconds
 
     // Parse slug from query string
- //   var params = new URLSearchParams(window.location.search);
- //   var slug = params.get('slug');
-  //  var isAdmin = params.get('admin') === 'true';
+    //   var params = new URLSearchParams(window.location.search);
+    //   var slug = params.get('slug');
+    //  var isAdmin = params.get('admin') === 'true';
 
     if (!isAdmin) {
 
@@ -556,10 +551,17 @@ function setupPostForm(isNewPost) {
             }
         }
 
+  
+
         renderPosts(); // Re-render the posts
+
         form.reset(); // Reset the form
         form.dataset.editing = ""; // Clear editing mode
         formContainer.style.display = "none"; // Hide the form
+
+
+
+
     };
 }
 
@@ -573,9 +575,9 @@ async function editPost(postKey) {
             formContainer.style.display = "block"; // Show the form
 
             // Scroll the form into view
-            formContainer.scrollIntoView({
-                behavior: "smooth", // Smooth scrolling
-                block: "start", // Align to the top of the block
+            formContainer.scrollTo({
+                top: formContainer.scrollHeight,
+                behavior: "smooth"
             });
 
             const editType = document.getElementById("editType");
@@ -623,18 +625,28 @@ function deletePost(postKey) {
 }
 
 
+
+
+function scrollForm() {
+    const postId = document.querySelector(".input-form");
+    const postKey = document.getElementById("post-key").value
+    const post = posts.find(p => p.key === postKey);
+    if (post) {
+        scrollToPost(post.key);
+    }
+}
+
+
 function hideForm() {
     const formContainer = document.querySelector(".input-form");
     if (formContainer) {
         formContainer.style.display = "none"; // Hide the form
     }
+    scrollForm();
 }
-
-
 
 async function downloadPosts() {
     const posts = await crud.getAllPosts();
-
 
     posts.forEach(post => {
         console.log("Post:", post);

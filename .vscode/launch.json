@@ -5,19 +5,12 @@
     {
       "type": "chrome",
       "request": "launch",
-      "name": "Launch Chrome against file",
+      "name": "Launch Chrome against file take care",
       "file": "C:/xampp/htdocs/projects/blogging-for-fun/index.html?admin=true",
       "webRoot": "${workspaceFolder}",
       "sourceMaps": true
     },
-    {
-      "type": "chrome",
-      "request": "launch",
-      "name": "Launch one post",
-      "file": "C:/xampp/htdocs/projects/blogging-for-fun/index.html?slug=words",
-      "webRoot": "${workspaceFolder}",
-      "sourceMaps": true
-    },
+   
     {
       "type": "chrome",
       "request": "launch",
