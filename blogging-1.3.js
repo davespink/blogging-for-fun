@@ -313,6 +313,13 @@ async function deleteAllPosts() {
 }
 
 async function renderPosts() {
+
+    // Parse slug from query string
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('slug');
+    const isAdmin = params.get('admin') === 'true';
+
+
     const postContainer = document.querySelector(".post-container");
     if (!postContainer) {
         console.error("post-container not found");
@@ -335,7 +342,8 @@ async function renderPosts() {
     // write code to filter posts by date and sort them in descending order
 
     posts.forEach((post) => {
-
+        if (post.slug === "draft" && !isAdmin)
+            return;
 
         let templatePost = document.getElementById("template-post");
 
@@ -358,6 +366,8 @@ async function renderPosts() {
         //      deleteBtn.style.display = "none"; // Hide delete button for non-admin users
         //   }
 
+        let readTime =  " <br><br>   - ( reading time " +  estimateReadingTime(countWordsFromHtml(post.content)) + " minutes )";
+
         newPost.querySelector(".post-headline").textContent = post.headline;
         newPost.querySelector(".post").id = post.key;
 
@@ -367,7 +377,7 @@ async function renderPosts() {
         }
         newPost.querySelector(".template-image").setAttribute("src", imageUrl);
 
-        newPost.querySelector(".template-teaser").textContent = post.teaser;
+        newPost.querySelector(".template-teaser").innerHTML = post.teaser + readTime;
 
         theHTML = `<BUTTON onclick="readLess.call(this)" style="float:right">Read Less</BUTTON>&nbsp;&nbsp;<br><br>`;
 
@@ -449,9 +459,9 @@ async function renderPosts() {
     showAlert(posts.length + " posts loaded", "alert-success", 5000); // Closes after 5 seconds
 
     // Parse slug from query string
-    const params = new URLSearchParams(window.location.search);
-    const slug = params.get('slug');
-    const isAdmin = params.get('admin') === 'true';
+ //   var params = new URLSearchParams(window.location.search);
+ //   var slug = params.get('slug');
+  //  var isAdmin = params.get('admin') === 'true';
 
     if (!isAdmin) {
 
