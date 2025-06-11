@@ -476,7 +476,7 @@ async function renderPosts() {
         alertMessage.textContent = "";
     }
 
-    showAlert(posts.length + " posts loaded", "alert-success", 5000); // Closes after 5 seconds
+    showAlert(posts.length + " posts loaded", "alert-success", 1000); // Closes after 5 seconds
 
     // Parse slug from query string
     //   var params = new URLSearchParams(window.location.search);
@@ -748,6 +748,7 @@ function filterSidebarByHashtag(tag) {
     document.querySelectorAll("#side-menu button").forEach(btn => {
         btn.style.display = "none";
     });
+
 
     // Show only buttons whose text (headline) matches posts with the hashtag
     posts.forEach(post => {

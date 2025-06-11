@@ -379,7 +379,7 @@ Move over to a templated version so that I don't need to deal with creating the 
     var posts; // important to have this here to avoid errors
 
     const readOnly = false;
-   // const defaultPost = 0; // Default post to show
+    // var defaultPost = 0; // Default post to show
     var defaultPost = "1746033081129"; // Default post to show
     const onePost = true; // Set to true to show only one post at a time
     var isAdmin;
@@ -725,29 +725,7 @@ Move over to a templated version so that I don't need to deal with creating the 
   </footer>
 
   <script>
-    /* Accordion
-    function myFunction(id) {
-      var x = document.getElementById(id);
-      if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-        x.previousElementSibling.className += " w3-theme-d1";
-      } else {
-        x.className = x.className.replace("w3-show", "");
-        x.previousElementSibling.className = x.previousElementSibling.className.replace(" w3-theme-d1", "");
-      }
-    }
-
  
-    function openNav() {
-      var x = document.getElementById("navDemo");
-      if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-      } else {
-        x.className = x.className.replace(" w3-show", "");
-      }
-    }
-
-    */
 
     // Extract hashtags from all posts and display them
     function extractHashtags(text) {
@@ -793,6 +771,7 @@ Move over to a templated version so that I don't need to deal with creating the 
 
     // Filter posts by hashtag and update sidebar
     function filterPostsByHashtag(tag) {
+      let e = gid("side-menu");
       const filtered = posts.filter(post => {
         const content = [post.headline, post.teaser, post.content].join(' ');
         return extractHashtags(content).includes(tag);
