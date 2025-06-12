@@ -369,9 +369,7 @@ Move over to a templated version so that I don't need to deal with creating the 
 
 -->
 
-  <script src="blogging-1.3.1.js"></script>
-
-
+  <script src="blogging-1.4.js"></script>
 
   <script src="content.js"></script>
   <script>
@@ -385,9 +383,8 @@ Move over to a templated version so that I don't need to deal with creating the 
     var isAdmin;
 
     window.onload = async function () {
-
       await renderPosts();
-      version.innerHTML = "v1.18 - 11 June 2025 - lib " + getVersion();
+      version.innerHTML = "v1.2 - 11 June 2025 - lib " + getVersion();
       renderHashtags();
 
       // Parse slug from query string
@@ -415,19 +412,8 @@ Move over to a templated version so that I don't need to deal with creating the 
 
       }
 
-
-
     };
 
-
-    function showImage(imageUrl) {
-      preview.src = imageUrl.url;
-      // alert("Image selected: " + imageUrl.name);
-      gid("current-image").textContent = `${imageUrl.name}`;
-
-
-      // deal with this on save form
-    }
 
 
   </script>
@@ -439,7 +425,6 @@ Move over to a templated version so that I don't need to deal with creating the 
 
   <div id="custom-alert" class="alert" onclick="document.getElementById('custom-alert').style.display='none'">
     <span id="alert-message"></span>
-
   </div>
 
 
@@ -447,42 +432,28 @@ Move over to a templated version so that I don't need to deal with creating the 
   <div class="w3-container w3-content" style="max-width:1400px;margin-top:10px;padding:0px;">
     <!-- The Grid -->
     <div class="w3-row" style="padding:0px">
-
-
-
       <!-- Left Column -->
       <div id="left-column" class="w3-col m2">
-
         <!-- Admin Operations -->
         <div class="w3-card w3-round w3-white w3-center admin" style="height:50vh">
-
           <div class="w3-container">
             <p>Storage Operations</p>
-
             <div class="w3-card w3-round w3-white w3-center">
               <div class="w3-container">
-
                 <p><button onclick="deleteAllPosts()" class="w3-button w3-block w3-theme-d2">Clear Storage</button>
                 </p>
                 <p><button onclick="downloadPosts()" class="w3-button w3-block w3-theme-d2">Download Posts</button></p>
                 <p><button onclick="uploadPosts()" class="w3-button w3-block w3-theme-d2">Upload Posts</button></p>
               </div>
             </div>
-
           </div>
-
-
-
-
-
         </div>
         <br>
 
         <!-- Profile -->
         <div class="w3-card w3-round w3-white">
           <div class="w3-container">
-            <h4 id="version" class="w3-center">v1.14 - 15 may 2025</h4>
-
+            <h4 id="version" class="w3-center">v1.4 - 11 June 2025</h4>
             <p class="w3-center" onclick="scrollToPost();"
               style="cursor:pointer; color:blue; text-decoration:underline;"
               title="Click to scroll to the post with key 1746032695922">
@@ -496,11 +467,6 @@ Move over to a templated version so that I don't need to deal with creating the 
           </div>
         </div>
         <br>
-
-
-
-
-
       </div>
 
       <!-- Middle Column -->
@@ -512,11 +478,10 @@ Move over to a templated version so that I don't need to deal with creating the 
                 <div style="text-align:center;display:none">
                   <h1>BLOGGING FOR FUN</h1>
                 </div>
-                <div class="  w3-card W3-FloralWhite w3-round w3-margin" style="margin-bottom:10px;padding:0px">
+                <div class="w3-card W3-FloralWhite w3-round w3-margin" style="margin-bottom:10px;padding:0px">
                   <br>
 
-
-                  <div class="  w3-sans-serif post-container">
+                  <div class="w3-sans-serif post-container">
                     <div class="w3-card-4 post-header"
                       style="width:100%;height:200px;margin-bottom:20px;border-radius: 5px;">
                       <header class="w3-container w3-light-grey">
@@ -538,11 +503,12 @@ Move over to a templated version so that I don't need to deal with creating the 
                         my ideas with others. I hope that one day people will return to blogging for fun, but until
                         then, I will continue to write for myself.</p>
                     </div>
-
+                    <!--  the posts go here      -->
                     <div id="allPosts" class="w3-container w3-justify">
                       <img src="images/blogging.jpg" alt="Blogging image" style="width:10%;max-width:600px;">
                     </div>
 
+                    <!--  the post template -->
                     <template id="template-post">
                       <div class="post" id="post" style="background-color: beige; padding: 12px; margin-bottom: 10px;">
                         <div class="post-header w3-container w3-light-grey"
@@ -567,14 +533,8 @@ Move over to a templated version so that I don't need to deal with creating the 
                         </div>
                         <div class="post-content" style="display: none;padding-top: 10px;">
                           <p>Post content goes here. This is where the full content of the post will be displayed.</p>
-
                         </div>
-
-
                     </template>
-
-
-
 
                     <template id="sidebar-item-template">
                       <button class="w3-button w3-block w3-theme-l4 sidebar-btn"
@@ -584,10 +544,7 @@ Move over to a templated version so that I don't need to deal with creating the 
                       </button>
                     </template>
 
-
-
                   </div>
-
 
                   <div class="w3-container input-form" style="padding: 10px;">
                     <h3 id="editType">Create New Post</h3>
@@ -600,7 +557,6 @@ Move over to a templated version so that I don't need to deal with creating the 
 
                       <label for="post-slug">Slug</label>
                       <input type="text" id="post-slug" class="w3-input w3-margin-bottom" placeholder="Post Slug">
-
                       <label for="post-headlinex">Headline</label>
                       <input type="text" id="post-headlinex" class="w3-input w3-margin-bottom"
                         placeholder="Post Headline" required>
@@ -609,16 +565,10 @@ Move over to a templated version so that I don't need to deal with creating the 
 
                       <textarea id="post-teaser" class="w3-input w3-margin-bottom"
                         placeholder="Post content (supports HTML)" rows="5" required></textarea>
-
                       <label for="post-content">Content</label>
                       <textarea id="post-content" class="w3-input w3-margin-bottom"
                         placeholder="Post content (supports HTML)" rows="5" required></textarea>
 
-                      <!--
-                          
-                      <input type="file" id="post-imagex" class="w3-input w3-margin-bottom" accept="image/*">
-                      <p id="current-image" class="w3-text-grey">Current Image: None</p>
-   -->
 
 
                       <div style="padding: 20px;text-align: center;">
@@ -684,14 +634,19 @@ Move over to a templated version so that I don't need to deal with creating the 
             <div class="w3-card w3-round w3-white w3-center">
               <div class="w3-container">
 
-                <!-- Add the Create New Post button -->
+                   <button class="w3-button w3-theme-d2 w3-margin-top   admin"
+                 onclick="setupPostForm(true)">Create New
+                  Post</button><br>
                 <button id="show-all-btn" class="w3-button w3-theme-d2 w3-margin-top w3-margin-bottom"
                   onclick="renderPosts()">Show All
                   Posts</button>
-                <button class="w3-button w3-theme-d2 w3-margin-bottom admin" onclick="setupPostForm(true)">Create New
-                  Post</button>
-                <div id="side-menu" style="overflow:auto;height:400px"></div>
+        
+                <div id="side-menu" style="overflow:auto;height:400px">
+                  <!-- sidebar items will be dynamically added here -->
+                </div>
+
               </div>
+
             </div>
             <p>That's all folks</p>
 
@@ -724,86 +679,25 @@ Move over to a templated version so that I don't need to deal with creating the 
     </p>
   </footer>
 
-  <script>
- 
 
-    // Extract hashtags from all posts and display them
-    function extractHashtags(text) {
-      const matches = text.match(/#\w+/g);
-      if (!matches) return [];
-      // Filter out hashtags that are part of HTML entities (preceded by &)
-      return matches.filter(tag => {
-        const idx = text.indexOf(tag);
-        return idx === 0 || text[idx - 1] !== '&';
-      }).map(tag => tag.toLowerCase());
-    }
 
-    function getAllHashtags(posts) {
-      // Create a Set to store unique hashtags
-      const tags = new Set();
-      posts.forEach(post => {
-        // Combine all text fields that may contain hashtags
-        const content = [post.headline, post.teaser, post.content].join(' ');
-        // console.log(content);
-        extractHashtags(content).forEach(tag => tags.add(tag));
-      });
-      return Array.from(tags);
-    }
-
-    function renderHashtags() {
-      if (typeof posts === "undefined" || !Array.isArray(posts)) return;
-      const hashtags = getAllHashtags(posts);
-      const container = document.getElementById('hashtags-container');
-      if (!container) return;
-      container.innerHTML = hashtags.length
-        ? hashtags.map(tag =>
-          `<span class="w3-tag w3-small w3-theme-d5 hashtag-filter" style="cursor:pointer;margin:2px;">${tag}</span>`
-        ).join(' ')
-        : '<span class="w3-text-grey">No hashtags found</span>';
-
-      // Add click listeners to hashtags
-      document.querySelectorAll('.hashtag-filter').forEach(el => {
-        el.onclick = function () {
-          filterSidebarByHashtag(el.textContent);
-        };
-      });
-    }
-
-    // Filter posts by hashtag and update sidebar
-    function filterPostsByHashtag(tag) {
-      let e = gid("side-menu");
-      const filtered = posts.filter(post => {
-        const content = [post.headline, post.teaser, post.content].join(' ');
-        return extractHashtags(content).includes(tag);
-      });
-      renderPosts(filtered); // Only show filtered posts in sidebar
-    }
-
-    // Modify Show All Posts button to restore all posts
-    document.addEventListener('DOMContentLoaded', function () {
-      const showAllBtn = document.querySelector('button[onclick="renderPosts()"]');
-      if (showAllBtn) {
-        showAllBtn.onclick = function () {
-          renderPosts(posts); // Show all posts in sidebar
-        };
-      }
-    });
-  </script>
   <script>
     // Attach click handlers after the DOM is ready
     document.addEventListener("DOMContentLoaded", function () {
       // Hashtag click: filter sidebar
-      document.querySelectorAll('.hashtag-filter').forEach(el => {
-        el.onclick = function () {
-          filterSidebarByHashtag(el.textContent);
-        };
-      });
+      //   document.querySelectorAll('.hashtag-filter').forEach(el => {
+      //     el.onclick = function () {
+      //      filterSidebarByHashtag(el.textContent);
+      //     };
+      //  });
 
       // "Show All" button click: show all sidebar buttons
-      const showAllBtn = document.getElementById('show-all-btn');
-      if (showAllBtn) {
-        showAllBtn.onclick = showAllSidebarButtons;
-      }
+      //   const showAllBtn = document.getElementById('show-all-btn');
+      //   if (showAllBtn) {
+      //    showAllBtn.onclick = showAllSidebarButtons;
+      //   }
+
+
     });
   </script>
 
