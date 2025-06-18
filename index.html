@@ -358,27 +358,29 @@ Move over to a templated version so that I don't need to deal with creating the 
   </style>
   <!--
   <script src="content.js"></script>
-
-
    
   <script src="C:\xampp\htdocs\projects\simple-static\libjs\blogging-1.1.js"></script>
 
   <script src="blogging-1.1.js"></script>
-
+!!! This is changed
   <script src="https://simple-static-as5.pages.dev/libjs/blogging-1.1.js"></script>
 
+
+
+  
+  <script src="blogging-1.4.js"></script>
 -->
 
-  <script src="blogging-1.4.js"></script>
+  <script src="blogging-1.4.3.js"></script>
 
   <script src="content.js"></script>
   <script>
 
     var posts; // important to have this here to avoid errors
 
-    const readOnly = false;
+    const readOnly = true;
     // var defaultPost = 0; // Default post to show
-    var defaultPost = "1746033081129"; // Default post to show
+    var defaultPost = "0"; // Default post to show
     const onePost = true; // Set to true to show only one post at a time
     var isAdmin;
 
@@ -536,12 +538,78 @@ Move over to a templated version so that I don't need to deal with creating the 
                         </div>
                     </template>
 
+
+                    <script>
+
+
+                      function upDownPost(event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        const btn = event.target.closest('button');
+                        if (btn) {
+                          const thisKey = btn.getAttribute('data-key');
+
+
+                          // now find the post with this key and swap it with the post above
+                          const post = document.querySelector(`.post[data-key="${thisKey}"]`);
+                          // swap the posts in the array posts so that this post is moved one nearer the top unless it already is at the top
+                          const index = posts.findIndex(post => post.key === thisKey);
+
+                          if (event.target.classList.contains('btn-up')) {
+                            // Move up
+                            if (index > 0) {
+                              const temp = posts[index - 1];
+                              posts[index - 1] = posts[index];
+                              posts[index] = temp;
+                            }
+                          } else if (event.target.classList.contains('btn-down')) {
+                            // Move down
+                            if (index < posts.length - 1) {
+                              const temp = posts[index + 1];
+                              posts[index + 1] = posts[index];
+                              posts[index] = temp;
+                            }
+                          }
+
+
+
+                        }
+                        // Now re-render the posts
+
+
+                        renderPosts();
+
+                        //   this code will only be called in the admin mode
+                        // so we need write the posts array to the crud storage
+                        if (true) {
+                          deleteAllPosts();
+                          posts.forEach((post, index) => {
+                            post.seq = index;
+                            console.log("storing post:", post);
+                            //  if (!crud.retrievePost(post.key)) {
+                            crud.createPost(post.key, post);
+                            //  }
+                          });
+                        }
+
+                        renderPosts();
+
+                      }
+
+                    </script>
                     <template id="sidebar-item-template">
-                      <button class="w3-button w3-block w3-theme-l4 sidebar-btn"
-                        style="margin-bottom:5px; display:flex; align-items:center;">
-                        <img class="sidebar-img" style="width:30px; height:30px; margin-right:10px;">
-                        <span class="sidebar-title"></span>
-                      </button>
+                      <div>
+                        <button class="w3-button w3-block w3-theme-l4 sidebar-btn"
+                          style="margin-bottom:5px; display:flex; align-items:center;">
+                          <img class="sidebar-img" style="width:30px; height:30px; margin-right:10px;">
+                          <span class="sidebar-title"></span>
+                          <div style="width:100%;  display: flex; justify-content: flex-end;">
+                            <div onclick="upDownPost(event)" class="btn-down" style="width:30px; text-align: center;">⬇️
+                            </div>
+                            <div onclick="upDownPost(event)" class="btn-up" style="width:30px;  text-align: center;">⬆️
+                            </div>
+                        </button>
+                      </div>
                     </template>
 
                   </div>
@@ -569,27 +637,16 @@ Move over to a templated version so that I don't need to deal with creating the 
                       <textarea id="post-content" class="w3-input w3-margin-bottom"
                         placeholder="Post content (supports HTML)" rows="5" required></textarea>
 
-
-
                       <div style="padding: 20px;text-align: center;">
                         <p id="current-image"></p>
-
 
                         <label for="fileInput" class="button">images</label>
                         <input type="file" id="fileInput" onchange="handleFileSelect(files[0],showImage)"
                           accept="image/*" style="display:none" />
-
-
-
                         <div>
                           <img id="preview" width="200" height="200" style="border-color: black; border-style: solid" />
-
                         </div>
-
-
-
                       </div>
-
 
 
                       <label for="post-date">Date (optional, defaults to today)</label>
@@ -599,13 +656,7 @@ Move over to a templated version so that I don't need to deal with creating the 
                       <!-- New button to hide the form -->
                       <button type="button" class="w3-button w3-theme-l4 w3-right" onclick="hideForm()">Cancel</button>
 
-
-
-
                     </form>
-
-
-
 
 
                   </div>
@@ -634,13 +685,12 @@ Move over to a templated version so that I don't need to deal with creating the 
             <div class="w3-card w3-round w3-white w3-center">
               <div class="w3-container">
 
-                   <button class="w3-button w3-theme-d2 w3-margin-top   admin"
-                 onclick="setupPostForm(true)">Create New
+                <button class="w3-button w3-theme-d2 w3-margin-top   admin" onclick="setupPostForm(true)">Create New
                   Post</button><br>
                 <button id="show-all-btn" class="w3-button w3-theme-d2 w3-margin-top w3-margin-bottom"
                   onclick="renderPosts()">Show All
                   Posts</button>
-        
+
                 <div id="side-menu" style="overflow:auto;height:400px">
                   <!-- sidebar items will be dynamically added here -->
                 </div>
@@ -658,10 +708,6 @@ Move over to a templated version so that I don't need to deal with creating the 
               </div>
             </div>
             <br>
-
-
-
-
             <div id="side-menu"></div>
           </div>
         </div>
