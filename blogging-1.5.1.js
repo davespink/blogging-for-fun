@@ -1,5 +1,5 @@
 function getVersion() {
-    const version = "1.3.1 11 June 2025 "; return version;
+    const version = "1.5.1 19 June 2025 "; return version;
 }
 
 
@@ -176,12 +176,17 @@ class LocalCrud {
                 if (post) posts.push(post);
             }
         }
-        return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+        return posts.sort((a, b) => a.seq - b.seq);
+
     }
 
     deleteAllPosts() {
         localStorage.clear();
-        alert("All posts have been deleted.");
+        if (isAdmin)
+            console.log("All posts have been deleted from localStorage.");
+        else
+
+            console.log("All posts have been deleted.");
 
 
     }
@@ -321,14 +326,100 @@ async function deleteAllPosts() {
 
 // const defaultPost = "1746033081129"; // Default post to show
 
+function renderSidebar() {
+    const sidebar = document.getElementById("side-menu");
+    sidebar.innerHTML = ""; // Clear existing sidebar content
+    posts.forEach((post) => {
+        showOnePostSidebar(post);
+    });
+
+}
+
+function showOnePost(post) {
+
+    let templatePost = document.getElementById("template-post");
+
+    const postContainer = document.querySelector(".post-container");
+    //   const allPosts = postContainer.querySelector(".all-posts");
+
+    const newPost = templatePost.content.cloneNode(true);
+
+    const editBtn = newPost.querySelector(".edit-btn");
+    if (editBtn) {
+        editBtn.onclick = () => editPost(post.key);
+    }
+    const deleteBtn = newPost.querySelector(".delete-btn");
+    if (deleteBtn) {
+        deleteBtn.onclick = () => deletePost(post.key);
+    }
+
+    newPost.querySelector(".post-headline").innerHTML = post.headline;
+    newPost.querySelector(".post").id = post.key;
+
+    let imageUrl = post.image;
+    if (imageUrl && !imageUrl.startsWith("data:image/")) {
+        imageUrl = "./images/" + imageUrl;
+    }
+    newPost.querySelector(".template-image").setAttribute("src", imageUrl);
+
+    newPost.querySelector(".template-teaser").innerHTML = post.teaser;
+
+    newPost.querySelector(".reading-time").innerHTML = " reading time " + estimateReadingTime(countWordsFromHtml(post.content)) + " minutes ";
+
+    theHTML = `<BUTTON onclick="readLess.call(this)" style="float:right">Read Less</BUTTON>&nbsp;&nbsp;<br><br>`;
+
+
+    newPost.querySelector(".post-content").innerHTML = post.content + theHTML;
+    // Now append to the DOM
+    gid("allPosts").appendChild(newPost);
+
+
+
+}
+/////
+
+function showOnePostSidebar(post) {
+
+    const sidebar = document.getElementById("side-menu");
+    const sidebarTemplate = document.getElementById("sidebar-item-template");
+    const sidebarBtn = sidebarTemplate.content.cloneNode(true);
+
+    sidebarBtn.querySelector('button').setAttribute('data-key', post.key);
+    // Fill in sidebar button fields
+    const img = sidebarBtn.querySelector(".sidebar-img");
+    img.src = post.image && post.image.startsWith('data:image/')
+        ? post.image
+        : `images/${post.image || 'default.jpg'}`;
+    img.alt = post.headline;
+
+    sidebarBtn.querySelector(".sidebar-title").textContent = post.headline || "Untitled Post";
+
+
+    // Add click functionality
+    sidebarBtn.querySelector("button").onclick = () => {
+        return scrollToPost(post.key);
+    };
+
+
+
+    sidebar.appendChild(sidebarBtn);
+
+
+}
+
+/////
+
 
 async function renderPosts() {
+
+    const alertBox = document.getElementById("custom-alert");
+    const alertMessage = document.getElementById("alert-message");
+    alertMessage.textContent = "Loading...";
 
     // Parse slug from query string
     const params = new URLSearchParams(window.location.search);
     const slug = params.get('slug');
     const isAdmin = params.get('admin') === 'true';
-
 
     const postContainer = document.querySelector(".post-container");
     if (!postContainer) {
@@ -337,139 +428,29 @@ async function renderPosts() {
     }
 
 
-    const alertBox = document.getElementById("custom-alert");
-    const alertMessage = document.getElementById("alert-message");
-    alertMessage.textContent = "Loading...";
-
-
     if (readOnly)
         posts = postsContent; // from content.js
     else
         posts = await crud.getAllPosts();
 
-    // would be good to have a filter function here to filter and sort posts
-
-    // write code to filter posts by date and sort them in descending order
-
 
     gid("allPosts").innerHTML = ""; // Clear existing posts
+
 
     posts.forEach((post) => {
         if (post.slug === "draft" && !isAdmin)
             return;
 
 
-        let showPost = true; // Flag to determine if the post should be shown
-        if (defaultPost != 0) {
-            if (post.key != defaultPost) {
-                showPost = false; // Skip this post if it doesn't match the defaultPost
-            }
+        if (defaultPost == "0" || defaultPost == post.key) {
+            showOnePost(post);
         }
-
-        if (showPost) {
-
-            let templatePost = document.getElementById("template-post");
-
-            const postContainer = document.querySelector(".post-container");
-            //   const allPosts = postContainer.querySelector(".all-posts");
-
-            const newPost = templatePost.content.cloneNode(true);
-
-            const editBtn = newPost.querySelector(".edit-btn");
-            if (editBtn) {
-                editBtn.onclick = () => editPost(post.key);
-            }
-            const deleteBtn = newPost.querySelector(".delete-btn");
-            if (deleteBtn) {
-                deleteBtn.onclick = () => deletePost(post.key);
-            }
-
-            newPost.querySelector(".post-headline").innerHTML = post.headline;
-            newPost.querySelector(".post").id = post.key;
-
-            let imageUrl = post.image;
-            if (imageUrl && !imageUrl.startsWith("data:image/")) {
-                imageUrl = "./images/" + imageUrl;
-            }
-            newPost.querySelector(".template-image").setAttribute("src", imageUrl);
-
-            newPost.querySelector(".template-teaser").innerHTML = post.teaser;
-
-            newPost.querySelector(".reading-time").innerHTML = " reading time " + estimateReadingTime(countWordsFromHtml(post.content)) + " minutes ";
-
-            theHTML = `<BUTTON onclick="readLess.call(this)" style="float:right">Read Less</BUTTON>&nbsp;&nbsp;<br><br>`;
-
-
-            newPost.querySelector(".post-content").innerHTML = post.content + theHTML;
-            // Now append to the DOM
-            gid("allPosts").appendChild(newPost);
-
-
-        }
-
-
-        // Sidebar stuff always shown
-        // add button to sidebar
-        // Check if the sidebar exists
-
-        const sidebar = document.getElementById("side-menu");
-        const sidebarTemplate = document.getElementById("sidebar-item-template");
-        const sidebarBtn = sidebarTemplate.content.cloneNode(true);
-
-        // Fill in sidebar button fields
-        const img = sidebarBtn.querySelector(".sidebar-img");
-        img.src = post.image && post.image.startsWith('data:image/')
-            ? post.image
-            : `images/${post.image || 'default.jpg'}`;
-        img.alt = post.headline;
-
-        sidebarBtn.querySelector(".sidebar-title").textContent = post.headline || "Untitled Post";
-
-        // Add click handler
-        //  sidebarBtn.querySelector("button").onclick = () => {
-        // Your sidebar click logic here
-        //    };
-
-
-
-        // Add click functionality
-        sidebarBtn.querySelector("button").onclick = () => {
-
-            return scrollToPost(post.key);
-
-
-            const targetPost = document.getElementById(post.key);
-            const middleColumn = document.querySelector("#middle-column");
-            /*
-                        if (onePost) {
-                            document.querySelectorAll(".post").forEach((post) => {
-                                post.style.display = "none";
-                            });
-                         ?
-                            targetPost.style.display = "block";
-                        }
-            */
-
-            if (targetPost && middleColumn) {
-
-                window.scrollTo({ top: 0, behavior: "smooth" });
-                middleColumn.scrollTo({
-                    top: targetPost.offsetTop - middleColumn.offsetTop,
-                    behavior: "smooth",
-                });
-
-            }
-
-        };
-
-
-        sidebar.appendChild(sidebarBtn);
-
 
     });
 
-    //      alert(posts.length + " posts loaded.");
 
+    // Now show the sidebar
+    renderSidebar(); // Render the sidebar with all posts
 
     if (alertBox && alertMessage) {
         alertBox.style.display = "none";
@@ -502,7 +483,9 @@ async function renderPosts() {
         }
     }
 }
-
+//
+// end renderPosts
+//
 
 function setupPostForm(isNewPost) {
 
@@ -543,6 +526,14 @@ function setupPostForm(isNewPost) {
         //        error.style.display = "block";
         //       return;
         //   }
+
+        // trap the update if we are in readOnly mode
+        if (readOnly) {
+            alert("You are in read-only mode. Cannot create or update posts.");
+            return;
+        }
+
+
         error.style.display = "none";
 
         const post = {
@@ -576,8 +567,6 @@ function setupPostForm(isNewPost) {
             }
         }
 
-
-
         renderPosts(); // Re-render the posts
 
         form.reset(); // Reset the form
@@ -585,11 +574,8 @@ function setupPostForm(isNewPost) {
         formContainer.style.display = "none"; // Hide the form
 
 
-
-
     };
 }
-
 
 async function editPost(postKey) {
 
@@ -608,8 +594,6 @@ async function editPost(postKey) {
             const editType = document.getElementById("editType");
             editType.innerHTML = "Edit Post"; // Change the form title to "Edit Post"
 
-
-
         }
 
         // Populate the form fields with the post's data
@@ -626,9 +610,6 @@ async function editPost(postKey) {
         document.getElementById("current-image").textContent = post.imageName;
 
         // Display the current image filename
-
-
-
         // Set the form to edit mode
         const form = document.getElementById("new-post-form");
         form.dataset.editing = "true";
@@ -639,15 +620,79 @@ async function editPost(postKey) {
 
 
 
-
-
-
 function deletePost(postKey) {
     if (confirm("Delete this post?")) {
         crud.deletePost(postKey);
         renderPosts();
     }
 }
+
+function upDownPost(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const btn = event.target.closest('button');
+    if (btn) {
+        const thisKey = btn.getAttribute('data-key');
+
+        // now find the post with this key and swap it with the post above
+        const post = document.querySelector(`.post[data-key="${thisKey}"]`);
+        // swap the posts in the array posts so that this post is moved one nearer the top unless it already is at the top
+        const index = posts.findIndex(post => post.key === thisKey);
+
+        if (event.target.classList.contains('btn-up')) {
+            // Move up, wrap top to bottom
+            if (index > 0) {
+                const temp = posts[index - 1];
+                posts[index - 1] = posts[index];
+                posts[index] = temp;
+            } else if (index === 0) {
+                // Move top post to bottom
+                const first = posts.shift();
+                posts.push(first);
+            }
+        } else if (event.target.classList.contains('btn-down')) {
+            // Move down, wrap bottom to top
+            if (index < posts.length - 1) {
+                const temp = posts[index + 1];
+                posts[index + 1] = posts[index];
+                posts[index] = temp;
+            } else if (index === posts.length - 1) {
+                // Move bottom post to top
+                const last = posts.pop();
+                posts.unshift(last);
+            }
+        }
+
+
+
+    }
+
+
+    //  Now re-render the posts
+
+    //   this code will only be called in the admin mode
+    // so we need write the posts array to the crud storage
+
+
+
+    if (true) {
+        deleteAllPosts();
+        posts.forEach((post, index) => {
+            post.seq = index;
+            //  console.log("storing post:", post);
+            //  if (!crud.retrievePost(post.key)) {
+            crud.createPost(post.key, post);
+            //  }
+        });
+    }
+
+    renderPosts();
+
+}
+
+
+
+
 
 
 
@@ -674,11 +719,9 @@ async function downloadPosts() {
     const posts = await crud.getAllPosts();
 
     posts.forEach(post => {
-        console.log("Post:", post);
+        // console.log("Post:", post);
         post.image = post.imageName;
     });
-
-
 
     const data = JSON.stringify(posts, null, 2);
     const blob = new Blob([data], { type: "application/json" });
@@ -735,9 +778,6 @@ function countWordsFromHtml(html) {
 function estimateReadingTime(wordCount, wpm = 225) {
     return Math.max(1, Math.round(wordCount / wpm));
 }
-
-
-
 
 
 function getAllHashtags(posts) {
@@ -818,17 +858,28 @@ function filterSidebarByHashtag(tag) {
 
     // Show only buttons whose text (headline) matches posts with the hashtag
     posts.forEach(post => {
+
+
         const content = [post.headline, post.teaser, post.content].join(' ');
         const hashtags = extractHashtags(content);
+        const postKey = post.key; // Use key  
         if (hashtags.includes(tag)) {
             // Find the sidebar button for this post (by headline text)
             document.querySelectorAll("#side-menu button").forEach(btn => {
-                if (btn.textContent.trim() === (post.headline || "Untitled Post")) {
+
+
+                //    if (btn.textContent.trim() === (post.headline || "Untitled Post")) {
+                //       btn.style.display = "flex";
+                //    }
+                if (btn.getAttribute('data-key') === postKey) {
                     btn.style.display = "flex";
+
                 }
             });
         }
     });
+
+
 }
 
 // To restore all sidebar buttons (show all)

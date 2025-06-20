@@ -1,3 +1,8 @@
+function getVersion() {
+    const version = "1.5 18 June 2025 "; return version;
+}
+
+
 function gid(id) {
     return document.getElementById(id);
 }
@@ -31,11 +36,9 @@ function isa(el, c) {
 
 
 
-function getVersion() {
-    const version = "1.2.3 1 June 25 "; return version;
-}
 
-function showAlert(message, type = "alert-error", duration = 3000) {
+
+function showAlert(message, type = "alert-error", duration = 1000) {
     const alertBox = document.getElementById("custom-alert");
     const alertMessage = document.getElementById("alert-message");
 
@@ -65,8 +68,14 @@ function showAlert(message, type = "alert-error", duration = 3000) {
 }
 
 
+// why pass onePost here?
+// Scrolls to the post with the given key
+function scrollToPost(postKey) {
 
-function scrollToPost(postKey, onePost = false) {
+    if (defaultPost != 0) {
+        defaultPost = postKey; // Reset defaultPost to 0 after scrolling
+        renderPosts();
+    }
 
     const targetPost = document.getElementById(postKey);
     const middleColumn = document.querySelector("#middle-column");
@@ -167,12 +176,17 @@ class LocalCrud {
                 if (post) posts.push(post);
             }
         }
-        return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+        return posts.sort((a, b) => a.seq - b.seq);
+
     }
 
     deleteAllPosts() {
         localStorage.clear();
-        alert("All posts have been deleted.");
+        if (isAdmin)
+            console.log("All posts have been deleted from localStorage.");
+        else
+
+            console.log("All posts have been deleted.");
 
 
     }
@@ -294,25 +308,119 @@ class RemoteCrud {
     }
 }
 
-const useRemote = true; // Set to true to use RemoteCrud, false for LocalCrud
+const useRemote = false; // Set to true to use RemoteCrud, false for LocalCrud
 
 let crud;
 if (useRemote) {
-    crud = new RemoteCrud("https://new-crud.henrytatum.workers.dev");
-// crud = new RemoteCrud("http://127.0.0.1:8787"); // Local development URL
+    crud = new RemoteCrud("https://new-crud.henrytatum.workers.dev"); // Cloudflare Workers URL
+    // crud = new RemoteCrud("http://127.0.0.1:8787"); // Local server development URL
 } else {
-    crud = new LocalCrud();
+    crud = new LocalCrud(); // Local storage
 }
 
 
-
-
-
-function deleteAllPosts() {
-    crud.deleteAllPosts();
+async function deleteAllPosts() {
+    await crud.deleteAllPosts();
 }
+
+
+// const defaultPost = "1746033081129"; // Default post to show
+
+function renderSidebar() {
+    const sidebar = document.getElementById("side-menu");
+    sidebar.innerHTML = ""; // Clear existing sidebar content
+    posts.forEach((post) => {
+        showOnePostSidebar(post);
+    });
+
+}
+
+function showOnePost(post) {
+
+    let templatePost = document.getElementById("template-post");
+
+    const postContainer = document.querySelector(".post-container");
+    //   const allPosts = postContainer.querySelector(".all-posts");
+
+    const newPost = templatePost.content.cloneNode(true);
+
+    const editBtn = newPost.querySelector(".edit-btn");
+    if (editBtn) {
+        editBtn.onclick = () => editPost(post.key);
+    }
+    const deleteBtn = newPost.querySelector(".delete-btn");
+    if (deleteBtn) {
+        deleteBtn.onclick = () => deletePost(post.key);
+    }
+
+    newPost.querySelector(".post-headline").innerHTML = post.headline;
+    newPost.querySelector(".post").id = post.key;
+
+    let imageUrl = post.image;
+    if (imageUrl && !imageUrl.startsWith("data:image/")) {
+        imageUrl = "./images/" + imageUrl;
+    }
+    newPost.querySelector(".template-image").setAttribute("src", imageUrl);
+
+    newPost.querySelector(".template-teaser").innerHTML = post.teaser;
+
+    newPost.querySelector(".reading-time").innerHTML = " reading time " + estimateReadingTime(countWordsFromHtml(post.content)) + " minutes ";
+
+    theHTML = `<BUTTON onclick="readLess.call(this)" style="float:right">Read Less</BUTTON>&nbsp;&nbsp;<br><br>`;
+
+
+    newPost.querySelector(".post-content").innerHTML = post.content + theHTML;
+    // Now append to the DOM
+    gid("allPosts").appendChild(newPost);
+
+
+
+}
+/////
+
+function showOnePostSidebar(post) {
+
+    const sidebar = document.getElementById("side-menu");
+    const sidebarTemplate = document.getElementById("sidebar-item-template");
+    const sidebarBtn = sidebarTemplate.content.cloneNode(true);
+
+    sidebarBtn.querySelector('button').setAttribute('data-key', post.key);
+    // Fill in sidebar button fields
+    const img = sidebarBtn.querySelector(".sidebar-img");
+    img.src = post.image && post.image.startsWith('data:image/')
+        ? post.image
+        : `images/${post.image || 'default.jpg'}`;
+    img.alt = post.headline;
+
+    sidebarBtn.querySelector(".sidebar-title").textContent = post.headline || "Untitled Post";
+
+
+    // Add click functionality
+    sidebarBtn.querySelector("button").onclick = () => {
+        return scrollToPost(post.key);
+    };
+
+
+
+    sidebar.appendChild(sidebarBtn);
+
+
+}
+
+/////
+
 
 async function renderPosts() {
+
+    const alertBox = document.getElementById("custom-alert");
+    const alertMessage = document.getElementById("alert-message");
+    alertMessage.textContent = "Loading...";
+
+    // Parse slug from query string
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('slug');
+    const isAdmin = params.get('admin') === 'true';
+
     const postContainer = document.querySelector(".post-container");
     if (!postContainer) {
         console.error("post-container not found");
@@ -320,140 +428,41 @@ async function renderPosts() {
     }
 
 
-    const alertBox = document.getElementById("custom-alert");
-    const alertMessage = document.getElementById("alert-message");
-    alertMessage.textContent = "Loading...";
-
-
     if (readOnly)
         posts = postsContent; // from content.js
     else
         posts = await crud.getAllPosts();
 
-    // would be good to have a filter function here to filter and sort posts
 
-    // write code to filter posts by date and sort them in descending order
+    gid("allPosts").innerHTML = ""; // Clear existing posts
+
 
     posts.forEach((post) => {
+        if (post.slug === "draft" && !isAdmin)
+            return;
 
 
-        let templatePost = document.getElementById("template-post");
-
-        const postContainer = document.querySelector(".post-container");
-        //   const allPosts = postContainer.querySelector(".all-posts");
-
-        const newPost = templatePost.content.cloneNode(true);
-
-        const editBtn = newPost.querySelector(".edit-btn");
-        if (editBtn) {
-            editBtn.onclick = () => editPost(post.key);
+        if (defaultPost == "0" || defaultPost == post.key) {
+            showOnePost(post);
         }
-        const deleteBtn = newPost.querySelector(".delete-btn");
-        if (deleteBtn) {
-            deleteBtn.onclick = () => deletePost(post.key);
-        }
-
-        //   if (!isAdmin) {
-        //        editBtn.style.display = "none"; // Hide edit button for non-admin users
-        //      deleteBtn.style.display = "none"; // Hide delete button for non-admin users
-        //   }
-
-        newPost.querySelector(".post-headline").textContent = post.headline;
-        newPost.querySelector(".post").id = post.key;
-
-        let imageUrl = post.image;
-        if (imageUrl && !imageUrl.startsWith("data:image/")) {
-            imageUrl = "./images/" + imageUrl;
-        }
-        newPost.querySelector(".template-image").setAttribute("src", imageUrl);
-
-        newPost.querySelector(".template-teaser").textContent = post.teaser;
-
-        theHTML = `<BUTTON onclick="readLess.call(this)" style="float:right">Read Less</BUTTON>`;
-
-
-        newPost.querySelector(".post-content").innerHTML = post.content + theHTML;
-
-
-        // Now append to the DOM
-        gid("allPosts").appendChild(newPost);
-
-        // Sidebar stuff
-        // add button to sidebar
-        // Check if the sidebar exists
-
-        const sidebar = document.getElementById("side-menu");
-        const sidebarTemplate = document.getElementById("sidebar-item-template");
-        const sidebarBtn = sidebarTemplate.content.cloneNode(true);
-
-        // Fill in sidebar button fields
-        const img = sidebarBtn.querySelector(".sidebar-img");
-        img.src = post.image && post.image.startsWith('data:image/')
-            ? post.image
-            : `images/${post.image || 'default.jpg'}`;
-        img.alt = post.headline;
-
-        sidebarBtn.querySelector(".sidebar-title").textContent = post.headline || "Untitled Post";
-
-        // Add click handler
-        //  sidebarBtn.querySelector("button").onclick = () => {
-        // Your sidebar click logic here
-        //    };
-
-
-
-        // Add click functionality
-        sidebarBtn.querySelector("button").onclick = () => {
-
-            return scrollToPost(post.key, onePost);
-
-
-            const targetPost = document.getElementById(post.key);
-            const middleColumn = document.querySelector("#middle-column");
-
-
-
-            if (onePost) {
-                document.querySelectorAll(".post").forEach((post) => {
-                    post.style.display = "none";
-                });
-                // show the one with post.key
-                targetPost.style.display = "block";
-            }
-
-
-            if (targetPost && middleColumn) {
-
-                window.scrollTo({ top: 0, behavior: "smooth" });
-                middleColumn.scrollTo({
-                    top: targetPost.offsetTop - middleColumn.offsetTop,
-                    behavior: "smooth",
-                });
-
-            }
-
-        };
-
-
-        sidebar.appendChild(sidebarBtn);
-
 
     });
 
-    //      alert(posts.length + " posts loaded.");
 
+    // Now show the sidebar
+    renderSidebar(); // Render the sidebar with all posts
 
     if (alertBox && alertMessage) {
         alertBox.style.display = "none";
         alertMessage.textContent = "";
     }
 
-    showAlert(posts.length + " posts loaded", "alert-success", 5000); // Closes after 5 seconds
+    showAlert(posts.length + " posts loaded", "alert-success", 1000); // Closes after 5 seconds
 
     // Parse slug from query string
-    const params = new URLSearchParams(window.location.search);
-    const slug = params.get('slug');
-    const isAdmin = params.get('admin') === 'true';
+    //   var params = new URLSearchParams(window.location.search);
+    //   var slug = params.get('slug');
+    //  var isAdmin = params.get('admin') === 'true';
 
     if (!isAdmin) {
 
@@ -467,8 +476,6 @@ async function renderPosts() {
         });
     }
 
-
-
     if (slug && Array.isArray(posts)) {
         const post = posts.find(p => p.slug === slug);
         if (post) {
@@ -476,7 +483,9 @@ async function renderPosts() {
         }
     }
 }
-
+//
+// end renderPosts
+//
 
 function setupPostForm(isNewPost) {
 
@@ -534,6 +543,9 @@ function setupPostForm(isNewPost) {
         post.image = preview.getAttribute('src') || "default.jpg"; // Set a default image if none is provided
         post.imageName = document.getElementById("current-image").textContent;
 
+        // fix
+        post.image = post.imageName;
+
         if (form.dataset.editing) {
             // Update the existing post
             await crud.updatePost(post.key, post);
@@ -548,12 +560,14 @@ function setupPostForm(isNewPost) {
         }
 
         renderPosts(); // Re-render the posts
+
         form.reset(); // Reset the form
         form.dataset.editing = ""; // Clear editing mode
         formContainer.style.display = "none"; // Hide the form
+
+
     };
 }
-
 
 async function editPost(postKey) {
 
@@ -564,15 +578,13 @@ async function editPost(postKey) {
             formContainer.style.display = "block"; // Show the form
 
             // Scroll the form into view
-            formContainer.scrollIntoView({
-                behavior: "smooth", // Smooth scrolling
-                block: "start", // Align to the top of the block
+            formContainer.scrollTo({
+                top: formContainer.scrollHeight,
+                behavior: "smooth"
             });
 
             const editType = document.getElementById("editType");
             editType.innerHTML = "Edit Post"; // Change the form title to "Edit Post"
-
-
 
         }
 
@@ -582,14 +594,14 @@ async function editPost(postKey) {
         document.getElementById("post-slug").value = post.slug;
         document.getElementById("post-teaser").value = post.teaser;
         document.getElementById("post-content").value = post.content;
-        document.getElementById("preview").src = post.image;
+
+        // fix  document.getElementById("preview").src = post.image;
+        document.getElementById("preview").src = "images/" + post.image;
+
+
         document.getElementById("current-image").textContent = post.imageName;
-        document.getElementById("post-date").value = post.date || "";
 
         // Display the current image filename
-        const currentImageElement = document.getElementById("current-image");
-        //currentImageElement.textContent = `Current Image: ${post.image || "None"}`;
-
         // Set the form to edit mode
         const form = document.getElementById("new-post-form");
         form.dataset.editing = "true";
@@ -600,13 +612,82 @@ async function editPost(postKey) {
 
 
 
-
-
-
 function deletePost(postKey) {
     if (confirm("Delete this post?")) {
         crud.deletePost(postKey);
         renderPosts();
+    }
+}
+
+function upDownPost(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const btn = event.target.closest('button');
+    if (btn) {
+        const thisKey = btn.getAttribute('data-key');
+
+
+        // now find the post with this key and swap it with the post above
+        const post = document.querySelector(`.post[data-key="${thisKey}"]`);
+        // swap the posts in the array posts so that this post is moved one nearer the top unless it already is at the top
+        const index = posts.findIndex(post => post.key === thisKey);
+
+        if (event.target.classList.contains('btn-up')) {
+            // Move up
+            if (index > 0) {
+                const temp = posts[index - 1];
+                posts[index - 1] = posts[index];
+                posts[index] = temp;
+            }
+        } else if (event.target.classList.contains('btn-down')) {
+            // Move down
+            if (index < posts.length - 1) {
+                const temp = posts[index + 1];
+                posts[index + 1] = posts[index];
+                posts[index] = temp;
+            }
+        }
+
+
+
+    }
+
+
+    //  Now re-render the posts
+
+    //   this code will only be called in the admin mode
+    // so we need write the posts array to the crud storage
+
+
+
+    if (true) {
+        deleteAllPosts();
+        posts.forEach((post, index) => {
+            post.seq = index;
+            console.log("storing post:", post);
+            //  if (!crud.retrievePost(post.key)) {
+            crud.createPost(post.key, post);
+            //  }
+        });
+    }
+
+    renderPosts();
+
+}
+
+
+
+
+
+
+
+
+function scrollForm() {
+    const postId = document.querySelector(".input-form");
+    const postKey = document.getElementById("post-key").value
+    const post = posts.find(p => p.key === postKey);
+    if (post) {
+        scrollToPost(post.key);
     }
 }
 
@@ -616,12 +697,17 @@ function hideForm() {
     if (formContainer) {
         formContainer.style.display = "none"; // Hide the form
     }
+    scrollForm();
 }
 
+async function downloadPosts() {
+    const posts = await crud.getAllPosts();
 
+    posts.forEach(post => {
+        console.log("Post:", post);
+        post.image = post.imageName;
+    });
 
-function downloadPosts() {
-    const posts = crud.getAllPosts();
     const data = JSON.stringify(posts, null, 2);
     const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -664,7 +750,89 @@ function uploadPosts() {
     input.click();
 }
 
-// Add this function to your blogging-1.0.js
+
+function countWordsFromHtml(html) {
+    // Remove HTML tags
+    const text = html.replace(/<[^>]*>/g, ' ');
+    // Replace multiple spaces/newlines with a single space
+    const clean = text.replace(/\s+/g, ' ').trim();
+    // Split by space and filter out empty strings
+    return clean ? clean.split(' ').length : 0;
+}
+
+function estimateReadingTime(wordCount, wpm = 225) {
+    return Math.max(1, Math.round(wordCount / wpm));
+}
+
+
+function getAllHashtags(posts) {
+    // Create a Set to store unique hashtags
+    const tags = new Set();
+    posts.forEach(post => {
+        // Combine all text fields that may contain hashtags
+        const content = [post.headline, post.teaser, post.content].join(' ');
+        // console.log(content);
+        extractHashtags(content).forEach(tag => tags.add(tag));
+    });
+    return Array.from(tags);
+}
+
+function renderHashtags() {
+    if (typeof posts === "undefined" || !Array.isArray(posts)) return;
+    const hashtags = getAllHashtags(posts);
+    const container = document.getElementById('hashtags-container');
+    if (!container) return;
+    container.innerHTML = hashtags.length
+        ? hashtags.map(tag =>
+            `<span class="w3-tag w3-small w3-theme-d5 hashtag-filter" style="cursor:pointer;margin:2px;">${tag}</span>`
+        ).join(' ')
+        : '<span class="w3-text-grey">No hashtags found</span>';
+
+    // Add click listeners to hashtags
+    document.querySelectorAll('.hashtag-filter').forEach(el => {
+        el.onclick = function () {
+            filterSidebarByHashtag(el.textContent);
+        };
+    });
+}
+
+// Filter posts by hashtag and update sidebar
+function filterPostsByHashtag(tag) {
+    let e = gid("side-menu");
+    const filtered = posts.filter(post => {
+        const content = [post.headline, post.teaser, post.content].join(' ');
+        return extractHashtags(content).includes(tag);
+    });
+    renderPosts(filtered); // Only show filtered posts in sidebar
+}
+
+// Modify Show All Posts button to restore all posts
+document.addEventListener('DOMContentLoaded', function () {
+    const showAllBtn = document.querySelector('button[onclick="renderPosts()"]');
+    if (showAllBtn) {
+        showAllBtn.onclick = function () {
+            renderPosts(posts); // Show all posts in sidebar
+        };
+    }
+});
+
+
+
+
+
+
+
+// Extract hashtags from all posts and display them
+function extractHashtags(text) {
+    const matches = text.match(/#\w+/g);
+    if (!matches) return [];
+    // Filter out hashtags that are part of HTML entities (preceded by &)
+    return matches.filter(tag => {
+        const idx = text.indexOf(tag);
+        return idx === 0 || text[idx - 1] !== '&';
+    }).map(tag => tag.toLowerCase());
+}
+
 
 function filterSidebarByHashtag(tag) {
     // Hide all sidebar buttons
@@ -672,19 +840,31 @@ function filterSidebarByHashtag(tag) {
         btn.style.display = "none";
     });
 
+
     // Show only buttons whose text (headline) matches posts with the hashtag
     posts.forEach(post => {
+
+
         const content = [post.headline, post.teaser, post.content].join(' ');
         const hashtags = extractHashtags(content);
+        const postKey = post.key; // Use key  
         if (hashtags.includes(tag)) {
             // Find the sidebar button for this post (by headline text)
             document.querySelectorAll("#side-menu button").forEach(btn => {
-                if (btn.textContent.trim() === (post.headline || "Untitled Post")) {
+
+
+                //    if (btn.textContent.trim() === (post.headline || "Untitled Post")) {
+                //       btn.style.display = "flex";
+                //    }
+                if (btn.getAttribute('data-key') === postKey) {
                     btn.style.display = "flex";
+
                 }
             });
         }
     });
+
+
 }
 
 // To restore all sidebar buttons (show all)
@@ -706,60 +886,69 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // lib.js ---- this is the image stuff
- 
+
+function showImage(imageUrl) {
+    preview.src = imageUrl.url;
+    // alert("Image selected: " + imageUrl.name);
+    gid("current-image").textContent = `${imageUrl.name}`;
+
+
+    // deal with this on save form
+}
+
 
 function handleFileSelect(file, callback) {
 
-  if (file) {
-    processFile(file, callback);
-  }
-  
+    if (file) {
+        processFile(file, callback);
+    }
+
 }
 
 function saveDom() {
-  // Save the current body HTML to localStorage
-  localStorage.setItem('savedDom', theDiv.innerHTML);
-  // alert('DOM saved!');
+    // Save the current body HTML to localStorage
+    localStorage.setItem('savedDom', theDiv.innerHTML);
+    // alert('DOM saved!');
 };
 
 // Restore DOM button
 function restoreDom() {
-  // Restore the saved HTML from localStorage
-  const saved = localStorage.getItem('savedDom');
-  if (saved) {
-    theDiv.innerHTML = saved;
-  }
+    // Restore the saved HTML from localStorage
+    const saved = localStorage.getItem('savedDom');
+    if (saved) {
+        theDiv.innerHTML = saved;
+    }
 }
 
 
 function processFile(file, callback) {
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    const img = new Image();
-    img.onload = function () {
-      const maxWidth = 200;
-      const scale = Math.min(maxWidth / img.width, 1);
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width * scale;
-      canvas.height = img.height * scale;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const img = new Image();
+        img.onload = function () {
+            const maxWidth = 200;
+            const scale = Math.min(maxWidth / img.width, 1);
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width * scale;
+            canvas.height = img.height * scale;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
 
-      //    if (callback) callback(dataUrl); // Call the callback with the Data URL
+            //    if (callback) callback(dataUrl); // Call the callback with the Data URL
 
-      if (callback)
-        callback({
-          url: e.target.result,
-          name: file.name
-        });
+            if (callback)
+                callback({
+                    url: e.target.result,
+                    name: file.name
+                });
 
+        };
+        img.src = e.target.result; // causes the onload
     };
-    img.src = e.target.result; // causes the onload
-  };
-  reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
 
-  let x = 1;
+    let x = 1;
 
 }
 

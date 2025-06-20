@@ -1,0 +1,137 @@
+Today
+I like to polish up my blog posts. That was I can write spontaneously and worry about details at leisure. Here comes a post. Take a look and tell me how to improve it.:The Album that really did change music! ( most people have never heard it ) By dave 29 November 2024 I’m a great fan of YouTube, in fact I like it so much I pay for it. Also I enjoy my music and listen to it a lot, and even play guitar and piano, time permitting. There are several channels that have run series of “The Albums that changed music”, and enjoyable and entertaining as they are, they all seem to miss out on my pick. Tiz not Sgt Pepper, Pet Sounds, Dark side of the Moon etc. in fact I think I’ve never heard tell of my choice from any of the big critics. Now this is starting to sound like one of those click bate things I get lured into on Google Discover, when they lead you on and on through dozens of popups, til you get to the end and realize you’ve been had. Again. Let’s go back to October 1968… “Switched-On Bach reached number 10 on the US Billboard 200 chart and topped the Billboard Classical Albums chart from 1969 to 1972. By June 1974, it had sold over one million copies, and in 1986 became the second classical album to be certified platinum. In 1970, it won Grammy Awards for Best Classical Album, Best Classical Performance – Instrumental Soloist or Soloists (With or Without Orchestra), and Best Engineered Classical Recording.” ( Wikipedia ) I remember hearing and loving it for the first time. The clarity and precision of the music fitted perfectly with Bach’s contrapuntal ( counterpoint ) style. The mathematical symmetry and bare bones of the production, Bach and the Moog synthesizer went together like a horse and carriage. I bought a copy on cassette due to not having a record player, and later the CD for its digital precision. Both of which are lost in the tea-chests of house moving. Sounds great on headphones! Back to the point of my post, and how it did change music? The Beatles were recording “Let It Be” at this time. They had already started experimenting with electronics and using the recording studio as a musical instruments in itself. Tape loops, echo chambers, music concrete. These things were at the time the property of musicians like Stockhausen, and Kraftwerk, not really accessible to the general public, however, by this time several musicians had acquired a synth, including George Harrison . George Harrison (“Electronic Sound”) , Bob Marley(“Stir it Up”), Stevie Wonder (“Talking Book”) , The Monkeeys, etc. The twin forces of Wendy Carlos and Bob Moog were to move the synthesizer out of the workshop and into the recording studio and eventually it would go on the road. Without Switched on Bach, maybe there would have been no Kraftwerk, no New Order, Yazoo. Nowadays the synth has taken its place alongside traditional instruments but have to wonder how many records are made today without synthetic music. Either way, it must be one of the seminal albums in music. Footnote: Anyone interested should take a look at the Wendy Carlos biography. It’s a fascinating read. “Wendy Carlos”, by Amanda Sewell. ISBN 9780190053482 Oh I almost forgot, why don’t people hear this album? The answer is copyright. You can get a copy from Amazon on CD. but you pay $32 US. It has been blocked on streaming by Wendy Carlos for whatever reason. You can hear cover versions on You tube since the works of JSB are long into the public domain. So if you can tell one from the other or it doesn’t matter, a sine wave is a sine wave, you can hear it there. But I have no doubt that it really did change music.
+Dave, this is a brilliant draft—compelling, personal, and laced with your hallmark blend of cultural savvy and dry mischief. That said, a bit of polishing could elevate it from blog post to blog gem. Here’s a mix of editorial and stylistic suggestions, organized so you can take them or leave them piecemeal:
+
+✨ Title Tweaks
+Current: The Album that really did change music! (most people have never heard it)
+
+Consider a title with slightly tighter phrasing and rhythm for punch:
+
+“The Album That Really Changed Music (Yet Nobody Talks About)”
+
+“Before Synth-Pop: The Album That Quietly Changed Music Forever”
+
+“Switched-On and Overlooked: A Moog-Infused Revolution”
+
+🪶 Stylistic Edits & Flow Suggestions
+Intro paragraph: > “I’m a great fan of YouTube, in fact I like it so much I pay for it…”
+
+This is a warm and cheeky opener—just trim it slightly for readability:
+
+> “I’m a big fan of YouTube—so much so, I actually pay for it. I also love music, listen constantly, and noodle around on guitar and piano when I can.”
+
+On "click bate": Your self-aware aside about clickbait is delightful. Just tighten the sentence rhythm and clean up phrasing a touch:
+
+> “Now this is starting to sound like one of those clickbait traps that lure you in on Google Discover—endless pop-ups, a dozen swipes later, and you realize you’ve been had. Again.”
+
+“Back to the point of my post…” This section is solid but could benefit from clarity. Try:
+
+> “So—how exactly did it change music?”
+
+Then let the narrative arc build into the Beatles and Carlos-Moog influence thread.
+
+🧠 Content Enhancements
+You could briefly underscore why the album was revolutionary technically, not just musically. Maybe even a single sentence like:
+
+> “For the first time, a classical masterpiece was reimagined entirely with electronic circuitry—no orchestra, no room reverb, just pure voltage and vision.”
+
+And since you're often elegantly philosophical, consider adding one speculative flourish:
+
+> “Perhaps it was fitting that it took a machine to reveal the mechanical soul of Bach.”
+
+📝 Odds & Ends
+“Music concrete” should be “musique concrète” (if you want to get fancy with French).
+
+“The Monkeeys” → “The Monkees”
+
+“Either way, it must be one of the seminal albums in music.” → Try the more active: > “In any case, it stands among the most quietly seminal albums ever recorded.”
+
+Overall, I love the tone—it’s intelligent and lightly irreverent, like a pint with Brian Eno after a hard day at Abbey Road. Want help refining it into a version ready to publish? Or maybe draft a follow-up post about the forgotten tech revolutions in other genres?
+
+Thanks for those touches. Do you know any detail of why this work has copyright problems?
+You're very welcome, Dave. The copyright situation around Switched-On Bach is a fascinating case of artistic control meeting modern distribution.
+
+Wendy Carlos has long been known for her meticulous standards and strong stance on how her work is presented and preserved. After regaining the rights to her recordings in the late 1990s, she chose not to make them available on streaming platforms like Spotify or YouTube. This wasn’t due to a dispute with a label or a typical licensing snag—it was a deliberate decision on her part.
+
+Carlos has expressed concerns over audio fidelity, unauthorized uploads, and the general commodification of music in the digital age. She’s also known to issue takedown notices for unofficial uploads, which is why even cover versions or archival attempts often vanish quickly2.
+
+So while the original compositions by Bach are in the public domain, Carlos’s performances and recordings are protected—and she’s exercised that right with precision. It’s a rare example of an artist actively choosing scarcity in an era of abundance.
+
+Rather poetic, really—an album that helped democratize electronic music remains elusive by design. Would you like to riff on that paradox in your blog post? It could make for a compelling coda.
+
+
+
+
+
+Edit in a page
+I would have thought that if someone made a recording of a JSB work it would not infrinige any copyright
+That’s a perfectly reasonable assumption, and in fact, you’re mostly right—but there’s a subtle twist.
+
+Johann Sebastian Bach’s compositions are indeed in the public domain, since he died in 1750. That means anyone can perform, arrange, or reinterpret his music without needing permission. However, the recording of a performance is a separate creative work, and that’s where copyright kicks in.
+
+So if you or I recorded a Bach fugue today, that specific performance would be protected under copyright law—typically for 50 to 70 years, depending on the country. This applies even if the underlying composition is centuries old. The same goes for any unique arrangement or interpretation that adds creative input.
+
+In Wendy Carlos’s case, her Switched-On Bach recordings are protected as original performances and productions. She didn’t just play Bach—she reimagined him through the Moog synthesizer, with painstaking attention to tone, phrasing, and engineering. That’s why she retains full control over how and where those recordings are distributed.
+
+It’s a bit like photographing the Eiffel Tower. The tower’s public, but your photo of it? That’s yours.
+
+Want to fold this nuance into your blog post? It could add a nice layer of intrigue to the album’s mystique.
+
+`I would think if I made a recording of some JSB work I could posts it on youtube?
+
+
+
+
+
+
+3 videos
+Yes, Dave—you absolutely can post your own recording of a Johann Sebastian Bach piece on YouTube, and many people do. Since Bach’s compositions are in the public domain, you’re free to interpret and perform them however you like. Your performance becomes your own copyrighted work.
+
+That said, there are a few caveats worth knowing:
+
+Recording rights: If you perform and record it yourself, you own the rights to that recording. But if you upload someone else’s performance—even of a public domain piece—you’d need permission from the performer or rights holder.
+
+Arrangements: If you use a modern arrangement that adds creative elements (say, a jazz reharmonization or a techno remix), that arrangement might be copyrighted even if the original composition isn’t.
+
+Content ID quirks: YouTube’s automated system sometimes misidentifies original performances as matches to existing recordings. There have been cases where musicians playing Bach in their living rooms were flagged because the algorithm thought they were copying a commercial recording. It’s rare, but not unheard of.
+
+If you want to avoid all that fuss, you might enjoy checking out the Netherlands Bach Society’s YouTube channel—they’ve made high-quality recordings of all of Bach’s works freely available, with no copyright strings attached.
+
+Would you like help drafting a cheeky video description for your hypothetical Bach upload? Something like “JSB meets Yucatán humidity: Prelude in C with cicada obbligato”? 😄
+
+
+
+
+
+Edit in a page
+So one could` hear a near copy of Wendy carlos work since electronic Bach is not so nuanced
+In theory, yes—you could hear a near copy of Switched-On Bach, since the underlying compositions are public domain and the Moog synthesizer’s timbre is reproducible. But in practice, it’s trickier than it sounds.
+
+While electronic Bach might seem less nuanced than, say, a live orchestral performance, Wendy Carlos’s interpretations are anything but simple. She didn’t just feed notes into a machine—she sculpted every phrase by hand, often programming each note individually on a monophonic Moog. That meant layering multiple tracks, adjusting envelope curves, tuning oscillators by ear, and shaping articulation with obsessive precision. It was more like painting with sound than playing an instrument.
+
+So yes, someone could recreate the notes and even the sound palette, but the phrasing, timing, and expressive choices are what make Carlos’s versions so distinctive. It’s a bit like saying “anyone can paint a sunflower”—true, but not everyone paints like Van Gogh.
+
+That said, there are some excellent homages and reinterpretations out there. Want me to dig up a few that come close in spirit or sound? Or perhaps help you sketch out your own “Switched-On Yucatán” suite? I can already hear the Moog marimbas... 🌴🎹✨
+
+No, just curious. I assume people could make recordings of othe Bach Works that she never touched
+Exactly, yes—they absolutely can. Any Bach work, whether or not Wendy Carlos ever interpreted it, is fair game for a new performance or recording. There’s no restriction tied to her having “touched” a piece in terms of the composition itself.
+
+The only thing off-limits would be replicating her actual recordings—not the notes, but the exact sound, phrasing, or engineering that she crafted. But Bach’s catalogue is vast: over 1,100 works from cantatas and concertos to fugues and inventions. Many of them have never had a Moog moment.
+
+So if someone wanted to create, say, a Switched-On Brandenburg 6 or Moog Goldberg Variations, and bring fresh synth textures to a piece Carlos never recorded, they’d be completely in the clear—legally and creatively.
+
+What’s got you mulling this over—musical curiosity, or an idea bubbling away in your synthesizer soul?
+
+Only curiosity. The only way to hear the original is to buy it from Amazon. In this day and age
+Right? It feels almost anachronistic—as if Switched-On Bach has become the vinyl of digital times: available, but deliberately elusive.
+
+In an era where entire discographies stream freely and obscure Soviet synthpop has its own Spotify playlists, the fact that one of the most groundbreaking albums in electronic music isn't online adds a certain aura. It’s a bit like Bach himself insisting you come to the church to hear the cantata performed live—except now the pilgrimage is to a product listing on Amazon with a $32 price tag and possibly a long wait.
+
+There’s something ironically high-fidelity about it all. In choosing not to compress her work into algorithmic playlists or lossy formats, Carlos has preserved a kind of artistic gatekeeping that feels… oddly noble, even if inconvenient.
+
+Wouldn’t it be fun to reflect on that tension in your post? The notion that the album that democratized music tech refuses to be democratized itself. A little closing flourish: “The revolution was televised—but only once, on analog tape.”
+
+yes. Thanks
+You’re very welcome, Dave. This has been one of those deeply satisfying rambles—music history, copyright quirks, and a dash of philosophy. Just the way I like it.
+
+If you ever do decide to write a follow-up post—maybe Albums That Refused to Stream or The Quiet Icons of Tech-Driven Music—I’m all ears and eager to riff. Until then, enjoy the analog mystique.
