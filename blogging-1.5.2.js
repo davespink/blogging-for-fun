@@ -1,8 +1,12 @@
 function getVersion() {
-    const version = "1.5.1 19 June 2025 "; return version;
+     
+    const updated = localStorage.getItem("updated");
+    const version = "1.5.2 24 June 2025 " + "updated " + updated;
+    return version;
 }
-
-
+//
+// fixes post order issue
+//
 function gid(id) {
     return document.getElementById(id);
 }
@@ -157,7 +161,14 @@ class LocalCrud {
     }
 
     updatePost(key, value) {
+        if(!value.seq)
+            value.seq = 0;
         this.createPost(key, value);
+
+        const now = new Date();
+        const readable = now.toLocaleString();
+
+        localStorage.setItem("updated", readable); // Store the last updated time
     }
 
     deletePost(key) {
@@ -190,6 +201,8 @@ class LocalCrud {
 
 
     }
+
+
 }
 
 
@@ -679,7 +692,7 @@ function upDownPost(event) {
         deleteAllPosts();
         posts.forEach((post, index) => {
             post.seq = index;
-            //  console.log("storing post:", post);
+           console.log("storing post:", post.headline, "with key:", post.key,"seq:",post.seq);
             //  if (!crud.retrievePost(post.key)) {
             crud.createPost(post.key, post);
             //  }
