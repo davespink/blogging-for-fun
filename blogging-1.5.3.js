@@ -1,7 +1,7 @@
 function getVersion() {
      
     const updated = localStorage.getItem("updated");
-    const version = "1.5.2 24 June 2025 " + "updated " + updated;
+    const version = "1.5.3 28 June 2025 " + "updated " + updated;
     return version;
 }
 //
