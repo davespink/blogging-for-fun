@@ -367,7 +367,7 @@ TODO:
   <script>
 
     var posts; // important to have this here to avoid errors
-    alert("This is a test alert. If you see this, the script is working correctly.");
+ //   alert("This is a test alert. If you see this, the script is working correctly.");
 
     const readOnly = false;
     // var defaultPost = 0; // Default post to show
@@ -377,20 +377,20 @@ TODO:
 
     window.onload = async function () {
       await renderPosts();
-      version.innerHTML = "v1.3 - 20 June 2025 - lib " + getVersion();
+      version.innerHTML = "v1.4.1 - 29 June 2025 - lib  - " + getVersion();
       renderHashtags();
 
       // Parse slug from query string
       const params = new URLSearchParams(window.location.search);
       const slug = params.get('slug');
-      const isAdmin = params.get('admin') === 'true';
+      var isAdmin = params.get('admin') === 'true';
       if (slug && Array.isArray(posts)) {
         const post = posts.find(p => p.slug === slug);
         if (post) {
           scrollToPost(post.key);
         }
       }
-
+ 
       if (!isAdmin) {
         // Hide admin controls if not in admin mode
         qsa('.admin').forEach(function (element) {

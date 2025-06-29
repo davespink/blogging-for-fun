@@ -1,5 +1,5 @@
 function getVersion() {
-     
+
     const updated = localStorage.getItem("updated");
     const version = "1.5.3 28 June 2025 " + "updated " + updated;
     return version;
@@ -37,10 +37,9 @@ function isa(el, c) {
     if (el.classList.contains(c))
         return true; else return false;
 }
-
-
-
-
+ 
+const params = new URLSearchParams(window.location.search);
+var isAdmin = params.get('admin') === 'true';
 
 function showAlert(message, type = "alert-error", duration = 1000) {
     const alertBox = document.getElementById("custom-alert");
@@ -161,7 +160,7 @@ class LocalCrud {
     }
 
     updatePost(key, value) {
-        if(!value.seq)
+        if (!value.seq)
             value.seq = 0;
         this.createPost(key, value);
 
@@ -343,6 +342,11 @@ function renderSidebar() {
     const sidebar = document.getElementById("side-menu");
     sidebar.innerHTML = ""; // Clear existing sidebar content
     posts.forEach((post) => {
+
+     if (post.slug === "draft" && !isAdmin)
+            return;
+
+
         showOnePostSidebar(post);
     });
 
@@ -432,7 +436,7 @@ async function renderPosts() {
     // Parse slug from query string
     const params = new URLSearchParams(window.location.search);
     const slug = params.get('slug');
-    const isAdmin = params.get('admin') === 'true';
+    // const isAdmin = params.get('admin') === 'true';
 
     const postContainer = document.querySelector(".post-container");
     if (!postContainer) {
@@ -448,8 +452,7 @@ async function renderPosts() {
 
 
     gid("allPosts").innerHTML = ""; // Clear existing posts
-
-
+ 
     posts.forEach((post) => {
         if (post.slug === "draft" && !isAdmin)
             return;
@@ -577,7 +580,7 @@ function setupPostForm(isNewPost) {
             else {
                 alert("new post");
 
- 
+
                 post.seq = -1;
 
                 await crud.createPost(post.key, post);
@@ -696,7 +699,7 @@ function upDownPost(event) {
         deleteAllPosts();
         posts.forEach((post, index) => {
             post.seq = index;
-           console.log("storing post:", post.headline, "with key:", post.key,"seq:",post.seq);
+            console.log("storing post:", post.headline, "with key:", post.key, "seq:", post.seq);
             //  if (!crud.retrievePost(post.key)) {
             crud.createPost(post.key, post);
             //  }
