@@ -359,6 +359,9 @@ TODO:
 
   
   <script src="blogging-1.4.js"></script>
+
+
+  Bugs: On new POST the list never gets refreshed initil you move the post up or down.
 -->
 
   <script src="blogging-1.5.3.js"></script>
@@ -454,9 +457,8 @@ TODO:
               <img src="images/blogging.jpg" class="w3-circle" style="height:120px;width:120px" alt="blog image">
             </p>
             <hr>
-            <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Designer, UI</p>
-            <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> London, UK</p>
-            <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> April 1, 1988</p>
+            <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Email: contact@bloggingforfun.com</p>
+
           </div>
         </div>
         <br>
@@ -475,27 +477,21 @@ TODO:
                   <br>
 
                   <div class="w3-sans-serif post-container">
-                    <div class="w3-card-4 post-header"
-                      style="width:100%;height:200px;margin-bottom:20px;border-radius: 5px;">
+                    <div class="w3-card-4 "
+                      style="width:100%;height:300px;margin-bottom:20px;border-radius: 5px;">
                       <header class="w3-container w3-light-grey">
-                        <h3>Welcome</h3>
+                        <h3>Blogging For Fun</h3>
                       </header>
                       <div class="w3-container">
                         <img src="images/blogging.jpg" alt="blog image" class="w3-left w3-margin-right"
                           style="width:150px;margin-bottom:10px">
-                        <h6>No one seems to blog for fun nowadays.</h6><br>
+                     No one seems to blog for fun nowardays, but wait! Maybe the tide is turning,<p> Amid the AI slop,
+                    maybe people are starting to realize the value of self-expression and creativity in blogging.</p>
+                     <div style="text-align: center;"> Welcome to Bloggin For Fun.<p>Hope you enjoy reading it as much as I enjoy writing it.</div>
                       </div>
 
-                    </div>
-                    <div class="content w3-justify" style="padding: 15px;display:none">
-                      <p>It seems that the world has moved on to other things, like TikTok, Instagram, and other social
-                        media. I remember when I first started blogging, it was a way to express myself and share my
-                        thoughts with the world. Now it seems that everyone is more interested in short videos and
-                        pictures than in reading long posts.</p>
-                      <p>But I still love blogging. It allows me to think deeply about topics that interest me and share
-                        my ideas with others. I hope that one day people will return to blogging for fun, but until
-                        then, I will continue to write for myself.</p>
-                    </div>
+                    </div> 
+                    
                     <!--  the posts go here      -->
                     <div id="allPosts" class="w3-container w3-justify">
                       <img src="images/blogging.jpg" alt="Blogging image" style="width:10%;max-width:600px;">
@@ -656,27 +652,19 @@ TODO:
 
 
   <footer class="w3-container" style="background-color:orange;padding:0px;text-align: center;">
-    <h6 style="color:white">Template by w3.css&nbsp;&nbsp;powered by cloudflare</h6>
+    <h6 style="color:white">Template by w3.css&nbsp;&nbsp;powered by cloudflare&nbsp;&nbsp;email: contact@blogging-for-fun.com</h6>
     </p>
   </footer>
 
 
 
   <script>
-    // Attach click handlers after the DOM is ready
+ 
     document.addEventListener("DOMContentLoaded", function () {
-      // Hashtag click: filter sidebar
-      //   document.querySelectorAll('.hashtag-filter').forEach(el => {
-      //     el.onclick = function () {
-      //      filterSidebarByHashtag(el.textContent);
-      //     };
-      //  });
-
-      // "Show All" button click: show all sidebar buttons
-      //   const showAllBtn = document.getElementById('show-all-btn');
-      //   if (showAllBtn) {
-      //    showAllBtn.onclick = showAllSidebarButtons;
-      //   }
+    
+    // this space left intentionally blank for future use
+      // You can add any additional JavaScript code here that needs to run after the DOM is fully loaded
+      // For example, you can initialize event listeners or manipulate the DOM as needed
 
 
     });

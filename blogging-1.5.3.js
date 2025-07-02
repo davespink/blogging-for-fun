@@ -581,7 +581,7 @@ function setupPostForm(isNewPost) {
                 alert("new post");
 
 
-                post.seq = -1;
+                post.seq = -100;
 
                 await crud.createPost(post.key, post);
             }
