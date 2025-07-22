@@ -475,10 +475,7 @@ async function renderPosts() {
 
     showAlert(posts.length + " posts loaded", "alert-success", 1000); // Closes after 5 seconds
 
-    // Parse slug from query string
-    //   var params = new URLSearchParams(window.location.search);
-    //   var slug = params.get('slug');
-    //  var isAdmin = params.get('admin') === 'true';
+
 
     if (!isAdmin) {
 
@@ -709,10 +706,6 @@ function upDownPost(event) {
     renderPosts();
 
 }
-
-
-
-
 
 
 
